@@ -7,8 +7,8 @@ import (
 
 //Als deze variabele opgeropen wordt in het Mumax script, dan wordt de functie calcSecondDerivMag uitgevoerd
 var (
-	SecondDerivMag= NewVectorField("Second deriv", "", "2D topological charge", calcSecondDerivMag)
-	)
+	SecondDerivMag = NewVectorField("dm/dt2", "", "SecondDeriv", calcSecondDerivMag)
+)
 
 func calcSecondDerivMag(dst *data.Slice) {
 	SecondDerivative(dst, M)

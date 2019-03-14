@@ -5,70 +5,70 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for adddmi kernel
 var adddmi_code cu.Function
 
 // Stores the arguments for adddmi kernel invocation
-type adddmi_args_t struct{
-	 arg_Hx unsafe.Pointer
-	 arg_Hy unsafe.Pointer
-	 arg_Hz unsafe.Pointer
-	 arg_mx unsafe.Pointer
-	 arg_my unsafe.Pointer
-	 arg_mz unsafe.Pointer
-	 arg_Ms_ unsafe.Pointer
-	 arg_Ms_mul float32
-	 arg_aLUT2d unsafe.Pointer
-	 arg_dLUT2d unsafe.Pointer
-	 arg_regions unsafe.Pointer
-	 arg_cx float32
-	 arg_cy float32
-	 arg_cz float32
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_PBC byte
-	 arg_OpenBC byte
-	 argptr [19]unsafe.Pointer
+type adddmi_args_t struct {
+	arg_Hx      unsafe.Pointer
+	arg_Hy      unsafe.Pointer
+	arg_Hz      unsafe.Pointer
+	arg_mx      unsafe.Pointer
+	arg_my      unsafe.Pointer
+	arg_mz      unsafe.Pointer
+	arg_Ms_     unsafe.Pointer
+	arg_Ms_mul  float32
+	arg_aLUT2d  unsafe.Pointer
+	arg_dLUT2d  unsafe.Pointer
+	arg_regions unsafe.Pointer
+	arg_cx      float32
+	arg_cy      float32
+	arg_cz      float32
+	arg_Nx      int
+	arg_Ny      int
+	arg_Nz      int
+	arg_PBC     byte
+	arg_OpenBC  byte
+	argptr      [19]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for adddmi kernel invocation
 var adddmi_args adddmi_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 adddmi_args.argptr[0] = unsafe.Pointer(&adddmi_args.arg_Hx)
-	 adddmi_args.argptr[1] = unsafe.Pointer(&adddmi_args.arg_Hy)
-	 adddmi_args.argptr[2] = unsafe.Pointer(&adddmi_args.arg_Hz)
-	 adddmi_args.argptr[3] = unsafe.Pointer(&adddmi_args.arg_mx)
-	 adddmi_args.argptr[4] = unsafe.Pointer(&adddmi_args.arg_my)
-	 adddmi_args.argptr[5] = unsafe.Pointer(&adddmi_args.arg_mz)
-	 adddmi_args.argptr[6] = unsafe.Pointer(&adddmi_args.arg_Ms_)
-	 adddmi_args.argptr[7] = unsafe.Pointer(&adddmi_args.arg_Ms_mul)
-	 adddmi_args.argptr[8] = unsafe.Pointer(&adddmi_args.arg_aLUT2d)
-	 adddmi_args.argptr[9] = unsafe.Pointer(&adddmi_args.arg_dLUT2d)
-	 adddmi_args.argptr[10] = unsafe.Pointer(&adddmi_args.arg_regions)
-	 adddmi_args.argptr[11] = unsafe.Pointer(&adddmi_args.arg_cx)
-	 adddmi_args.argptr[12] = unsafe.Pointer(&adddmi_args.arg_cy)
-	 adddmi_args.argptr[13] = unsafe.Pointer(&adddmi_args.arg_cz)
-	 adddmi_args.argptr[14] = unsafe.Pointer(&adddmi_args.arg_Nx)
-	 adddmi_args.argptr[15] = unsafe.Pointer(&adddmi_args.arg_Ny)
-	 adddmi_args.argptr[16] = unsafe.Pointer(&adddmi_args.arg_Nz)
-	 adddmi_args.argptr[17] = unsafe.Pointer(&adddmi_args.arg_PBC)
-	 adddmi_args.argptr[18] = unsafe.Pointer(&adddmi_args.arg_OpenBC)
-	 }
+	adddmi_args.argptr[0] = unsafe.Pointer(&adddmi_args.arg_Hx)
+	adddmi_args.argptr[1] = unsafe.Pointer(&adddmi_args.arg_Hy)
+	adddmi_args.argptr[2] = unsafe.Pointer(&adddmi_args.arg_Hz)
+	adddmi_args.argptr[3] = unsafe.Pointer(&adddmi_args.arg_mx)
+	adddmi_args.argptr[4] = unsafe.Pointer(&adddmi_args.arg_my)
+	adddmi_args.argptr[5] = unsafe.Pointer(&adddmi_args.arg_mz)
+	adddmi_args.argptr[6] = unsafe.Pointer(&adddmi_args.arg_Ms_)
+	adddmi_args.argptr[7] = unsafe.Pointer(&adddmi_args.arg_Ms_mul)
+	adddmi_args.argptr[8] = unsafe.Pointer(&adddmi_args.arg_aLUT2d)
+	adddmi_args.argptr[9] = unsafe.Pointer(&adddmi_args.arg_dLUT2d)
+	adddmi_args.argptr[10] = unsafe.Pointer(&adddmi_args.arg_regions)
+	adddmi_args.argptr[11] = unsafe.Pointer(&adddmi_args.arg_cx)
+	adddmi_args.argptr[12] = unsafe.Pointer(&adddmi_args.arg_cy)
+	adddmi_args.argptr[13] = unsafe.Pointer(&adddmi_args.arg_cz)
+	adddmi_args.argptr[14] = unsafe.Pointer(&adddmi_args.arg_Nx)
+	adddmi_args.argptr[15] = unsafe.Pointer(&adddmi_args.arg_Ny)
+	adddmi_args.argptr[16] = unsafe.Pointer(&adddmi_args.arg_Nz)
+	adddmi_args.argptr[17] = unsafe.Pointer(&adddmi_args.arg_PBC)
+	adddmi_args.argptr[18] = unsafe.Pointer(&adddmi_args.arg_OpenBC)
+}
 
 // Wrapper for adddmi CUDA kernel, asynchronous.
-func k_adddmi_async ( Hx unsafe.Pointer, Hy unsafe.Pointer, Hz unsafe.Pointer, mx unsafe.Pointer, my unsafe.Pointer, mz unsafe.Pointer, Ms_ unsafe.Pointer, Ms_mul float32, aLUT2d unsafe.Pointer, dLUT2d unsafe.Pointer, regions unsafe.Pointer, cx float32, cy float32, cz float32, Nx int, Ny int, Nz int, PBC byte, OpenBC byte,  cfg *config) {
-	if Synchronous{ // debug
+func k_adddmi_async(Hx unsafe.Pointer, Hy unsafe.Pointer, Hz unsafe.Pointer, mx unsafe.Pointer, my unsafe.Pointer, mz unsafe.Pointer, Ms_ unsafe.Pointer, Ms_mul float32, aLUT2d unsafe.Pointer, dLUT2d unsafe.Pointer, regions unsafe.Pointer, cx float32, cy float32, cz float32, Nx int, Ny int, Nz int, PBC byte, OpenBC byte, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("adddmi")
 	}
@@ -76,56 +76,55 @@ func k_adddmi_async ( Hx unsafe.Pointer, Hy unsafe.Pointer, Hz unsafe.Pointer, m
 	adddmi_args.Lock()
 	defer adddmi_args.Unlock()
 
-	if adddmi_code == 0{
+	if adddmi_code == 0 {
 		adddmi_code = fatbinLoad(adddmi_map, "adddmi")
 	}
 
-	 adddmi_args.arg_Hx = Hx
-	 adddmi_args.arg_Hy = Hy
-	 adddmi_args.arg_Hz = Hz
-	 adddmi_args.arg_mx = mx
-	 adddmi_args.arg_my = my
-	 adddmi_args.arg_mz = mz
-	 adddmi_args.arg_Ms_ = Ms_
-	 adddmi_args.arg_Ms_mul = Ms_mul
-	 adddmi_args.arg_aLUT2d = aLUT2d
-	 adddmi_args.arg_dLUT2d = dLUT2d
-	 adddmi_args.arg_regions = regions
-	 adddmi_args.arg_cx = cx
-	 adddmi_args.arg_cy = cy
-	 adddmi_args.arg_cz = cz
-	 adddmi_args.arg_Nx = Nx
-	 adddmi_args.arg_Ny = Ny
-	 adddmi_args.arg_Nz = Nz
-	 adddmi_args.arg_PBC = PBC
-	 adddmi_args.arg_OpenBC = OpenBC
-	
+	adddmi_args.arg_Hx = Hx
+	adddmi_args.arg_Hy = Hy
+	adddmi_args.arg_Hz = Hz
+	adddmi_args.arg_mx = mx
+	adddmi_args.arg_my = my
+	adddmi_args.arg_mz = mz
+	adddmi_args.arg_Ms_ = Ms_
+	adddmi_args.arg_Ms_mul = Ms_mul
+	adddmi_args.arg_aLUT2d = aLUT2d
+	adddmi_args.arg_dLUT2d = dLUT2d
+	adddmi_args.arg_regions = regions
+	adddmi_args.arg_cx = cx
+	adddmi_args.arg_cy = cy
+	adddmi_args.arg_cz = cz
+	adddmi_args.arg_Nx = Nx
+	adddmi_args.arg_Ny = Ny
+	adddmi_args.arg_Nz = Nz
+	adddmi_args.arg_PBC = PBC
+	adddmi_args.arg_OpenBC = OpenBC
 
 	args := adddmi_args.argptr[:]
 	cu.LaunchKernel(adddmi_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("adddmi")
 	}
 }
 
 // maps compute capability on PTX code for adddmi kernel.
-var adddmi_map = map[int]string{ 0: "" ,
-30: adddmi_ptx_30 ,
-35: adddmi_ptx_35 ,
-37: adddmi_ptx_37 ,
-50: adddmi_ptx_50 ,
-52: adddmi_ptx_52 ,
-53: adddmi_ptx_53 ,
-60: adddmi_ptx_60 ,
-61: adddmi_ptx_61 ,
-70: adddmi_ptx_70 ,
-75: adddmi_ptx_75  }
+var adddmi_map = map[int]string{0: "",
+	30: adddmi_ptx_30,
+	35: adddmi_ptx_35,
+	37: adddmi_ptx_37,
+	50: adddmi_ptx_50,
+	52: adddmi_ptx_52,
+	53: adddmi_ptx_53,
+	60: adddmi_ptx_60,
+	61: adddmi_ptx_61,
+	70: adddmi_ptx_70,
+	75: adddmi_ptx_75}
 
 // adddmi PTX code for various compute capabilities.
-const(
-  adddmi_ptx_30 = `
+const (
+	adddmi_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -747,7 +746,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_35 = `
+	adddmi_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -1353,7 +1352,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_37 = `
+	adddmi_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -1959,7 +1958,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_50 = `
+	adddmi_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -2565,7 +2564,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_52 = `
+	adddmi_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -3171,7 +3170,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_53 = `
+	adddmi_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -3777,7 +3776,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_60 = `
+	adddmi_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -4383,7 +4382,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_61 = `
+	adddmi_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -4989,7 +4988,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_70 = `
+	adddmi_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -5595,7 +5594,7 @@ BB0_59:
 
 
 `
-   adddmi_ptx_75 = `
+	adddmi_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -6201,4 +6200,4 @@ BB0_59:
 
 
 `
- )
+)

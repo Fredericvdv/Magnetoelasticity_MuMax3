@@ -5,70 +5,70 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for adddmibulk kernel
 var adddmibulk_code cu.Function
 
 // Stores the arguments for adddmibulk kernel invocation
-type adddmibulk_args_t struct{
-	 arg_Hx unsafe.Pointer
-	 arg_Hy unsafe.Pointer
-	 arg_Hz unsafe.Pointer
-	 arg_mx unsafe.Pointer
-	 arg_my unsafe.Pointer
-	 arg_mz unsafe.Pointer
-	 arg_Ms_ unsafe.Pointer
-	 arg_Ms_mul float32
-	 arg_aLUT2d unsafe.Pointer
-	 arg_DLUT2d unsafe.Pointer
-	 arg_regions unsafe.Pointer
-	 arg_cx float32
-	 arg_cy float32
-	 arg_cz float32
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_PBC byte
-	 arg_OpenBC byte
-	 argptr [19]unsafe.Pointer
+type adddmibulk_args_t struct {
+	arg_Hx      unsafe.Pointer
+	arg_Hy      unsafe.Pointer
+	arg_Hz      unsafe.Pointer
+	arg_mx      unsafe.Pointer
+	arg_my      unsafe.Pointer
+	arg_mz      unsafe.Pointer
+	arg_Ms_     unsafe.Pointer
+	arg_Ms_mul  float32
+	arg_aLUT2d  unsafe.Pointer
+	arg_DLUT2d  unsafe.Pointer
+	arg_regions unsafe.Pointer
+	arg_cx      float32
+	arg_cy      float32
+	arg_cz      float32
+	arg_Nx      int
+	arg_Ny      int
+	arg_Nz      int
+	arg_PBC     byte
+	arg_OpenBC  byte
+	argptr      [19]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for adddmibulk kernel invocation
 var adddmibulk_args adddmibulk_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 adddmibulk_args.argptr[0] = unsafe.Pointer(&adddmibulk_args.arg_Hx)
-	 adddmibulk_args.argptr[1] = unsafe.Pointer(&adddmibulk_args.arg_Hy)
-	 adddmibulk_args.argptr[2] = unsafe.Pointer(&adddmibulk_args.arg_Hz)
-	 adddmibulk_args.argptr[3] = unsafe.Pointer(&adddmibulk_args.arg_mx)
-	 adddmibulk_args.argptr[4] = unsafe.Pointer(&adddmibulk_args.arg_my)
-	 adddmibulk_args.argptr[5] = unsafe.Pointer(&adddmibulk_args.arg_mz)
-	 adddmibulk_args.argptr[6] = unsafe.Pointer(&adddmibulk_args.arg_Ms_)
-	 adddmibulk_args.argptr[7] = unsafe.Pointer(&adddmibulk_args.arg_Ms_mul)
-	 adddmibulk_args.argptr[8] = unsafe.Pointer(&adddmibulk_args.arg_aLUT2d)
-	 adddmibulk_args.argptr[9] = unsafe.Pointer(&adddmibulk_args.arg_DLUT2d)
-	 adddmibulk_args.argptr[10] = unsafe.Pointer(&adddmibulk_args.arg_regions)
-	 adddmibulk_args.argptr[11] = unsafe.Pointer(&adddmibulk_args.arg_cx)
-	 adddmibulk_args.argptr[12] = unsafe.Pointer(&adddmibulk_args.arg_cy)
-	 adddmibulk_args.argptr[13] = unsafe.Pointer(&adddmibulk_args.arg_cz)
-	 adddmibulk_args.argptr[14] = unsafe.Pointer(&adddmibulk_args.arg_Nx)
-	 adddmibulk_args.argptr[15] = unsafe.Pointer(&adddmibulk_args.arg_Ny)
-	 adddmibulk_args.argptr[16] = unsafe.Pointer(&adddmibulk_args.arg_Nz)
-	 adddmibulk_args.argptr[17] = unsafe.Pointer(&adddmibulk_args.arg_PBC)
-	 adddmibulk_args.argptr[18] = unsafe.Pointer(&adddmibulk_args.arg_OpenBC)
-	 }
+	adddmibulk_args.argptr[0] = unsafe.Pointer(&adddmibulk_args.arg_Hx)
+	adddmibulk_args.argptr[1] = unsafe.Pointer(&adddmibulk_args.arg_Hy)
+	adddmibulk_args.argptr[2] = unsafe.Pointer(&adddmibulk_args.arg_Hz)
+	adddmibulk_args.argptr[3] = unsafe.Pointer(&adddmibulk_args.arg_mx)
+	adddmibulk_args.argptr[4] = unsafe.Pointer(&adddmibulk_args.arg_my)
+	adddmibulk_args.argptr[5] = unsafe.Pointer(&adddmibulk_args.arg_mz)
+	adddmibulk_args.argptr[6] = unsafe.Pointer(&adddmibulk_args.arg_Ms_)
+	adddmibulk_args.argptr[7] = unsafe.Pointer(&adddmibulk_args.arg_Ms_mul)
+	adddmibulk_args.argptr[8] = unsafe.Pointer(&adddmibulk_args.arg_aLUT2d)
+	adddmibulk_args.argptr[9] = unsafe.Pointer(&adddmibulk_args.arg_DLUT2d)
+	adddmibulk_args.argptr[10] = unsafe.Pointer(&adddmibulk_args.arg_regions)
+	adddmibulk_args.argptr[11] = unsafe.Pointer(&adddmibulk_args.arg_cx)
+	adddmibulk_args.argptr[12] = unsafe.Pointer(&adddmibulk_args.arg_cy)
+	adddmibulk_args.argptr[13] = unsafe.Pointer(&adddmibulk_args.arg_cz)
+	adddmibulk_args.argptr[14] = unsafe.Pointer(&adddmibulk_args.arg_Nx)
+	adddmibulk_args.argptr[15] = unsafe.Pointer(&adddmibulk_args.arg_Ny)
+	adddmibulk_args.argptr[16] = unsafe.Pointer(&adddmibulk_args.arg_Nz)
+	adddmibulk_args.argptr[17] = unsafe.Pointer(&adddmibulk_args.arg_PBC)
+	adddmibulk_args.argptr[18] = unsafe.Pointer(&adddmibulk_args.arg_OpenBC)
+}
 
 // Wrapper for adddmibulk CUDA kernel, asynchronous.
-func k_adddmibulk_async ( Hx unsafe.Pointer, Hy unsafe.Pointer, Hz unsafe.Pointer, mx unsafe.Pointer, my unsafe.Pointer, mz unsafe.Pointer, Ms_ unsafe.Pointer, Ms_mul float32, aLUT2d unsafe.Pointer, DLUT2d unsafe.Pointer, regions unsafe.Pointer, cx float32, cy float32, cz float32, Nx int, Ny int, Nz int, PBC byte, OpenBC byte,  cfg *config) {
-	if Synchronous{ // debug
+func k_adddmibulk_async(Hx unsafe.Pointer, Hy unsafe.Pointer, Hz unsafe.Pointer, mx unsafe.Pointer, my unsafe.Pointer, mz unsafe.Pointer, Ms_ unsafe.Pointer, Ms_mul float32, aLUT2d unsafe.Pointer, DLUT2d unsafe.Pointer, regions unsafe.Pointer, cx float32, cy float32, cz float32, Nx int, Ny int, Nz int, PBC byte, OpenBC byte, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("adddmibulk")
 	}
@@ -76,56 +76,55 @@ func k_adddmibulk_async ( Hx unsafe.Pointer, Hy unsafe.Pointer, Hz unsafe.Pointe
 	adddmibulk_args.Lock()
 	defer adddmibulk_args.Unlock()
 
-	if adddmibulk_code == 0{
+	if adddmibulk_code == 0 {
 		adddmibulk_code = fatbinLoad(adddmibulk_map, "adddmibulk")
 	}
 
-	 adddmibulk_args.arg_Hx = Hx
-	 adddmibulk_args.arg_Hy = Hy
-	 adddmibulk_args.arg_Hz = Hz
-	 adddmibulk_args.arg_mx = mx
-	 adddmibulk_args.arg_my = my
-	 adddmibulk_args.arg_mz = mz
-	 adddmibulk_args.arg_Ms_ = Ms_
-	 adddmibulk_args.arg_Ms_mul = Ms_mul
-	 adddmibulk_args.arg_aLUT2d = aLUT2d
-	 adddmibulk_args.arg_DLUT2d = DLUT2d
-	 adddmibulk_args.arg_regions = regions
-	 adddmibulk_args.arg_cx = cx
-	 adddmibulk_args.arg_cy = cy
-	 adddmibulk_args.arg_cz = cz
-	 adddmibulk_args.arg_Nx = Nx
-	 adddmibulk_args.arg_Ny = Ny
-	 adddmibulk_args.arg_Nz = Nz
-	 adddmibulk_args.arg_PBC = PBC
-	 adddmibulk_args.arg_OpenBC = OpenBC
-	
+	adddmibulk_args.arg_Hx = Hx
+	adddmibulk_args.arg_Hy = Hy
+	adddmibulk_args.arg_Hz = Hz
+	adddmibulk_args.arg_mx = mx
+	adddmibulk_args.arg_my = my
+	adddmibulk_args.arg_mz = mz
+	adddmibulk_args.arg_Ms_ = Ms_
+	adddmibulk_args.arg_Ms_mul = Ms_mul
+	adddmibulk_args.arg_aLUT2d = aLUT2d
+	adddmibulk_args.arg_DLUT2d = DLUT2d
+	adddmibulk_args.arg_regions = regions
+	adddmibulk_args.arg_cx = cx
+	adddmibulk_args.arg_cy = cy
+	adddmibulk_args.arg_cz = cz
+	adddmibulk_args.arg_Nx = Nx
+	adddmibulk_args.arg_Ny = Ny
+	adddmibulk_args.arg_Nz = Nz
+	adddmibulk_args.arg_PBC = PBC
+	adddmibulk_args.arg_OpenBC = OpenBC
 
 	args := adddmibulk_args.argptr[:]
 	cu.LaunchKernel(adddmibulk_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("adddmibulk")
 	}
 }
 
 // maps compute capability on PTX code for adddmibulk kernel.
-var adddmibulk_map = map[int]string{ 0: "" ,
-30: adddmibulk_ptx_30 ,
-35: adddmibulk_ptx_35 ,
-37: adddmibulk_ptx_37 ,
-50: adddmibulk_ptx_50 ,
-52: adddmibulk_ptx_52 ,
-53: adddmibulk_ptx_53 ,
-60: adddmibulk_ptx_60 ,
-61: adddmibulk_ptx_61 ,
-70: adddmibulk_ptx_70 ,
-75: adddmibulk_ptx_75  }
+var adddmibulk_map = map[int]string{0: "",
+	30: adddmibulk_ptx_30,
+	35: adddmibulk_ptx_35,
+	37: adddmibulk_ptx_37,
+	50: adddmibulk_ptx_50,
+	52: adddmibulk_ptx_52,
+	53: adddmibulk_ptx_53,
+	60: adddmibulk_ptx_60,
+	61: adddmibulk_ptx_61,
+	70: adddmibulk_ptx_70,
+	75: adddmibulk_ptx_75}
 
 // adddmibulk PTX code for various compute capabilities.
-const(
-  adddmibulk_ptx_30 = `
+const (
+	adddmibulk_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -787,7 +786,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_35 = `
+	adddmibulk_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -1436,7 +1435,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_37 = `
+	adddmibulk_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -2085,7 +2084,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_50 = `
+	adddmibulk_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -2734,7 +2733,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_52 = `
+	adddmibulk_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -3383,7 +3382,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_53 = `
+	adddmibulk_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -4032,7 +4031,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_60 = `
+	adddmibulk_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -4681,7 +4680,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_61 = `
+	adddmibulk_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -5330,7 +5329,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_70 = `
+	adddmibulk_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -5979,7 +5978,7 @@ BB0_62:
 
 
 `
-   adddmibulk_ptx_75 = `
+	adddmibulk_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -6628,4 +6627,4 @@ BB0_62:
 
 
 `
- )
+)
