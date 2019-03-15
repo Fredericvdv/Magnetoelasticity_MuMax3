@@ -196,7 +196,7 @@ m = {{.Data.Configs | .SelectArray "mselect" "Uniform"}} {{.TextBox "margs" "(1,
 
 {{.Data.Div "initial u"}}
 
-u = {{.Data.Configs | .SelectArray "uselect" "Uniform"}} {{.TextBox "umargs" "(1, 0, 0)" }} {{.Button "setu" "Set"}} </br>
+u = {{.Data.Configs | .SelectArray "uselect" "Uniform"}} {{.TextBox "uargs" "(1, 0, 0)" }} {{.Button "setu" "Set"}} </br>
 {{.Span "udoc" "" "style=\"color:gray\""}}
 
 </div>
