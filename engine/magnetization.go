@@ -17,7 +17,7 @@ func init() {
 	DeclLValue("m", &M, `Reduced magnetization (unit length)`)
 	M.isNormal = true
 
-	DeclLValue("disp", &Disp, `Reduced magnetization (unit length)`)
+	DeclLValue("disp", &Disp, `Displacement vector`)
 	Disp.isNormal = false
 }
 
