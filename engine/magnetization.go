@@ -7,14 +7,25 @@ import (
 	"reflect"
 )
 
-var M magnetization // reduced magnetization (unit length)
+// TODO: replace magnetization type with an abstract 'variable' type
+//       rearrange files accordingly
 
-func init() { DeclLValue("m", &M, `Reduced magnetization (unit length)`) }
+var M magnetization    // reduced magnetization (unit length)
+var Disp magnetization // displacement field
+
+func init() {
+	DeclLValue("m", &M, `Reduced magnetization (unit length)`)
+	M.isNormal = true
+
+	DeclLValue("disp", &Disp, `Reduced magnetization (unit length)`)
+	Disp.isNormal = false
+}
 
 // Special buffered quantity to store magnetization
 // makes sure it's normalized etc.
 type magnetization struct {
-	buffer_ *data.Slice
+	buffer_  *data.Slice
+	isNormal bool
 }
 
 func (m *magnetization) Mesh() *data.Mesh    { return Mesh() }
@@ -43,7 +54,9 @@ func (b *magnetization) SetArray(src *data.Slice) {
 		src = data.Resample(src, b.Mesh().Size())
 	}
 	data.Copy(b.Buffer(), src)
-	b.normalize()
+	if b.isNormal {
+		b.normalize()
+	}
 }
 
 func (m *magnetization) Set(c Config) {

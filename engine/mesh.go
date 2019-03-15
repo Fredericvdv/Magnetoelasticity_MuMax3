@@ -43,6 +43,7 @@ func SetMesh(Nx, Ny, Nz int, cellSizeX, cellSizeY, cellSizeZ float64, pbcx, pbcy
 		// first time mesh is set
 		globalmesh_ = *data.NewMesh(Nx, Ny, Nz, cellSizeX, cellSizeY, cellSizeZ, pbc...)
 		M.alloc()
+		Disp.alloc()
 		regions.alloc()
 	} else {
 		// here be dragons
@@ -58,6 +59,7 @@ func SetMesh(Nx, Ny, Nz int, cellSizeX, cellSizeY, cellSizeZ float64, pbcx, pbcy
 		// resize everything
 		globalmesh_ = *data.NewMesh(Nx, Ny, Nz, cellSizeX, cellSizeY, cellSizeZ, pbc...)
 		M.resize()
+		Disp.resize()
 		regions.resize()
 		geometry.buffer.Free()
 		geometry.buffer = data.NilSlice(1, Mesh().Size())
