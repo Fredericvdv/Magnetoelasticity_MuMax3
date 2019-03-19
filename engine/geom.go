@@ -195,6 +195,28 @@ func (geometry *geom) setGeom(s Shape) {
 	}
 
 	U.normalize() // removes m outside vol
+
+	// DM inside geom but previously outside needs to be re-inited
+	needupload3 := false
+	geomlist3 := host.Host()[0]
+	dmhost := U.Buffer().HostCopy()
+	dm := mhost.Host()
+	rng3 := rand.New(rand.NewSource(0))
+	for i := range dm[0] {
+		if geomlist3[i] != 0 {
+			dmx, dmy, dmz := dm[X][i], dm[Y][i], dm[Z][i]
+			if dmx == 0 && dmy == 0 && dmz == 0 {
+				needupload3 = true
+				rnd := randomDir(rng3)
+				dm[X][i], dm[Y][i], dm[Z][i] = float32(rnd[X]), float32(rnd[Y]), float32(rnd[Z])
+			}
+		}
+	}
+	if needupload3 {
+		data.Copy(DM.Buffer(), dmhost)
+	}
+
+	//U.normalize() // removes m outside vol
 }
 
 // Sample edgeSmooth^3 points inside the cell to estimate its volume.

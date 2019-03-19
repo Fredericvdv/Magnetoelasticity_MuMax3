@@ -20,7 +20,7 @@ type displacement struct {
 func (u *displacement) Mesh() *data.Mesh    { return Mesh() }
 func (u *displacement) NComp() int          { return 3 }
 func (u *displacement) Name() string        { return "u" }
-func (u *displacement) Unit() string        { return "" }
+func (u *displacement) Unit() string        { return "m" }
 func (u *displacement) Buffer() *data.Slice { return u.buffer_ } // todo: rename Gpu()?
 
 func (u *displacement) Comp(c int) ScalarField  { return Comp(u, c) }

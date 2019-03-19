@@ -111,6 +111,7 @@ func (g *guistate) PrepareServer() {
 	g.prepareMesh()
 	g.prepareGeom()
 	g.prepareM()
+	g.prepareDM()
 	g.prepareU()
 	g.prepareSolver()
 	g.prepareDisplay()
@@ -244,6 +245,33 @@ func (g *guistate) prepareM() {
 	g.OnEvent("setm", func() {
 		Inject <- (func() {
 			g.EvalGUI(fmt.Sprint("m = ", g.StringValue("mselect"), g.StringValue("margs")))
+		})
+	})
+}
+
+func (g *guistate) prepareDM() {
+	g.OnEvent("dmselect", func() {
+		ident := g.StringValue("dmselect")
+		t := World.Resolve(ident).Type()
+		args := "("
+		for i := 0; i < t.NumIn(); i++ {
+			if i > 0 {
+				args += ", "
+			}
+			args += "1"
+		}
+		args += ")"
+		// overwrite args for special cases
+		switch ident {
+		case "VortexWall":
+			args = "(1, -1, 1, 1)"
+		}
+		g.Set("dmargs", args)
+		g.Set("dmdoc", g.Doc(ident))
+	})
+	g.OnEvent("setdm", func() {
+		Inject <- (func() {
+			g.EvalGUI(fmt.Sprint("dm = ", g.StringValue("dmselect"), g.StringValue("dmargs")))
 		})
 	})
 }
