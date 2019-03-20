@@ -111,8 +111,8 @@ func (g *guistate) PrepareServer() {
 	g.prepareMesh()
 	g.prepareGeom()
 	g.prepareM()
-	g.prepareDM()
 	g.prepareU()
+	g.prepareDU()
 	g.prepareSolver()
 	g.prepareDisplay()
 	g.prepareParam()
@@ -249,9 +249,9 @@ func (g *guistate) prepareM() {
 	})
 }
 
-func (g *guistate) prepareDM() {
-	g.OnEvent("dmselect", func() {
-		ident := g.StringValue("dmselect")
+func (g *guistate) prepareDU() {
+	g.OnEvent("duselect", func() {
+		ident := g.StringValue("duselect")
 		t := World.Resolve(ident).Type()
 		args := "("
 		for i := 0; i < t.NumIn(); i++ {
@@ -266,12 +266,12 @@ func (g *guistate) prepareDM() {
 		case "VortexWall":
 			args = "(1, -1, 1, 1)"
 		}
-		g.Set("dmargs", args)
-		g.Set("dmdoc", g.Doc(ident))
+		g.Set("duargs", args)
+		g.Set("dudoc", g.Doc(ident))
 	})
-	g.OnEvent("setdm", func() {
+	g.OnEvent("setdu", func() {
 		Inject <- (func() {
-			g.EvalGUI(fmt.Sprint("dm = ", g.StringValue("dmselect"), g.StringValue("dmargs")))
+			g.EvalGUI(fmt.Sprint("du = ", g.StringValue("duselect"), g.StringValue("duargs")))
 		})
 	})
 }
@@ -304,8 +304,8 @@ func (g *guistate) prepareU() {
 }
 
 var (
-	solvertypes = map[string]int{"bw_euler": -1, "euler": 1, "heun": 2, "rk23": 3, "rk4": 4, "rk45": 5, "rkf56": 6}
-	solvernames = map[int]string{-1: "bw_euler", 1: "euler", 2: "heun", 3: "rk23", 4: "rk4", 5: "rk45", 6: "rkf56"}
+	solvertypes = map[string]int{"bw_euler": -1, "euler": 1, "heun": 2, "rk23": 3, "rk4": 4, "rk45": 5, "rkf56": 6, "secondHeun": 7}
+	solvernames = map[int]string{-1: "bw_euler", 1: "euler", 2: "heun", 3: "rk23", 4: "rk4", 5: "rk45", 6: "rkf56", 7: "secondHeun"}
 )
 
 func Break() {

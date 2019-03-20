@@ -178,7 +178,7 @@ func (geometry *geom) setGeom(s Shape) {
 	needupload2 := false
 	geomlist2 := host.Host()[0]
 	uhost := U.Buffer().HostCopy()
-	u := mhost.Host()
+	u := uhost.Host()
 	rng2 := rand.New(rand.NewSource(0))
 	for i := range u[0] {
 		if geomlist2[i] != 0 {
@@ -194,26 +194,26 @@ func (geometry *geom) setGeom(s Shape) {
 		data.Copy(U.Buffer(), uhost)
 	}
 
-	U.normalize() // removes m outside vol
+	//U.normalize() // removes m outside vol
 
-	// DM inside geom but previously outside needs to be re-inited
+	// du inside geom but previously outside needs to be re-inited
 	needupload3 := false
 	geomlist3 := host.Host()[0]
-	dmhost := U.Buffer().HostCopy()
-	dm := mhost.Host()
+	duhost := DU.Buffer().HostCopy()
+	du := duhost.Host()
 	rng3 := rand.New(rand.NewSource(0))
-	for i := range dm[0] {
+	for i := range du[0] {
 		if geomlist3[i] != 0 {
-			dmx, dmy, dmz := dm[X][i], dm[Y][i], dm[Z][i]
-			if dmx == 0 && dmy == 0 && dmz == 0 {
+			dux, duy, duz := du[X][i], du[Y][i], du[Z][i]
+			if dux == 0 && duy == 0 && duz == 0 {
 				needupload3 = true
 				rnd := randomDir(rng3)
-				dm[X][i], dm[Y][i], dm[Z][i] = float32(rnd[X]), float32(rnd[Y]), float32(rnd[Z])
+				du[X][i], du[Y][i], du[Z][i] = float32(rnd[X]), float32(rnd[Y]), float32(rnd[Z])
 			}
 		}
 	}
 	if needupload3 {
-		data.Copy(DM.Buffer(), dmhost)
+		data.Copy(DU.Buffer(), duhost)
 	}
 
 	//U.normalize() // removes m outside vol

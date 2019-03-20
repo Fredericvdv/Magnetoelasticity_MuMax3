@@ -30,12 +30,14 @@ func (u *displacement) Type() reflect.Type      { return reflect.TypeOf(new(disp
 func (u *displacement) Eval() interface{}       { return u }
 func (u *displacement) average() []float64      { return sAverageMagnet(u.Buffer()) }
 func (u *displacement) Average() data.Vector    { return unslice(u.average()) }
-func (u *displacement) normalize()              { cuda.Normalize(u.Buffer(), geometry.Gpu()) }
+
+//func (u *displacement) normalize()              { cuda.Normalize(u.Buffer(), geometry.Gpu()) }
+//func (u *displacement) Strain()              { return Strain(u) }
 
 // allocate storage (not done by init, as mesh size may not yet be known then)
 func (u *displacement) alloc() {
 	u.buffer_ = cuda.NewSlice(3, u.Mesh().Size())
-	u.Set(RandomMag()) // sane starting config
+	u.Set(Uniform(0, 0, 0)) // sane starting config
 }
 
 func (b *displacement) SetArray(src *data.Slice) {
@@ -43,7 +45,7 @@ func (b *displacement) SetArray(src *data.Slice) {
 		src = data.Resample(src, b.Mesh().Size())
 	}
 	data.Copy(b.Buffer(), src)
-	b.normalize()
+	//b.normalize()
 }
 
 func (u *displacement) Set(c Config) {

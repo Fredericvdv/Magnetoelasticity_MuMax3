@@ -7,20 +7,20 @@ import (
 
 //Als deze variabele opgeropen wordt in het Mumax script, dan wordt de functie calcSecondDerivMag uitgevoerd
 var (
-	SecondDerivMag = NewVectorField("dm/dt2", "", "SecondDeriv", calcSecondDerivMag)
+	SecondDerivDisp = NewVectorField("d2u/dx2", "", "SecondDeriv", calcSecondDerivDisp)
 )
 
-func calcSecondDerivMag(dst *data.Slice) {
-	SecondDerivative(dst, M)
+func calcSecondDerivDisp(dst *data.Slice) {
+	SecondDerivative(dst, U)
 }
 
 //regelmatig make runnen = compilen van wat je nu hebt op je branch
 // voor je begint altijd eerst in je branch gaan: git checkout "branchname"
 //Capital letter to call them from outsit the package engine
-func SecondDerivative(dst *data.Slice, m magnetization) {
+func SecondDerivative(dst *data.Slice, u displacement) {
 	//cuda kernel aanroepen
 	//m.Buffer() neemt de data.Slice uit de magnetization m
 	//M=magnetizatie --> mesh wordt hiervan genomen
-	cuda.SecondDerivative(dst, m.Buffer(), M.Mesh())
+	cuda.SecondDerivative(dst, u.Buffer(), U.Mesh())
 
 }

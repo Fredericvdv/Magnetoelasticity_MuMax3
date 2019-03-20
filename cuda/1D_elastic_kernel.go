@@ -2,11 +2,13 @@
 package cuda
 
 import (
+	"fmt"
+
 	"github.com/mumax/3/data"
 )
 
 //Calculate the space dependent part of the second derivative
-func SecondDerivative(dst, m *data.Slice, mesh *data.Mesh) {
+func SecondDerivative(dst, u *data.Slice, mesh *data.Mesh) {
 	N := mesh.Size()
 	cellsizeX := mesh.CellSize()
 	//cfg = structuur van blocks and grids om de cuda te laten lopen
@@ -15,10 +17,12 @@ func SecondDerivative(dst, m *data.Slice, mesh *data.Mesh) {
 	Kv := 182e9   //Bulk modulus in [Pa]
 	rho := 8.03e3 //Density in [kg/m**3]
 	v := Kv / rho //power of Speed of acoustic wave in [m/s]
-	c := float32(v / (cellsizeX[0] * cellsizeX[0]))
-	//c := float32(10 / (2 * cellsizeX[0])) 	//First derivative
-
+	//c := float32(v / (cellsizeX[0] * cellsizeX[0]))
+	c := v / (2 * cellsizeX[0]) //First derivative
+	c = c * 1e-4 * cellsizeX[0] // Realistic displacement
+	cc := float32(c)
+	fmt.Println("c = ", c)
 	//DevPtr --> geeft specifieke adres van de pointer
 	k_SecondDerivative_async(dst.DevPtr(X), dst.DevPtr(Y), dst.DevPtr(Z),
-		m.DevPtr(X), m.DevPtr(Y), m.DevPtr(Z), N[X], N[Y], N[Z], c, pbc, cfg)
+		u.DevPtr(X), u.DevPtr(Y), u.DevPtr(Z), N[X], N[Y], N[Z], cc, pbc, cfg)
 }

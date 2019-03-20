@@ -17,12 +17,12 @@ var SecondDerivative_code cu.Function
 
 // Stores the arguments for SecondDerivative kernel invocation
 type SecondDerivative_args_t struct {
-	arg_dmx unsafe.Pointer
-	arg_dmy unsafe.Pointer
-	arg_dmz unsafe.Pointer
-	arg_mx  unsafe.Pointer
-	arg_my  unsafe.Pointer
-	arg_mz  unsafe.Pointer
+	arg_dux unsafe.Pointer
+	arg_duy unsafe.Pointer
+	arg_duz unsafe.Pointer
+	arg_ux  unsafe.Pointer
+	arg_uy  unsafe.Pointer
+	arg_uz  unsafe.Pointer
 	arg_Nx  int
 	arg_Ny  int
 	arg_Nz  int
@@ -37,12 +37,12 @@ var SecondDerivative_args SecondDerivative_args_t
 
 func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	SecondDerivative_args.argptr[0] = unsafe.Pointer(&SecondDerivative_args.arg_dmx)
-	SecondDerivative_args.argptr[1] = unsafe.Pointer(&SecondDerivative_args.arg_dmy)
-	SecondDerivative_args.argptr[2] = unsafe.Pointer(&SecondDerivative_args.arg_dmz)
-	SecondDerivative_args.argptr[3] = unsafe.Pointer(&SecondDerivative_args.arg_mx)
-	SecondDerivative_args.argptr[4] = unsafe.Pointer(&SecondDerivative_args.arg_my)
-	SecondDerivative_args.argptr[5] = unsafe.Pointer(&SecondDerivative_args.arg_mz)
+	SecondDerivative_args.argptr[0] = unsafe.Pointer(&SecondDerivative_args.arg_dux)
+	SecondDerivative_args.argptr[1] = unsafe.Pointer(&SecondDerivative_args.arg_duy)
+	SecondDerivative_args.argptr[2] = unsafe.Pointer(&SecondDerivative_args.arg_duz)
+	SecondDerivative_args.argptr[3] = unsafe.Pointer(&SecondDerivative_args.arg_ux)
+	SecondDerivative_args.argptr[4] = unsafe.Pointer(&SecondDerivative_args.arg_uy)
+	SecondDerivative_args.argptr[5] = unsafe.Pointer(&SecondDerivative_args.arg_uz)
 	SecondDerivative_args.argptr[6] = unsafe.Pointer(&SecondDerivative_args.arg_Nx)
 	SecondDerivative_args.argptr[7] = unsafe.Pointer(&SecondDerivative_args.arg_Ny)
 	SecondDerivative_args.argptr[8] = unsafe.Pointer(&SecondDerivative_args.arg_Nz)
@@ -51,7 +51,7 @@ func init() {
 }
 
 // Wrapper for SecondDerivative CUDA kernel, asynchronous.
-func k_SecondDerivative_async(dmx unsafe.Pointer, dmy unsafe.Pointer, dmz unsafe.Pointer, mx unsafe.Pointer, my unsafe.Pointer, mz unsafe.Pointer, Nx int, Ny int, Nz int, c float32, PBC byte, cfg *config) {
+func k_SecondDerivative_async(dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, c float32, PBC byte, cfg *config) {
 	if Synchronous { // debug
 		Sync()
 		timer.Start("SecondDerivative")
@@ -64,12 +64,12 @@ func k_SecondDerivative_async(dmx unsafe.Pointer, dmy unsafe.Pointer, dmz unsafe
 		SecondDerivative_code = fatbinLoad(SecondDerivative_map, "SecondDerivative")
 	}
 
-	SecondDerivative_args.arg_dmx = dmx
-	SecondDerivative_args.arg_dmy = dmy
-	SecondDerivative_args.arg_dmz = dmz
-	SecondDerivative_args.arg_mx = mx
-	SecondDerivative_args.arg_my = my
-	SecondDerivative_args.arg_mz = mz
+	SecondDerivative_args.arg_dux = dux
+	SecondDerivative_args.arg_duy = duy
+	SecondDerivative_args.arg_duz = duz
+	SecondDerivative_args.arg_ux = ux
+	SecondDerivative_args.arg_uy = uy
+	SecondDerivative_args.arg_uz = uz
 	SecondDerivative_args.arg_Nx = Nx
 	SecondDerivative_args.arg_Ny = Ny
 	SecondDerivative_args.arg_Nz = Nz

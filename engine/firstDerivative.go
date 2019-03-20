@@ -7,35 +7,35 @@ import (
 	"reflect"
 )
 
-var DM firstDerivative // firstDerivative (unit A/(ms))
+var DU firstDerivative // firstDerivative (unit [m/s])
 
-func init() { DeclLValue("dm", &DM, `firstDerivative (unit A/(ms))`) }
+func init() { DeclLValue("du", &DU, `firstDerivative (unit [m/s])`) }
 
 // Special buffered quantity to store firstDerivative
-// makes sure it's normalized etc.
 type firstDerivative struct {
 	buffer_ *data.Slice
 }
 
-func (dm *firstDerivative) Mesh() *data.Mesh    { return Mesh() }
-func (dm *firstDerivative) NComp() int          { return 3 }
-func (dm *firstDerivative) Name() string        { return "dm" }
-func (dm *firstDerivative) Unit() string        { return "1/s" }
-func (dm *firstDerivative) Buffer() *data.Slice { return dm.buffer_ } // todo: rename Gpu()?
+func (du *firstDerivative) Mesh() *data.Mesh    { return Mesh() }
+func (du *firstDerivative) NComp() int          { return 3 }
+func (du *firstDerivative) Name() string        { return "du/dt" }
+func (du *firstDerivative) Unit() string        { return "m/s" }
+func (du *firstDerivative) Buffer() *data.Slice { return du.buffer_ } // todo: rename Gpu()?
 
-func (dm *firstDerivative) Comp(c int) ScalarField  { return Comp(dm, c) }
-func (dm *firstDerivative) SetValue(v interface{})  { dm.SetInShape(nil, v.(Config)) }
-func (dm *firstDerivative) InputType() reflect.Type { return reflect.TypeOf(Config(nil)) }
-func (dm *firstDerivative) Type() reflect.Type      { return reflect.TypeOf(new(firstDerivative)) }
-func (dm *firstDerivative) Eval() interface{}       { return dm }
-func (dm *firstDerivative) average() []float64      { return sAverageMagnet(dm.Buffer()) }
-func (dm *firstDerivative) Average() data.Vector    { return unslice(dm.average()) }
-func (dm *firstDerivative) normalize()              { cuda.Normalize(dm.Buffer(), geometry.Gpu()) }
+func (du *firstDerivative) Comp(c int) ScalarField  { return Comp(du, c) }
+func (du *firstDerivative) SetValue(v interface{})  { du.SetInShape(nil, v.(Config)) }
+func (du *firstDerivative) InputType() reflect.Type { return reflect.TypeOf(Config(nil)) }
+func (du *firstDerivative) Type() reflect.Type      { return reflect.TypeOf(new(firstDerivative)) }
+func (du *firstDerivative) Eval() interface{}       { return du }
+func (du *firstDerivative) average() []float64      { return sAverageMagnet(du.Buffer()) }
+func (du *firstDerivative) Average() data.Vector    { return unslice(du.average()) }
+
+//func (du *firstDerivative) normalize()              { cuda.Normalize(du.Buffer(), geometry.Gpu()) }
 
 // allocate storage (not done by init, as mesh size may not yet be known then)
-func (dm *firstDerivative) alloc() {
-	dm.buffer_ = cuda.NewSlice(3, dm.Mesh().Size())
-	dm.Set(RandomMag()) // sane starting config
+func (du *firstDerivative) alloc() {
+	du.buffer_ = cuda.NewSlice(3, du.Mesh().Size())
+	du.Set(Uniform(0, 0, 0)) // sane starting config
 }
 
 func (b *firstDerivative) SetArray(src *data.Slice) {
@@ -46,54 +46,54 @@ func (b *firstDerivative) SetArray(src *data.Slice) {
 	//b.normalize()
 }
 
-func (dm *firstDerivative) Set(c Config) {
+func (du *firstDerivative) Set(c Config) {
 	checkMesh()
-	dm.SetInShape(nil, c)
+	du.SetInShape(nil, c)
 }
 
-func (dm *firstDerivative) LoadFile(fname string) {
-	dm.SetArray(LoadFile(fname))
+func (du *firstDerivative) LoadFile(fname string) {
+	du.SetArray(LoadFile(fname))
 }
 
-func (dm *firstDerivative) Slice() (s *data.Slice, recycle bool) {
-	return dm.Buffer(), false
+func (du *firstDerivative) Slice() (s *data.Slice, recycle bool) {
+	return du.Buffer(), false
 }
 
-func (dm *firstDerivative) EvalTo(dst *data.Slice) {
-	data.Copy(dst, dm.buffer_)
+func (du *firstDerivative) EvalTo(dst *data.Slice) {
+	data.Copy(dst, du.buffer_)
 }
 
-func (dm *firstDerivative) Region(r int) *vOneReg { return vOneRegion(dm, r) }
+func (du *firstDerivative) Region(r int) *vOneReg { return vOneRegion(du, r) }
 
-func (dm *firstDerivative) String() string { return util.Sprint(dm.Buffer().HostCopy()) }
+func (du *firstDerivative) String() string { return util.Sprint(du.Buffer().HostCopy()) }
 
 // Set the value of one cell.
-func (dm *firstDerivative) SetCell(ix, iy, iz int, v data.Vector) {
+func (du *firstDerivative) SetCell(ix, iy, iz int, v data.Vector) {
 	for c := 0; c < 3; c++ {
-		cuda.SetCell(dm.Buffer(), c, ix, iy, iz, float32(v[c]))
+		cuda.SetCell(du.Buffer(), c, ix, iy, iz, float32(v[c]))
 	}
 }
 
 // Get the value of one cell.
-func (dm *firstDerivative) GetCell(ix, iy, iz int) data.Vector {
-	dmx := float64(cuda.GetCell(dm.Buffer(), X, ix, iy, iz))
-	dmy := float64(cuda.GetCell(dm.Buffer(), Y, ix, iy, iz))
-	dmz := float64(cuda.GetCell(dm.Buffer(), Z, ix, iy, iz))
-	return Vector(dmx, dmy, dmz)
+func (du *firstDerivative) GetCell(ix, iy, iz int) data.Vector {
+	dux := float64(cuda.GetCell(du.Buffer(), X, ix, iy, iz))
+	duy := float64(cuda.GetCell(du.Buffer(), Y, ix, iy, iz))
+	duz := float64(cuda.GetCell(du.Buffer(), Z, ix, iy, iz))
+	return Vector(dux, duy, duz)
 }
 
-func (dm *firstDerivative) Quantity() []float64 { return slice(dm.Average()) }
+func (du *firstDerivative) Quantity() []float64 { return slice(du.Average()) }
 
 // Sets the firstDerivative inside the shape
-func (dm *firstDerivative) SetInShape(region Shape, conf Config) {
+func (du *firstDerivative) SetInShape(region Shape, conf Config) {
 	checkMesh()
 
 	if region == nil {
 		region = universe
 	}
-	host := dm.Buffer().HostCopy()
+	host := du.Buffer().HostCopy()
 	h := host.Vectors()
-	n := dm.Mesh().Size()
+	n := du.Mesh().Size()
 
 	for iz := 0; iz < n[Z]; iz++ {
 		for iy := 0; iy < n[Y]; iy++ {
@@ -101,22 +101,22 @@ func (dm *firstDerivative) SetInShape(region Shape, conf Config) {
 				r := Index2Coord(ix, iy, iz)
 				x, y, z := r[X], r[Y], r[Z]
 				if region(x, y, z) { // inside
-					dm := conf(x, y, z)
-					h[X][iz][iy][ix] = float32(dm[X])
-					h[Y][iz][iy][ix] = float32(dm[Y])
-					h[Z][iz][iy][ix] = float32(dm[Z])
+					du := conf(x, y, z)
+					h[X][iz][iy][ix] = float32(du[X])
+					h[Y][iz][iy][ix] = float32(du[Y])
+					h[Z][iz][iy][ix] = float32(du[Z])
 				}
 			}
 		}
 	}
-	dm.SetArray(host)
+	du.SetArray(host)
 }
 
-// set dm to config in region
-func (dm *firstDerivative) SetRegion(region int, conf Config) {
-	host := dm.Buffer().HostCopy()
+// set du to config in region
+func (du *firstDerivative) SetRegion(region int, conf Config) {
+	host := du.Buffer().HostCopy()
 	h := host.Vectors()
-	n := dm.Mesh().Size()
+	n := du.Mesh().Size()
 	r := byte(region)
 
 	regionsArr := regions.HostArray()
@@ -127,22 +127,22 @@ func (dm *firstDerivative) SetRegion(region int, conf Config) {
 				pos := Index2Coord(ix, iy, iz)
 				x, y, z := pos[X], pos[Y], pos[Z]
 				if regionsArr[iz][iy][ix] == r {
-					dm := conf(x, y, z)
-					h[X][iz][iy][ix] = float32(dm[X])
-					h[Y][iz][iy][ix] = float32(dm[Y])
-					h[Z][iz][iy][ix] = float32(dm[Z])
+					du := conf(x, y, z)
+					h[X][iz][iy][ix] = float32(du[X])
+					h[Y][iz][iy][ix] = float32(du[Y])
+					h[Z][iz][iy][ix] = float32(du[Z])
 				}
 			}
 		}
 	}
-	dm.SetArray(host)
+	du.SetArray(host)
 }
 
-func (dm *firstDerivative) resize() {
-	backup := dm.Buffer().HostCopy()
+func (du *firstDerivative) resize() {
+	backup := du.Buffer().HostCopy()
 	s2 := Mesh().Size()
 	resized := data.Resample(backup, s2)
-	dm.buffer_.Free()
-	dm.buffer_ = cuda.NewSlice(VECTOR, s2)
-	data.Copy(dm.buffer_, resized)
+	du.buffer_.Free()
+	du.buffer_ = cuda.NewSlice(VECTOR, s2)
+	data.Copy(du.buffer_, resized)
 }
