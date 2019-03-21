@@ -33,7 +33,7 @@ int Nx, int Ny, int Nz, float c, uint8_t PBC) {
 
     //Neighbours
     i_l = idx(lclampx(ix-1),iy,iz);
-    i_r = idx(lclampx(ix+1),iy,iz);
+    i_r = idx(hclampx(ix+1),iy,iz);
     u_l = make_float3(ux[i_l],uy[i_l],uz[i_l]);
     u_l = ( is0(u_l)? u0: u_l);
     u_r = make_float3(ux[i_r],uy[i_r],uz[i_r]);

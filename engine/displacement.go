@@ -104,9 +104,9 @@ func (u *displacement) SetInShape(region Shape, conf Config) {
 				x, y, z := r[X], r[Y], r[Z]
 				if region(x, y, z) { // inside
 					u := conf(x, y, z)
-					h[X][iz][iy][ix] = float32(u[X])
-					h[Y][iz][iy][ix] = float32(u[Y])
-					h[Z][iz][iy][ix] = float32(u[Z])
+					h[X][iz][iy][ix] = float32(u[X]*1e-13)
+					h[Y][iz][iy][ix] = float32(u[Y]*1e-13)
+					h[Z][iz][iy][ix] = float32(u[Z]*1e-13)
 				}
 			}
 		}

@@ -12,14 +12,14 @@ type secondHeun struct{}
 
 // Adaptive Heun method, can be used as solver.Step
 func (_ *secondHeun) Step() {
-
+	fmt.Println("#########################")
+	fmt.Println("#########################")
+	
 	//Set variables of the two first order differential equations:
 	//displacement
 	y := U.Buffer()
 	//First derivative of displacement
 	udot := DU.Buffer()
-	fmt.Println("#########################")
-	fmt.Println("#########################")
 
 	if FixDt != 0 {
 		Dt_si = FixDt
@@ -35,9 +35,9 @@ func (_ *secondHeun) Step() {
 	calcSecondDerivDisp(dudot0)
 	//First derivative of displacement = g(t) = udot0
 	//udot0 := udot
-	fmt.Println("dudot0 = ", sAverageUniverse(dudot0))
-	fmt.Println("y = ", sAverageUniverse(y))
-	fmt.Println("udot = ", sAverageUniverse(udot))
+	fmt.Println("average dudot0 = ", sAverageUniverse(dudot0))
+	fmt.Println("average y = ", sAverageUniverse(y))
+	fmt.Println("average udot = ", sAverageUniverse(udot))
 
 	//Stage 1:
 	//y1(t+dt) = y(t) + dt*g(t)
@@ -55,6 +55,10 @@ func (_ *secondHeun) Step() {
 	calcSecondDerivDisp(dudot)
 
 	err := cuda.MaxVecDiff(dudot0, dudot) * float64(dt)
+	fmt.Println("err = ", err)
+	fmt.Println("MaxErr = ", MaxErr)
+	fmt.Println("dt = ", Dt_si)
+
 
 	// adjust next time step
 	if err < MaxErr || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop

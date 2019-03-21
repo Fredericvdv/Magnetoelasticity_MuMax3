@@ -18,7 +18,7 @@ type firstDerivative struct {
 
 func (du *firstDerivative) Mesh() *data.Mesh    { return Mesh() }
 func (du *firstDerivative) NComp() int          { return 3 }
-func (du *firstDerivative) Name() string        { return "du/dt" }
+func (du *firstDerivative) Name() string        { return "du" }
 func (du *firstDerivative) Unit() string        { return "m/s" }
 func (du *firstDerivative) Buffer() *data.Slice { return du.buffer_ } // todo: rename Gpu()?
 

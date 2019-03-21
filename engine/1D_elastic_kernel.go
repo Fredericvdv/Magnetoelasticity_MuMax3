@@ -7,7 +7,7 @@ import (
 
 //Als deze variabele opgeropen wordt in het Mumax script, dan wordt de functie calcSecondDerivMag uitgevoerd
 var (
-	SecondDerivDisp = NewVectorField("d2u/dx2", "", "SecondDeriv", calcSecondDerivDisp)
+	SecondDerivDisp = NewVectorField("d2udx2", "", "SecondDeriv", calcSecondDerivDisp)
 )
 
 func calcSecondDerivDisp(dst *data.Slice) {
