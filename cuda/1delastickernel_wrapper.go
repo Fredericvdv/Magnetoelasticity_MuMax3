@@ -5,70 +5,70 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for SecondDerivative kernel
 var SecondDerivative_code cu.Function
 
 // Stores the arguments for SecondDerivative kernel invocation
-type SecondDerivative_args_t struct{
-	 arg_dux unsafe.Pointer
-	 arg_duy unsafe.Pointer
-	 arg_duz unsafe.Pointer
-	 arg_ux unsafe.Pointer
-	 arg_uy unsafe.Pointer
-	 arg_uz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_wx float32
-	 arg_wy float32
-	 arg_wz float32
-	 arg_c1_ unsafe.Pointer
-	 arg_c1_mul float32
-	 arg_c2_ unsafe.Pointer
-	 arg_c2_mul float32
-	 arg_c3_ unsafe.Pointer
-	 arg_c3_mul float32
-	 arg_PBC byte
-	 argptr [19]unsafe.Pointer
+type SecondDerivative_args_t struct {
+	arg_dux    unsafe.Pointer
+	arg_duy    unsafe.Pointer
+	arg_duz    unsafe.Pointer
+	arg_ux     unsafe.Pointer
+	arg_uy     unsafe.Pointer
+	arg_uz     unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_wx     float32
+	arg_wy     float32
+	arg_wz     float32
+	arg_c1_    unsafe.Pointer
+	arg_c1_mul float32
+	arg_c2_    unsafe.Pointer
+	arg_c2_mul float32
+	arg_c3_    unsafe.Pointer
+	arg_c3_mul float32
+	arg_PBC    byte
+	argptr     [19]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for SecondDerivative kernel invocation
 var SecondDerivative_args SecondDerivative_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 SecondDerivative_args.argptr[0] = unsafe.Pointer(&SecondDerivative_args.arg_dux)
-	 SecondDerivative_args.argptr[1] = unsafe.Pointer(&SecondDerivative_args.arg_duy)
-	 SecondDerivative_args.argptr[2] = unsafe.Pointer(&SecondDerivative_args.arg_duz)
-	 SecondDerivative_args.argptr[3] = unsafe.Pointer(&SecondDerivative_args.arg_ux)
-	 SecondDerivative_args.argptr[4] = unsafe.Pointer(&SecondDerivative_args.arg_uy)
-	 SecondDerivative_args.argptr[5] = unsafe.Pointer(&SecondDerivative_args.arg_uz)
-	 SecondDerivative_args.argptr[6] = unsafe.Pointer(&SecondDerivative_args.arg_Nx)
-	 SecondDerivative_args.argptr[7] = unsafe.Pointer(&SecondDerivative_args.arg_Ny)
-	 SecondDerivative_args.argptr[8] = unsafe.Pointer(&SecondDerivative_args.arg_Nz)
-	 SecondDerivative_args.argptr[9] = unsafe.Pointer(&SecondDerivative_args.arg_wx)
-	 SecondDerivative_args.argptr[10] = unsafe.Pointer(&SecondDerivative_args.arg_wy)
-	 SecondDerivative_args.argptr[11] = unsafe.Pointer(&SecondDerivative_args.arg_wz)
-	 SecondDerivative_args.argptr[12] = unsafe.Pointer(&SecondDerivative_args.arg_c1_)
-	 SecondDerivative_args.argptr[13] = unsafe.Pointer(&SecondDerivative_args.arg_c1_mul)
-	 SecondDerivative_args.argptr[14] = unsafe.Pointer(&SecondDerivative_args.arg_c2_)
-	 SecondDerivative_args.argptr[15] = unsafe.Pointer(&SecondDerivative_args.arg_c2_mul)
-	 SecondDerivative_args.argptr[16] = unsafe.Pointer(&SecondDerivative_args.arg_c3_)
-	 SecondDerivative_args.argptr[17] = unsafe.Pointer(&SecondDerivative_args.arg_c3_mul)
-	 SecondDerivative_args.argptr[18] = unsafe.Pointer(&SecondDerivative_args.arg_PBC)
-	 }
+	SecondDerivative_args.argptr[0] = unsafe.Pointer(&SecondDerivative_args.arg_dux)
+	SecondDerivative_args.argptr[1] = unsafe.Pointer(&SecondDerivative_args.arg_duy)
+	SecondDerivative_args.argptr[2] = unsafe.Pointer(&SecondDerivative_args.arg_duz)
+	SecondDerivative_args.argptr[3] = unsafe.Pointer(&SecondDerivative_args.arg_ux)
+	SecondDerivative_args.argptr[4] = unsafe.Pointer(&SecondDerivative_args.arg_uy)
+	SecondDerivative_args.argptr[5] = unsafe.Pointer(&SecondDerivative_args.arg_uz)
+	SecondDerivative_args.argptr[6] = unsafe.Pointer(&SecondDerivative_args.arg_Nx)
+	SecondDerivative_args.argptr[7] = unsafe.Pointer(&SecondDerivative_args.arg_Ny)
+	SecondDerivative_args.argptr[8] = unsafe.Pointer(&SecondDerivative_args.arg_Nz)
+	SecondDerivative_args.argptr[9] = unsafe.Pointer(&SecondDerivative_args.arg_wx)
+	SecondDerivative_args.argptr[10] = unsafe.Pointer(&SecondDerivative_args.arg_wy)
+	SecondDerivative_args.argptr[11] = unsafe.Pointer(&SecondDerivative_args.arg_wz)
+	SecondDerivative_args.argptr[12] = unsafe.Pointer(&SecondDerivative_args.arg_c1_)
+	SecondDerivative_args.argptr[13] = unsafe.Pointer(&SecondDerivative_args.arg_c1_mul)
+	SecondDerivative_args.argptr[14] = unsafe.Pointer(&SecondDerivative_args.arg_c2_)
+	SecondDerivative_args.argptr[15] = unsafe.Pointer(&SecondDerivative_args.arg_c2_mul)
+	SecondDerivative_args.argptr[16] = unsafe.Pointer(&SecondDerivative_args.arg_c3_)
+	SecondDerivative_args.argptr[17] = unsafe.Pointer(&SecondDerivative_args.arg_c3_mul)
+	SecondDerivative_args.argptr[18] = unsafe.Pointer(&SecondDerivative_args.arg_PBC)
+}
 
 // Wrapper for SecondDerivative CUDA kernel, asynchronous.
-func k_SecondDerivative_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, c1_ unsafe.Pointer, c1_mul float32, c2_ unsafe.Pointer, c2_mul float32, c3_ unsafe.Pointer, c3_mul float32, PBC byte,  cfg *config) {
-	if Synchronous{ // debug
+func k_SecondDerivative_async(dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, c1_ unsafe.Pointer, c1_mul float32, c2_ unsafe.Pointer, c2_mul float32, c3_ unsafe.Pointer, c3_mul float32, PBC byte, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("SecondDerivative")
 	}
@@ -76,56 +76,55 @@ func k_SecondDerivative_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsa
 	SecondDerivative_args.Lock()
 	defer SecondDerivative_args.Unlock()
 
-	if SecondDerivative_code == 0{
+	if SecondDerivative_code == 0 {
 		SecondDerivative_code = fatbinLoad(SecondDerivative_map, "SecondDerivative")
 	}
 
-	 SecondDerivative_args.arg_dux = dux
-	 SecondDerivative_args.arg_duy = duy
-	 SecondDerivative_args.arg_duz = duz
-	 SecondDerivative_args.arg_ux = ux
-	 SecondDerivative_args.arg_uy = uy
-	 SecondDerivative_args.arg_uz = uz
-	 SecondDerivative_args.arg_Nx = Nx
-	 SecondDerivative_args.arg_Ny = Ny
-	 SecondDerivative_args.arg_Nz = Nz
-	 SecondDerivative_args.arg_wx = wx
-	 SecondDerivative_args.arg_wy = wy
-	 SecondDerivative_args.arg_wz = wz
-	 SecondDerivative_args.arg_c1_ = c1_
-	 SecondDerivative_args.arg_c1_mul = c1_mul
-	 SecondDerivative_args.arg_c2_ = c2_
-	 SecondDerivative_args.arg_c2_mul = c2_mul
-	 SecondDerivative_args.arg_c3_ = c3_
-	 SecondDerivative_args.arg_c3_mul = c3_mul
-	 SecondDerivative_args.arg_PBC = PBC
-	
+	SecondDerivative_args.arg_dux = dux
+	SecondDerivative_args.arg_duy = duy
+	SecondDerivative_args.arg_duz = duz
+	SecondDerivative_args.arg_ux = ux
+	SecondDerivative_args.arg_uy = uy
+	SecondDerivative_args.arg_uz = uz
+	SecondDerivative_args.arg_Nx = Nx
+	SecondDerivative_args.arg_Ny = Ny
+	SecondDerivative_args.arg_Nz = Nz
+	SecondDerivative_args.arg_wx = wx
+	SecondDerivative_args.arg_wy = wy
+	SecondDerivative_args.arg_wz = wz
+	SecondDerivative_args.arg_c1_ = c1_
+	SecondDerivative_args.arg_c1_mul = c1_mul
+	SecondDerivative_args.arg_c2_ = c2_
+	SecondDerivative_args.arg_c2_mul = c2_mul
+	SecondDerivative_args.arg_c3_ = c3_
+	SecondDerivative_args.arg_c3_mul = c3_mul
+	SecondDerivative_args.arg_PBC = PBC
 
 	args := SecondDerivative_args.argptr[:]
 	cu.LaunchKernel(SecondDerivative_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("SecondDerivative")
 	}
 }
 
 // maps compute capability on PTX code for SecondDerivative kernel.
-var SecondDerivative_map = map[int]string{ 0: "" ,
-30: SecondDerivative_ptx_30 ,
-35: SecondDerivative_ptx_35 ,
-37: SecondDerivative_ptx_37 ,
-50: SecondDerivative_ptx_50 ,
-52: SecondDerivative_ptx_52 ,
-53: SecondDerivative_ptx_53 ,
-60: SecondDerivative_ptx_60 ,
-61: SecondDerivative_ptx_61 ,
-70: SecondDerivative_ptx_70 ,
-75: SecondDerivative_ptx_75  }
+var SecondDerivative_map = map[int]string{0: "",
+	30: SecondDerivative_ptx_30,
+	35: SecondDerivative_ptx_35,
+	37: SecondDerivative_ptx_37,
+	50: SecondDerivative_ptx_50,
+	52: SecondDerivative_ptx_52,
+	53: SecondDerivative_ptx_53,
+	60: SecondDerivative_ptx_60,
+	61: SecondDerivative_ptx_61,
+	70: SecondDerivative_ptx_70,
+	75: SecondDerivative_ptx_75}
 
 // SecondDerivative PTX code for various compute capabilities.
-const(
-  SecondDerivative_ptx_30 = `
+const (
+	SecondDerivative_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -1958,7 +1957,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_35 = `
+	SecondDerivative_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -3770,7 +3769,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_37 = `
+	SecondDerivative_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -5582,7 +5581,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_50 = `
+	SecondDerivative_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -7394,7 +7393,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_52 = `
+	SecondDerivative_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -9206,7 +9205,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_53 = `
+	SecondDerivative_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -11018,7 +11017,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_60 = `
+	SecondDerivative_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -12830,7 +12829,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_61 = `
+	SecondDerivative_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -14642,7 +14641,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_70 = `
+	SecondDerivative_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -16454,7 +16453,7 @@ BB0_226:
 
 
 `
-   SecondDerivative_ptx_75 = `
+	SecondDerivative_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -18266,4 +18265,4 @@ BB0_226:
 
 
 `
- )
+)

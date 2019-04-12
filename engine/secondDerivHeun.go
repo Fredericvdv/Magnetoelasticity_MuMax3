@@ -56,14 +56,14 @@ func (_ *secondHeun) Step() {
 	defer cuda.Recycle(dudot)
 	calcSecondDerivDisp(dudot)
 
-	err := cuda.RelMaxVecDiff(dudot,dudot0) * float64(dt)
+	err := cuda.RelMaxVecDiff(dudot, dudot0) * float64(dt)
 	err2 := cuda.RelMaxVecDiff(udot, udot2) * float64(dt)
 	fmt.Println("err = ", err)
 	fmt.Println("MaxErr = ", MaxErr)
 	fmt.Println("dt = ", Dt_si)
 
 	// adjust next time step
-	if (err < MaxErr && err2<MaxErr) || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop
+	if (err < MaxErr && err2 < MaxErr) || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop
 		// step OK
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - g(t)]
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - (g1(t+dt)-dt*f(t))]
