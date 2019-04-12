@@ -8,6 +8,8 @@ inline __device__ float3 operator+(float3 a, float3 b) {
     return make_float3(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
+
+
 inline __device__ void operator+=(float3 &a, float3 b) {
     a.x += b.x; 
 	a.y += b.y; 
@@ -50,6 +52,11 @@ inline __device__ float dot(float3 a, float3 b) {
 // cross product
 inline __device__ float3 cross(float3 a, float3 b) { 
 	return make_float3( a.y*b.z - a.z*b.y,  a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x); 
+}
+
+// Hadammar product
+inline __device__ float3 had(float3 a, float3 b) { 
+	return make_float3( a.x*b.x,  a.y*b.y, a.z*b.z); 
 }
 
 // lenght of the 3-components vector

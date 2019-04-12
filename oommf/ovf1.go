@@ -64,7 +64,7 @@ func writeOVF1Header(out io.Writer, q *data.Slice, meta data.Meta) {
 	hdr(out, "ynodes", gridsize[Y])
 	hdr(out, "znodes", gridsize[Z])
 	hdr(out, "ValueRangeMinMag", 0) // not so "optional" as the OOMMF manual suggests...
-	hdr(out, "ValueRangeMaxMag", 0)     // TODO
+	hdr(out, "ValueRangeMaxMag", 0) // TODO
 	hdr(out, "valueunit", meta.Unit)
 	hdr(out, "valuemultiplier", 1)
 

@@ -2,9 +2,10 @@ package engine
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/mumax/3/cuda"
 	"github.com/mumax/3/util"
-	"math"
 )
 
 // Adaptive Heun solver.
@@ -14,12 +15,13 @@ type secondHeun struct{}
 func (_ *secondHeun) Step() {
 	fmt.Println("#########################")
 	fmt.Println("#########################")
-	
+
 	//Set variables of the two first order differential equations:
 	//displacement
 	y := U.Buffer()
 	//First derivative of displacement
 	udot := DU.Buffer()
+	udot2 := DU.Buffer()
 
 	if FixDt != 0 {
 		Dt_si = FixDt
@@ -54,14 +56,14 @@ func (_ *secondHeun) Step() {
 	defer cuda.Recycle(dudot)
 	calcSecondDerivDisp(dudot)
 
-	err := cuda.MaxVecDiff(dudot0, dudot) * float64(dt)
+	err := cuda.RelMaxVecDiff(dudot,dudot0) * float64(dt)
+	err2 := cuda.RelMaxVecDiff(udot, udot2) * float64(dt)
 	fmt.Println("err = ", err)
 	fmt.Println("MaxErr = ", MaxErr)
 	fmt.Println("dt = ", Dt_si)
 
-
 	// adjust next time step
-	if err < MaxErr || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop
+	if (err < MaxErr && err2<MaxErr) || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop
 		// step OK
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - g(t)]
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - (g1(t+dt)-dt*f(t))]

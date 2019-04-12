@@ -63,6 +63,18 @@ func MaxVecDiff(x, y *data.Slice) float64 {
 	return math.Sqrt(float64(copyback(out)))
 }
 
+// Relative Maximum of the norms of the difference between all vectors (x1,y1,z1) and (x2,y2,z2)
+// 	(dx, dy, dz) = ((x1, y1, z1) - (x2, y2, z2))/(x1, y1, z1)
+// 	max_i sqrt( dx[i]*dx[i] + dy[i]*dy[i] + dz[i]*dz[i] )
+func RelMaxVecDiff(x, y *data.Slice) float64 {
+	util.Argument(x.Len() == y.Len())
+	out := reduceBuf(0)
+	k_reducerelmaxvecdiff2_async(x.DevPtr(0), x.DevPtr(1), x.DevPtr(2),
+		y.DevPtr(0), y.DevPtr(1), y.DevPtr(2),
+		out, 0, x.Len(), reducecfg)
+	return math.Sqrt(float64(copyback(out)))
+}
+
 var reduceBuffers chan unsafe.Pointer // pool of 1-float CUDA buffers for reduce
 
 // return a 1-float CUDA reduction buffer from a pool
