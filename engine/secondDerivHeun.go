@@ -14,6 +14,8 @@ type secondHeun struct{}
 // Adaptive Heun method, can be used as solver.Step
 func (_ *secondHeun) Step() {
 	fmt.Println("#########################")
+	fmt.Println("This is fred, over")
+
 	fmt.Println("#########################")
 
 	//Set variables of the two first order differential equations:
@@ -22,6 +24,7 @@ func (_ *secondHeun) Step() {
 	//First derivative of displacement
 	udot := DU.Buffer()
 	udot2 := DU.Buffer()
+	fmt.Println("This is fred, 22222")
 
 	if FixDt != 0 {
 		Dt_si = FixDt
@@ -30,11 +33,14 @@ func (_ *secondHeun) Step() {
 	dt := float32(Dt_si)
 	util.Assert(dt > 0)
 
+	fmt.Println("This is fred, 33333")
+
 	//Set right part of the two first order differential equations:
 	//Second derivative of displacement = f(t) = dudot0
 	dudot0 := cuda.Buffer(VECTOR, y.Size())
 	defer cuda.Recycle(dudot0)
 	calcSecondDerivDisp(dudot0)
+	fmt.Println("This is fred, 444444")
 	//First derivative of displacement = g(t) = udot0
 	//udot0 := udot
 	fmt.Println("average dudot0 = ", sAverageUniverse(dudot0))

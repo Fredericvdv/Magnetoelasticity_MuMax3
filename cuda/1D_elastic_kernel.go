@@ -2,6 +2,8 @@
 package cuda
 
 import (
+	"fmt"
+
 	"github.com/mumax/3/data"
 )
 
@@ -15,6 +17,7 @@ func SecondDerivative(dst, u *data.Slice, mesh *data.Mesh, c1, c2, c3 MSlice) {
 	//cfg = structuur van blocks and grids om de cuda te laten lopen
 	cfg := make3DConf(N)
 	pbc := mesh.PBC_code()
+	fmt.Println("This is fred, 3.8")
 	//DevPtr --> geeft specifieke adres van de pointer
 	k_SecondDerivative_async(dst.DevPtr(X), dst.DevPtr(Y), dst.DevPtr(Z),
 		u.DevPtr(X), u.DevPtr(Y), u.DevPtr(Z), N[X], N[Y], N[Z], wx, wy, wz,

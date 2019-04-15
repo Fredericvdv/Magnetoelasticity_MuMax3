@@ -3,6 +3,7 @@ package engine
 import (
 	"github.com/mumax/3/cuda"
 	"github.com/mumax/3/data"
+	"fmt"
 )
 
 //Als deze variabele opgeropen wordt in het Mumax script, dan wordt de functie calcSecondDerivMag uitgevoerd
@@ -16,6 +17,7 @@ var (
 
 func calcSecondDerivDisp(dst *data.Slice) {
 	SecondDerivative(dst, U, C1, C2, C3)
+	fmt.Println("This is fred, 3.5")
 }
 
 //regelmatig make runnen = compilen van wat je nu hebt op je branch
@@ -34,6 +36,7 @@ func SecondDerivative(dst *data.Slice, u displacement, C1, C2, C3 *RegionwiseSca
 
 		c3 := C3.MSlice()
 		defer c3.Recycle()
+		fmt.Println("This is fred, 3.6")
 		cuda.SecondDerivative(dst, u.Buffer(), U.Mesh(), c1, c2, c3)
 	}
 }

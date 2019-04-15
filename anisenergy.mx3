@@ -1,0 +1,10 @@
+/*
+	Test conservation of energy with anisotropy.
+*/
+
+SetGridSize(10, 1, 1)
+SetCellSize(4e-9, 4e-9, 4e-9)
+u = Blochskyrmion(1,1)
+setSolver(7)
+C3=2e7
+Steps(1)
