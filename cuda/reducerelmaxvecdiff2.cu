@@ -1,16 +1,46 @@
-#include "reduce.h"
-#include "atomicf.h"
+#include <stdint.h>
 #include "float3.h"
+#include "stencil.h"
+#include "amul.h"
+#include "stdio.h"
 
-#define load_vecdiff2(i)  \
-	pow2((x1[i] - x2[i])/(x1[i]*x1[i]+y1[i]*y1[i]+z1[i]*z1[i])) + \
-	pow2((y1[i] - y2[i])/(x1[i]*x1[i]+y1[i]*y1[i]+z1[i]*z1[i])) + \
-	pow2((z1[i] - z2[i])/(x1[i]*x1[i]+y1[i]*y1[i]+z1[i]*z1[i]))   \
+
 
 extern "C" __global__ void
-reducerelmaxvecdiff2(float* __restrict__ x1, float* __restrict__ y1, float* __restrict__ z1,
+RelMaxVecDiff(float* out, float* __restrict__ x1, float* __restrict__ y1, float* __restrict__ z1,
                   float* __restrict__ x2, float* __restrict__ y2, float* __restrict__ z2,
-                  float* __restrict__ dst, float initVal, int n) {
-    reduce(load_vecdiff2, fmax, atomicFmaxabs)
+                  int Nx, int Ny, int Nz) {
+    //positie van cell waar we in aan het kijkken zijn is: ix,iy,iz
+    int ix = blockIdx.x * blockDim.x + threadIdx.x;
+    int iy = blockIdx.y * blockDim.y + threadIdx.y;
+    int iz = blockIdx.z * blockDim.z + threadIdx.z;
+
+    //if cell position is out of mesh --> do nothing
+    if (ix >= Nx || iy >= Ny || iz >= Nz) {
+        return ;
+    }
+
+    int I = idx(ix, iy, iz);
+
+    if (x1[I] == 0) {
+        out[I] = 0.0;
+    } else {
+        out[I] = pow2((x1[I] - x2[I])/x1[I]);
+    }
+
+    if (y1[I] == 0) {
+        out[I] += 0.0;
+    } else {
+        out[I] += pow2((y1[I] - y2[I])/y1[I]);
+    }
+
+    if (z1[I] == 0) {
+        out[I] += 0.0;
+    } else {
+        out[I] += pow2((z1[I] - z2[I])/z1[I]);
+    }
+
+    
+    out[I] = 5.0;
 }
 

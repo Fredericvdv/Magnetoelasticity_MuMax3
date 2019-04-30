@@ -14,17 +14,19 @@ type secondHeun struct{}
 // Adaptive Heun method, can be used as solver.Step
 func (_ *secondHeun) Step() {
 	fmt.Println("#########################")
-	fmt.Println("This is fred, over")
-
+	fmt.Println("Start of solver")
 	fmt.Println("#########################")
 
 	//Set variables of the two first order differential equations:
 	//displacement
 	y := U.Buffer()
-	//First derivative of displacement
+	fmt.Println("Max vector norm y:",cuda.MaxVecNorm(y))
+
+	//First derivative of displacement = g(t) = udot
 	udot := DU.Buffer()
 	udot2 := DU.Buffer()
-	fmt.Println("This is fred, 22222")
+	fmt.Println("Max vector norm udot:",cuda.MaxVecNorm(udot))
+
 
 	if FixDt != 0 {
 		Dt_si = FixDt
@@ -33,19 +35,14 @@ func (_ *secondHeun) Step() {
 	dt := float32(Dt_si)
 	util.Assert(dt > 0)
 
-	fmt.Println("This is fred, 33333")
 
 	//Set right part of the two first order differential equations:
 	//Second derivative of displacement = f(t) = dudot0
 	dudot0 := cuda.Buffer(VECTOR, y.Size())
 	defer cuda.Recycle(dudot0)
 	calcSecondDerivDisp(dudot0)
-	fmt.Println("This is fred, 444444")
-	//First derivative of displacement = g(t) = udot0
-	//udot0 := udot
-	fmt.Println("average dudot0 = ", sAverageUniverse(dudot0))
-	fmt.Println("average y = ", sAverageUniverse(y))
-	fmt.Println("average udot = ", sAverageUniverse(udot))
+
+	fmt.Println("Max dudot0", cuda.MaxVecNorm(dudot0))
 
 	//Stage 1:
 	//y1(t+dt) = y(t) + dt*g(t)
@@ -53,7 +50,6 @@ func (_ *secondHeun) Step() {
 	//g1(t+dt) = g(t) + dt*f(t)
 	cuda.Madd2(udot, udot, dudot0, 1, dt)
 	//Now, udot = g1(t+dt)
-
 	Time += Dt_si
 
 	// Stage 2:
@@ -61,10 +57,14 @@ func (_ *secondHeun) Step() {
 	dudot := cuda.Buffer(3, y.Size())
 	defer cuda.Recycle(dudot)
 	calcSecondDerivDisp(dudot)
+	fmt.Println("Max vector norm dudot:",cuda.MaxVecNorm(dudot))
+
+	fmt.Println("Max vector diff dudot & dudot0:",cuda.MaxVecDiff(dudot, dudot0))
 
 	err := cuda.RelMaxVecDiff(dudot, dudot0) * float64(dt)
 	err2 := cuda.RelMaxVecDiff(udot, udot2) * float64(dt)
 	fmt.Println("err = ", err)
+	fmt.Println("err2 = ", err2)
 	fmt.Println("MaxErr = ", MaxErr)
 	fmt.Println("dt = ", Dt_si)
 
