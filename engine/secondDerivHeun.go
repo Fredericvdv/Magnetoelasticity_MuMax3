@@ -93,7 +93,6 @@ func (_ *secondHeun) Step() {
 			setLastErr(err2)
 		}
 
-
 		setMaxTorque(dudot)
 	} else {
 		// undo bad step
