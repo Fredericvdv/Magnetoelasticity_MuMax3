@@ -5,52 +5,52 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for RelMaxVecDiff kernel
 var RelMaxVecDiff_code cu.Function
 
 // Stores the arguments for RelMaxVecDiff kernel invocation
-type RelMaxVecDiff_args_t struct{
-	 arg_out unsafe.Pointer
-	 arg_x1 unsafe.Pointer
-	 arg_y1 unsafe.Pointer
-	 arg_z1 unsafe.Pointer
-	 arg_x2 unsafe.Pointer
-	 arg_y2 unsafe.Pointer
-	 arg_z2 unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 argptr [10]unsafe.Pointer
+type RelMaxVecDiff_args_t struct {
+	arg_out unsafe.Pointer
+	arg_x1  unsafe.Pointer
+	arg_y1  unsafe.Pointer
+	arg_z1  unsafe.Pointer
+	arg_x2  unsafe.Pointer
+	arg_y2  unsafe.Pointer
+	arg_z2  unsafe.Pointer
+	arg_Nx  int
+	arg_Ny  int
+	arg_Nz  int
+	argptr  [10]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for RelMaxVecDiff kernel invocation
 var RelMaxVecDiff_args RelMaxVecDiff_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 RelMaxVecDiff_args.argptr[0] = unsafe.Pointer(&RelMaxVecDiff_args.arg_out)
-	 RelMaxVecDiff_args.argptr[1] = unsafe.Pointer(&RelMaxVecDiff_args.arg_x1)
-	 RelMaxVecDiff_args.argptr[2] = unsafe.Pointer(&RelMaxVecDiff_args.arg_y1)
-	 RelMaxVecDiff_args.argptr[3] = unsafe.Pointer(&RelMaxVecDiff_args.arg_z1)
-	 RelMaxVecDiff_args.argptr[4] = unsafe.Pointer(&RelMaxVecDiff_args.arg_x2)
-	 RelMaxVecDiff_args.argptr[5] = unsafe.Pointer(&RelMaxVecDiff_args.arg_y2)
-	 RelMaxVecDiff_args.argptr[6] = unsafe.Pointer(&RelMaxVecDiff_args.arg_z2)
-	 RelMaxVecDiff_args.argptr[7] = unsafe.Pointer(&RelMaxVecDiff_args.arg_Nx)
-	 RelMaxVecDiff_args.argptr[8] = unsafe.Pointer(&RelMaxVecDiff_args.arg_Ny)
-	 RelMaxVecDiff_args.argptr[9] = unsafe.Pointer(&RelMaxVecDiff_args.arg_Nz)
-	 }
+	RelMaxVecDiff_args.argptr[0] = unsafe.Pointer(&RelMaxVecDiff_args.arg_out)
+	RelMaxVecDiff_args.argptr[1] = unsafe.Pointer(&RelMaxVecDiff_args.arg_x1)
+	RelMaxVecDiff_args.argptr[2] = unsafe.Pointer(&RelMaxVecDiff_args.arg_y1)
+	RelMaxVecDiff_args.argptr[3] = unsafe.Pointer(&RelMaxVecDiff_args.arg_z1)
+	RelMaxVecDiff_args.argptr[4] = unsafe.Pointer(&RelMaxVecDiff_args.arg_x2)
+	RelMaxVecDiff_args.argptr[5] = unsafe.Pointer(&RelMaxVecDiff_args.arg_y2)
+	RelMaxVecDiff_args.argptr[6] = unsafe.Pointer(&RelMaxVecDiff_args.arg_z2)
+	RelMaxVecDiff_args.argptr[7] = unsafe.Pointer(&RelMaxVecDiff_args.arg_Nx)
+	RelMaxVecDiff_args.argptr[8] = unsafe.Pointer(&RelMaxVecDiff_args.arg_Ny)
+	RelMaxVecDiff_args.argptr[9] = unsafe.Pointer(&RelMaxVecDiff_args.arg_Nz)
+}
 
 // Wrapper for RelMaxVecDiff CUDA kernel, asynchronous.
-func k_RelMaxVecDiff_async ( out unsafe.Pointer, x1 unsafe.Pointer, y1 unsafe.Pointer, z1 unsafe.Pointer, x2 unsafe.Pointer, y2 unsafe.Pointer, z2 unsafe.Pointer, Nx int, Ny int, Nz int,  cfg *config) {
-	if Synchronous{ // debug
+func k_RelMaxVecDiff_async(out unsafe.Pointer, x1 unsafe.Pointer, y1 unsafe.Pointer, z1 unsafe.Pointer, x2 unsafe.Pointer, y2 unsafe.Pointer, z2 unsafe.Pointer, Nx int, Ny int, Nz int, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("RelMaxVecDiff")
 	}
@@ -58,47 +58,46 @@ func k_RelMaxVecDiff_async ( out unsafe.Pointer, x1 unsafe.Pointer, y1 unsafe.Po
 	RelMaxVecDiff_args.Lock()
 	defer RelMaxVecDiff_args.Unlock()
 
-	if RelMaxVecDiff_code == 0{
+	if RelMaxVecDiff_code == 0 {
 		RelMaxVecDiff_code = fatbinLoad(RelMaxVecDiff_map, "RelMaxVecDiff")
 	}
 
-	 RelMaxVecDiff_args.arg_out = out
-	 RelMaxVecDiff_args.arg_x1 = x1
-	 RelMaxVecDiff_args.arg_y1 = y1
-	 RelMaxVecDiff_args.arg_z1 = z1
-	 RelMaxVecDiff_args.arg_x2 = x2
-	 RelMaxVecDiff_args.arg_y2 = y2
-	 RelMaxVecDiff_args.arg_z2 = z2
-	 RelMaxVecDiff_args.arg_Nx = Nx
-	 RelMaxVecDiff_args.arg_Ny = Ny
-	 RelMaxVecDiff_args.arg_Nz = Nz
-	
+	RelMaxVecDiff_args.arg_out = out
+	RelMaxVecDiff_args.arg_x1 = x1
+	RelMaxVecDiff_args.arg_y1 = y1
+	RelMaxVecDiff_args.arg_z1 = z1
+	RelMaxVecDiff_args.arg_x2 = x2
+	RelMaxVecDiff_args.arg_y2 = y2
+	RelMaxVecDiff_args.arg_z2 = z2
+	RelMaxVecDiff_args.arg_Nx = Nx
+	RelMaxVecDiff_args.arg_Ny = Ny
+	RelMaxVecDiff_args.arg_Nz = Nz
 
 	args := RelMaxVecDiff_args.argptr[:]
 	cu.LaunchKernel(RelMaxVecDiff_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("RelMaxVecDiff")
 	}
 }
 
 // maps compute capability on PTX code for RelMaxVecDiff kernel.
-var RelMaxVecDiff_map = map[int]string{ 0: "" ,
-30: RelMaxVecDiff_ptx_30 ,
-35: RelMaxVecDiff_ptx_35 ,
-37: RelMaxVecDiff_ptx_37 ,
-50: RelMaxVecDiff_ptx_50 ,
-52: RelMaxVecDiff_ptx_52 ,
-53: RelMaxVecDiff_ptx_53 ,
-60: RelMaxVecDiff_ptx_60 ,
-61: RelMaxVecDiff_ptx_61 ,
-70: RelMaxVecDiff_ptx_70 ,
-75: RelMaxVecDiff_ptx_75  }
+var RelMaxVecDiff_map = map[int]string{0: "",
+	30: RelMaxVecDiff_ptx_30,
+	35: RelMaxVecDiff_ptx_35,
+	37: RelMaxVecDiff_ptx_37,
+	50: RelMaxVecDiff_ptx_50,
+	52: RelMaxVecDiff_ptx_52,
+	53: RelMaxVecDiff_ptx_53,
+	60: RelMaxVecDiff_ptx_60,
+	61: RelMaxVecDiff_ptx_61,
+	70: RelMaxVecDiff_ptx_70,
+	75: RelMaxVecDiff_ptx_75}
 
 // RelMaxVecDiff PTX code for various compute capabilities.
-const(
-  RelMaxVecDiff_ptx_30 = `
+const (
+	RelMaxVecDiff_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -160,7 +159,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_35 = `
+	RelMaxVecDiff_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -222,7 +221,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_37 = `
+	RelMaxVecDiff_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -284,7 +283,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_50 = `
+	RelMaxVecDiff_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -346,7 +345,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_52 = `
+	RelMaxVecDiff_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -408,7 +407,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_53 = `
+	RelMaxVecDiff_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -470,7 +469,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_60 = `
+	RelMaxVecDiff_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -532,7 +531,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_61 = `
+	RelMaxVecDiff_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -594,7 +593,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_70 = `
+	RelMaxVecDiff_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -656,7 +655,7 @@ BB0_2:
 
 
 `
-   RelMaxVecDiff_ptx_75 = `
+	RelMaxVecDiff_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -718,4 +717,4 @@ BB0_2:
 
 
 `
- )
+)
