@@ -1,10 +1,11 @@
 package engine
 
 import (
+	"reflect"
+
 	"github.com/mumax/3/cuda"
 	"github.com/mumax/3/data"
 	"github.com/mumax/3/util"
-	"reflect"
 )
 
 var U displacement // displacement [m]
@@ -130,9 +131,9 @@ func (u *displacement) SetRegion(region int, conf Config) {
 				x, y, z := pos[X], pos[Y], pos[Z]
 				if regionsArr[iz][iy][ix] == r {
 					u := conf(x, y, z)
-					h[X][iz][iy][ix] = float32(u[X])
-					h[Y][iz][iy][ix] = float32(u[Y])
-					h[Z][iz][iy][ix] = float32(u[Z])
+					h[X][iz][iy][ix] = float32(u[X] * 1e-13)
+					h[Y][iz][iy][ix] = float32(u[Y] * 1e-13)
+					h[Z][iz][iy][ix] = float32(u[Z] * 1e-13)
 				}
 			}
 		}
