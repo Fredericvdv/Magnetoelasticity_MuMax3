@@ -70,22 +70,20 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
     else {
         //Only neighbour to the right
         if (ix-1<0) {
-            printf("left neighbour");
             I_ = idx(ix+1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
             c1_ = amul(C1_, C1_mul, I_);
             d_.x = 0.5*wx*wx*c1_*(u_.x-u0.x);
+            //printf("Position = %d and dudot = %f \n", ix, d_.x);
         //Only neighbour to the left
         } else if (ix+1>=Nx) {
-            printf("right neighbour");
             I_ = idx(ix-1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
             c1_ = amul(C1_, C1_mul, I_);
             d_.x = 0.5*wx*wx*c1_*(u_.x-u0.x);
+           // printf("Position = %d and dudot = %f \n", ix, d_.x);
         //Neighbours on both sides
         } else {
-            printf("NO neighbour");
-
             I_ = idx(ix+1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
             c1_ = amul(C1_, C1_mul, I_);
@@ -94,10 +92,12 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
             I_ = idx(ix-1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
             c1_ = amul(C1_, C1_mul, I_);
-            d_.x += 0.5*wx*wx*c1_*(u_.x-u0.x) ;   
+            d_.x += 0.5*wx*wx*c1_*(u_.x-u0.x) ; 
+           //printf("Position = %d and dudot = %f \n", ix, d_.x);
+
         }
     }
-    dux[I] += d_.x ;
+    dux[I] = d_.x ;
     duy[I] = 0.0 ;
     duz[I] = 0.0 ;
 

@@ -6,7 +6,6 @@ package cu
 import "C"
 
 import (
-	"fmt"
 	"unsafe"
 )
 
@@ -24,9 +23,6 @@ func LaunchKernel(f Function, gridDimX, gridDimY, gridDimZ int, blockDimX, block
 		*((*unsafe.Pointer)(offset(argp, i))) = offset(argv, i)       // argp[i] = &argv[i]
 		*((*uint64)(offset(argv, i))) = *((*uint64)(kernelParams[i])) // argv[i] = *kernelParams[i]
 	}
-
-	fmt.Println("sharedMemBytes:")
-	fmt.Println(sharedMemBytes)
 
 	err := Result(C.cuLaunchKernel(
 		C.CUfunction(unsafe.Pointer(uintptr(f))),
