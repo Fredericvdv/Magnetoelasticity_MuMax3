@@ -87,7 +87,8 @@ func (_ *secondHeun) Step() {
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - g(t)]
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - (g1(t+dt)-dt*f(t))]
 		// y(t+dt) = y1(t+dt) + 0.5*dt*dt*f(t)
-		cuda.Madd2(y, y, dudot0, 1, 0.5*dt*dt)
+		cuda.Madd2(y, y, dudot0, 1, dt*dt)
+
 		// First derivtion of displacement = g(t+dt)= next udot
 		// g(t+dt) = g(t) + 0.5*dt*[f(t+dt) + f(t)]
 		// g(t+dt) = g1(t+dt) + 0.5*dt*[f(t+dt) - f(t)]

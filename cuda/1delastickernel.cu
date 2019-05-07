@@ -37,18 +37,18 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
     // Central cell
     int I = idx(ix, iy, iz);
     float3 u0 = make_float3(ux[I], uy[I], uz[I]);
-    float  c1 = amul(C1_, C1_mul, I);
-    float  c2 = amul(C2_, C2_mul, I);
-    float  c3 = amul(C3_, C3_mul, I);
+    //float  c1 = amul(C1_, C1_mul, I);
+    //float  c2 = amul(C2_, C2_mul, I);
+    //float  c3 = amul(C3_, C3_mul, I);
     //uint8_t r0 = regions[I];
     
     //initialize derivatives
     //Higher neighbor
     int I_ = idx(ix, iy, iz);
     float3 u_ = make_float3(0.0,0.0,0.0);
-    float  c1_ = 0.0;
-    float  c2_ = 0.0;
-    float  c3_ = 0.0;
+    //float  c1_ = 0.0;
+    //float  c2_ = 0.0;
+    //float  c3_ = 0.0;
 
     //float veri = 1.0e20;
 
@@ -58,12 +58,13 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
 
     float3 d_ = make_float3(0.0,0.0,0.0);
 
-    //float3 d2 =make_float3(0.0,0.0,0.0);
+    float3 d2 =make_float3(0.0,0.0,0.0);
 
 
     //###############################################
     //###############################################
     //###############################################
+    cc = make_float3(amul(C1_, C1_mul, I),amul(C3_, C3_mul, I),amul(C3_, C3_mul, I));
     if (ix-1<0 && ix+1>=Nx) {
         d_ = make_float3(0.0,0.0,0.0);
     }
@@ -72,34 +73,34 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
         if (ix-1<0) {
             I_ = idx(ix+1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            c1_ = amul(C1_, C1_mul, I_);
-            d_.x = 0.5*wx*wx*c1_*(u_.x-u0.x);
+            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+            d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
             //printf("Position = %d and dudot = %f \n", ix, d_.x);
         //Only neighbour to the left
         } else if (ix+1>=Nx) {
             I_ = idx(ix-1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            c1_ = amul(C1_, C1_mul, I_);
-            d_.x = 0.5*wx*wx*c1_*(u_.x-u0.x);
+            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+            d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
            // printf("Position = %d and dudot = %f \n", ix, d_.x);
         //Neighbours on both sides
         } else {
             I_ = idx(ix+1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            c1_ = amul(C1_, C1_mul, I_);
-            d_.x = 0.5*wx*wx*c1_*(u_.x-u0.x);
+            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+            d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
 
             I_ = idx(ix-1, iy, iz);
             u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            c1_ = amul(C1_, C1_mul, I_);
-            d_.x += 0.5*wx*wx*c1_*(u_.x-u0.x) ; 
+            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));        
+            d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0)) ; 
            //printf("Position = %d and dudot = %f \n", ix, d_.x);
 
         }
     }
     dux[I] = d_.x ;
-    duy[I] = 0.0 ;
-    duz[I] = 0.0 ;
+    duy[I] = d_.y ;
+    duz[I] = d_.z ;
 
     //###############################################
     //###############################################
