@@ -60,6 +60,9 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
 
     float3 d2 =make_float3(0.0,0.0,0.0);
 
+    dux[I] = 0.0 ;
+    duy[I] = 0.0 ;
+    duz[I] = 0.0 ;
 
     //###############################################
     //###############################################
@@ -82,302 +85,218 @@ SecondDerivative(float* __restrict__ dux, float* __restrict__ duy, float* __rest
         d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0));
     }
     
-    dux[I] = d_.x ;
-    duy[I] = 0.0 ;
-    duz[I] = 0.0 ;
+    dux[I] += d_.x ;
+    duy[I] += d_.y ;
+    duz[I] += d_.z ;
 
 
-    // //dyy
-    // d_ = make_float3(0.0,0.0,0.0);
-    // cc = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
-    // //If there is a right neighbor
-    // if (iy < Ny-1) {
-    //     I_ = idx(ix, iy+1, iz);
-    //     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //     cc = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
-    //     d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    // } 
-    // //If there is left neighbour
-    // if (iy > 0) {
-    //     I_ = idx(ix, iy-1, iz);
-    //     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //     cc = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
-    //     d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    // }
+    //dyy
+    d_ = make_float3(0.0,0.0,0.0);
+    cc = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
+    //If there is a right neighbor
+    if (iy < Ny-1) {
+        I_ = idx(ix, iy+1, iz);
+        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
+        d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
+    } 
+    //If there is left neighbour
+    if (iy > 0) {
+        I_ = idx(ix, iy-1, iz);
+        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
+        d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0));
+    }
     
-    // //dux[I] = d_.x ;
-    // duy[I] += d_.y ;
-    // //duz[I] = 0.0 ;
+    dux[I] += d_.x ;
+    duy[I] += d_.y ;
+    duz[I] += d_.z ;
 
 
     //dzz
-    // d_ = make_float3(0.0,0.0,0.0);
-    // cc = make_float3(amul(C3_, C3_mul, I),amul(C3_, C3_mul, I),amul(C1_, C1_mul, I));
-    // //If there is a right neighbor
-    // if (iz < Nz-1) {
-    //     I_ = idx(ix, iy, iz+1);
-    //     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //     cc = make_float3(amul(C3_, C3_mul, I),amul(C3_, C3_mul, I),amul(C1_, C1_mul, I));
-    //     d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
-    // } 
-    // //If there is left neighbour
-    // if (iz > 0) {
-    //     I_ = idx(ix, iy, iz-1);
-    //     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //     cc = make_float3(amul(C3_, C3_mul, I),amul(C3_, C3_mul, I),amul(C1_, C1_mul, I));
-    //     d_ += 0.5*wz*wz*had((cc+cc_),(u_-u0));
-    // }
+    d_ = make_float3(0.0,0.0,0.0);
+    cc = make_float3(amul(C3_, C3_mul, I),amul(C3_, C3_mul, I),amul(C1_, C1_mul, I));
+    //If there is a right neighbor
+    if (iz < Nz-1) {
+        I_ = idx(ix, iy, iz+1);
+        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
+        d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
+    } 
+    //If there is left neighbour
+    if (iz > 0) {
+        I_ = idx(ix, iy, iz-1);
+        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
+        d_ += 0.5*wz*wz*had((cc+cc_),(u_-u0));
+    }
     
-    //dux[I] = d_.x ;
-    //duy[I] += d_.y ;
-    //duz[I] = 0.0 ;
-    
-    
+    dux[I] += d_.x ;
+    duy[I] += d_.y ;
+    duz[I] += d_.z ;
     
     
     
-    
-    
-    
-    // if (ix-1<0 && ix+1>=Nx) {
-    //     d_ = make_float3(0.0,0.0,0.0);
-    // }
-    // else {
-    //     //Only neighbour to the right
-    //     if (ix-1<0) {
-    //         I_ = idx(ix+1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
-    //     //Only neighbour to the left
-    //     } else if (ix+1>=Nx) {
-    //         I_ = idx(ix-1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
-    //     //Neighbours on both sides
-    //     } else {
-    //         I_ = idx(ix+1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
+    //dxy
+    d_ = make_float3(0.0,0.0,0.0);
+    cc = make_float3(amul(C3_, C3_mul, I),amul(C2_, C2_mul, I),0);    
+    //If there is a neighbor to the right
+    if (ix < Nx-1) {
+        I_ = idx(ix+1, iy, iz);
+        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_), 0.0);
+        //If there is neighbour above
+        if (iy < Ny-1) {
+            //Calculate change in y-direction at postion ix+1 = d1
+            //0.5*wy*(FWD + BWD) with BWD=0
+            I_ = idx(ix+1, iy+1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix+1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc_,d2-u_); 
+            
+            //Calculate change in y-direction at postion ix = d2 
+            //rectangular mesh: if (ix+1,iy) and (ix,iy+1) are present, then (ix+1,iy+1) is also present
+            I_ = idx(ix, iy+1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc,u_-u0);
+        }
+        //If there is neighbour below
+        if (iy > 0) {
+            //Calculate change in y-direction at postion ix+1 = d1
+            //0.5*wy*(FWD + BWD) with BWD=0
+            I_ = idx(ix+1, iy-1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix+1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc_,u_-d2); 
+            
+            //Calculate change in y-direction at postion ix = d2 
+            I_ = idx(ix, iy-1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc,u0-u_);
+        }
+    }
+    //If there is left neighbour
+    if (ix > 0) {
+        I_ = idx(ix-1, iy, iz);
+        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_), 0.0);
+        //If there is neighbour above
+        if (iy < Ny-1) {
+            //Calculate change in y-direction at postion ix-1 = d1
+            //0.5*wy*(FWD + BWD) with BWD=0
+            I_ = idx(ix-1, iy+1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix-1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc_,d2-u_); 
+            
+            //Calculate change in y-direction at postion ix = d2 
+            //rectangular mesh: if (ix+1,iy) and (ix,iy+1) are present, then (ix+1,iy+1) is also present
+            I_ = idx(ix, iy+1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc,u_-u0);
+        }
+        //If there is neighbour below
+        if (iy > 0) {
+            //Calculate change in y-direction at postion ix+1 = d1
+            //0.5*wy*(FWD + BWD) with BWD=0
+            I_ = idx(ix-1, iy-1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix-1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc_,u_-d2); 
+            
+            //Calculate change in y-direction at postion ix = d2 
+            I_ = idx(ix, iy-1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc,u0-u_);
+        }
+    }
 
-    //         I_ = idx(ix-1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));        
-    //         d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0)) ; 
-    //     }
-    // }
-    // dux[I] = d_.x ;
-    // //duy[I] = d_.y ;
-    // //duz[I] = d_.z ;
-
-    // cc = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
-    // if (iy-1<0 && iy+1>=Nx) {
-    //     d_ = make_float3(0.0,0.0,0.0);
-    // }
-    // else {
-    //     //Only neighbour to the right
-    //     if (iy-1<0) {
-    //         I_ = idx(ix, iy+1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    //     //Only neighbour to the left
-    //     } else if (iy+1>=Ny) {
-    //         I_ = idx(ix, iy-1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    //     //Neighbours on both sides
-    //     } else {
-    //         I_ = idx(ix, iy+1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-
-    //         I_ = idx(ix, iy-1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_), amul(C3_, C3_mul, I_));
-    //         d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0)) ; 
-    //     }
-    // }
-    // //dux[I] = d_.x ;
-    // duy[I] = d_.y ;
-    // //duz[I] = d_.z ;
-
-    //###############################################
-    //###############################################
-    //###############################################
-
-
-
-
-    //////////////////////////////////////////
-    // //Calculate derivatives
-    // //dxx
-    // //if there are no neighbours: keep the second deriative to zero = do nothing
-    // if (ix-1<0 && ix+1>=Nx) {
-    //     d_ = make_float3(0.0,0.0,0.0);
-    // }
-    // else {
-    //     //Only neighbour to the right
-    //     if (ix-1<0) {
-    //         printf("left neighbour");
-    //         I_ = idx(ix+1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
-    //     //Only neighbour to the left
-    //     } else if (ix+1>=Nx) {
-    //         printf("right neighbour");
-    //         I_ = idx(ix-1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
-    //     //Neighbours on both sides
-    //     } else {
-    //         printf("NO neighbour");
-
-    //         I_ = idx(ix+1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
-
-    //         I_ = idx(ix-1, iy, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0)) ;   
-    //     }
-    // }
-
-    // if (d_.x >1.0e20) {
-    //     printf("dxx,x", d_.x);
-    //     printf("dxx,y", d_.y);
-    //     printf("dxx,z", d_.z);
-    //     printf("###############");
-    // }
+    //printf("dxy.y = %g", d_.y);
+    //printf("dxy.x = %g", d_.x);
+    dux[I] += d_.y ;
+    duy[I] += d_.x ;
+    duz[I] += 0.0 ;
 
 
-    //dux[I] += d_.x ;
-    //duy[I] += d_.y ;
-    //duz[I] += d_.z ;
+    //dyx
+    d_ = make_float3(0.0,0.0,0.0);
+    cc = make_float3(amul(C2_, C2_mul, I),amul(C3_, C3_mul, I),0);    
+    //If there is a neighbor to the right
+    if (iy < Ny-1) {
+        I_ = idx(ix, iy+1, iz);
+        cc_ = make_float3(amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_), 0.0);
+        //If there is neighbour above
+        if (ix < Nx-1) {
+            I_ = idx(ix+1, iy+1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix, iy+1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc_,d2-u_); 
+            
+            I_ = idx(ix+1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc,u_-u0);
+        }
+        //If there is neighbour below
+        if (ix > 0) {
+            I_ = idx(ix-1, iy+1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix, iy+1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc_,u_-d2); 
+            
+            I_ = idx(ix-1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc,u0-u_);
+        }
+    }
+    //If there is left neighbour
+    if (iy > 0) {
+        I_ = idx(ix, iy-1, iz);
+        cc_ = make_float3(amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_), 0.0);
+        //If there is neighbour above
+        if (ix < Nx-1) {
+            I_ = idx(ix+1, iy-1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix, iy-1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc_,d2-u_); 
+            
+            I_ = idx(ix+1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc,u_-u0);
+        }
+        //If there is neighbour below
+        if (ix > 0) {
+            I_ = idx(ix-1, iy-1, iz);
+            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+            I_ = idx(ix, iy-1, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ -= 0.5*wx*0.5*wy*had(cc_,u_-d2); 
+            
+            I_ = idx(ix-1, iy, iz);
+            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+            d_ += 0.5*wx*0.5*wy*had(cc,u0-u_);
+        }
+    }
 
-    // //dyy
-    // cc = make_float3(c3,c1,c3);
-    // if (iy-1<0 && iy+1>=Ny) {
-    //     d_ = make_float3(0.0,0.0,0.0);
-    // }
-    // else {
-    //     if (iy-1<0) {
-    //         I_ = idx(ix, iy+1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    //     } else if (iy+1>=Ny) {
-    //         I_ = idx(ix, iy-1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    //     } else {
-    //         I_ = idx(ix, iy+1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-
-    //         I_ = idx(ix, iy-1, iz);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0));
-    //     }
-    // }
-    // // if (d_.x >veri || d_.y >veri ||d_.z >veri) {
-    // //     printf("dyy,x", d_.x);
-    // //     printf("dyy,y", d_.y);
-    // //     printf("dyy,z", d_.z);
-    // //     printf("###############");
-    // // }
+    dux[I] += d_.y ;
+    duy[I] += d_.x ;
+    duz[I] += 0.0 ;
 
 
-    // dux[I] += d_.x ;
-    // duy[I] += d_.y ;
-    // duz[I] += d_.z ;
 
-    // //dzz
-    // cc = make_float3(c3,c3,c1);
-    // if (iz-1<0 && iz+1>=Nz) {
-    //     d_ = make_float3(0.0,0.0,0.0);
-    // }
-    // else {
-    //     if (iz-1<0) {
-    //         I_ = idx(ix, iy, iz+1);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
-    //     } else if (iz+1>=Nz) {
-    //         I_ = idx(ix, iy, iz-1);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
-    //     } else {
-    //         I_ = idx(ix, iy, iz+1);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
 
-    //         I_ = idx(ix, iy, iz-1);
-    //         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-    //         c1_ = amul(C1_, C1_mul, I_);
-    //         c2_ = amul(C2_, C2_mul, I_);
-    //         c3_ = amul(C3_, C3_mul, I_);
-    //         cc_ = make_float3(c1_,c3_,c3_);
-    //         d_ += 0.5*wz*wz*had((cc+cc_),(u_-u0));
-    //     }
-    // }
 
-    // // if (d_.x >veri || d_.y >veri ||d_.z >veri) {
-    // //     printf("dyy,x", d_.x);
-    // //     printf("dyy,y", d_.y);
-    // //     printf("dyy,z", d_.z);
-    // //     printf("###############");
-    // // }
 
-    // dux[I] += d_.x ;
-    // duy[I] += d_.y ;
-    // duz[I] += d_.z ;
+
+
 
     
     // //dxy
-    // cc = make_float3(c3,c2,0);    
+    // cc = make_float3(amul(C3_, C3_mul, I),amul(C2_, C2_mul, I),0);    
     // //if there are no neighbours in x/y-direction: keep the second deriative to zero
     // if ((ix-1<0 && ix+1>=Nx) || (iy-1<0 && iy+1>=Ny)) {
     //     d_ = make_float3(0.0,0.0,0.0);
