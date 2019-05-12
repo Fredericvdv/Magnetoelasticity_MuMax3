@@ -154,969 +154,874 @@ const(
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<561>;
-	.reg .b32 	%r<848>;
+	.reg .pred 	%p<59>;
+	.reg .f32 	%f<504>;
+	.reg .b32 	%r<561>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<303>;
+	.reg .b64 	%rd<248>;
 
 
-	ld.param.u64 	%rd8, [SecondDerivative_param_0];
-	ld.param.u64 	%rd9, [SecondDerivative_param_1];
-	ld.param.u64 	%rd10, [SecondDerivative_param_2];
-	ld.param.u64 	%rd11, [SecondDerivative_param_3];
-	ld.param.u64 	%rd12, [SecondDerivative_param_4];
-	ld.param.u64 	%rd13, [SecondDerivative_param_5];
-	ld.param.u32 	%r7, [SecondDerivative_param_6];
-	ld.param.u32 	%r8, [SecondDerivative_param_7];
-	ld.param.u32 	%r9, [SecondDerivative_param_8];
-	ld.param.u64 	%rd14, [SecondDerivative_param_12];
-	ld.param.f32 	%f504, [SecondDerivative_param_13];
-	ld.param.f32 	%f555, [SecondDerivative_param_15];
-	ld.param.u64 	%rd16, [SecondDerivative_param_16];
-	ld.param.f32 	%f556, [SecondDerivative_param_17];
-	mov.u32 	%r10, %ntid.x;
-	mov.u32 	%r11, %ctaid.x;
-	mov.u32 	%r12, %tid.x;
-	mad.lo.s32 	%r1, %r10, %r11, %r12;
-	mov.u32 	%r13, %ntid.y;
-	mov.u32 	%r14, %ctaid.y;
-	mov.u32 	%r15, %tid.y;
-	mad.lo.s32 	%r2, %r13, %r14, %r15;
-	mov.u32 	%r16, %ntid.z;
-	mov.u32 	%r17, %ctaid.z;
-	mov.u32 	%r18, %tid.z;
-	mad.lo.s32 	%r3, %r16, %r17, %r18;
-	setp.ge.s32	%p1, %r2, %r8;
-	setp.ge.s32	%p2, %r1, %r7;
+	ld.param.u64 	%rd10, [SecondDerivative_param_0];
+	ld.param.u64 	%rd11, [SecondDerivative_param_1];
+	ld.param.u64 	%rd12, [SecondDerivative_param_2];
+	ld.param.u64 	%rd13, [SecondDerivative_param_3];
+	ld.param.u64 	%rd14, [SecondDerivative_param_4];
+	ld.param.u64 	%rd15, [SecondDerivative_param_5];
+	ld.param.u32 	%r8, [SecondDerivative_param_6];
+	ld.param.u32 	%r9, [SecondDerivative_param_7];
+	ld.param.u32 	%r10, [SecondDerivative_param_8];
+	ld.param.u64 	%rd16, [SecondDerivative_param_12];
+	ld.param.f32 	%f452, [SecondDerivative_param_13];
+	ld.param.f32 	%f498, [SecondDerivative_param_15];
+	ld.param.f32 	%f499, [SecondDerivative_param_17];
+	mov.u32 	%r11, %ntid.x;
+	mov.u32 	%r12, %ctaid.x;
+	mov.u32 	%r13, %tid.x;
+	mad.lo.s32 	%r1, %r11, %r12, %r13;
+	mov.u32 	%r14, %ntid.y;
+	mov.u32 	%r15, %ctaid.y;
+	mov.u32 	%r16, %tid.y;
+	mad.lo.s32 	%r2, %r14, %r15, %r16;
+	mov.u32 	%r17, %ntid.z;
+	mov.u32 	%r18, %ctaid.z;
+	mov.u32 	%r19, %tid.z;
+	mad.lo.s32 	%r3, %r17, %r18, %r19;
+	setp.ge.s32	%p1, %r2, %r9;
+	setp.ge.s32	%p2, %r1, %r8;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r9;
+	setp.ge.s32	%p4, %r3, %r10;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd17, %rd13;
-	cvta.to.global.u64 	%rd18, %rd12;
-	cvta.to.global.u64 	%rd19, %rd11;
-	cvta.to.global.u64 	%rd20, %rd8;
-	mad.lo.s32 	%r19, %r3, %r8, %r2;
-	mad.lo.s32 	%r20, %r19, %r7, %r1;
-	mul.wide.s32 	%rd21, %r20, 4;
-	add.s64 	%rd22, %rd19, %rd21;
-	ld.global.f32 	%f1, [%rd22];
-	add.s64 	%rd23, %rd18, %rd21;
-	ld.global.f32 	%f2, [%rd23];
-	add.s64 	%rd24, %rd17, %rd21;
-	ld.global.f32 	%f3, [%rd24];
-	add.s64 	%rd25, %rd20, %rd21;
+	cvta.to.global.u64 	%rd19, %rd16;
+	cvta.to.global.u64 	%rd20, %rd15;
+	cvta.to.global.u64 	%rd21, %rd14;
+	cvta.to.global.u64 	%rd22, %rd13;
+	cvta.to.global.u64 	%rd23, %rd10;
+	mad.lo.s32 	%r20, %r3, %r9, %r2;
+	mad.lo.s32 	%r4, %r20, %r8, %r1;
+	mul.wide.s32 	%rd24, %r4, 4;
+	add.s64 	%rd1, %rd22, %rd24;
+	ld.global.f32 	%f1, [%rd1];
+	add.s64 	%rd2, %rd21, %rd24;
+	ld.global.f32 	%f2, [%rd2];
+	add.s64 	%rd25, %rd20, %rd24;
+	ld.global.f32 	%f3, [%rd25];
+	add.s64 	%rd26, %rd23, %rd24;
 	mov.u32 	%r21, 0;
-	st.global.u32 	[%rd25], %r21;
-	cvta.to.global.u64 	%rd26, %rd9;
-	add.s64 	%rd27, %rd26, %rd21;
-	st.global.u32 	[%rd27], %r21;
-	cvta.to.global.u64 	%rd28, %rd10;
-	add.s64 	%rd29, %rd28, %rd21;
-	st.global.u32 	[%rd29], %r21;
-	setp.eq.s64	%p6, %rd14, 0;
-	mov.f32 	%f488, %f504;
+	st.global.u32 	[%rd26], %r21;
+	cvta.to.global.u64 	%rd27, %rd11;
+	add.s64 	%rd28, %rd27, %rd24;
+	st.global.u32 	[%rd28], %r21;
+	cvta.to.global.u64 	%rd29, %rd12;
+	add.s64 	%rd30, %rd29, %rd24;
+	st.global.u32 	[%rd30], %r21;
+	add.s64 	%rd3, %rd19, %rd24;
+	setp.eq.s64	%p6, %rd16, 0;
+	mov.f32 	%f441, %f452;
 	@%p6 bra 	BB0_3;
 
-	cvta.to.global.u64 	%rd30, %rd14;
-	add.s64 	%rd32, %rd30, %rd21;
-	ld.global.f32 	%f186, [%rd32];
-	mul.f32 	%f488, %f186, %f504;
+	ld.global.f32 	%f159, [%rd3];
+	mul.f32 	%f441, %f159, %f452;
 
 BB0_3:
-	setp.eq.s64	%p7, %rd16, 0;
-	mov.f32 	%f489, %f556;
+	ld.param.u64 	%rd223, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd4, %rd223;
+	setp.eq.s64	%p7, %rd223, 0;
+	mov.f32 	%f442, %f499;
 	@%p7 bra 	BB0_5;
 
-	cvta.to.global.u64 	%rd33, %rd16;
-	add.s64 	%rd35, %rd33, %rd21;
-	ld.global.f32 	%f187, [%rd35];
-	mul.f32 	%f489, %f187, %f556;
+	add.s64 	%rd32, %rd4, %rd24;
+	ld.global.f32 	%f160, [%rd32];
+	mul.f32 	%f442, %f160, %f499;
 
 BB0_5:
-	mov.f32 	%f490, %f556;
-	@%p7 bra 	BB0_7;
+	add.s32 	%r22, %r8, -1;
+	mov.f32 	%f445, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r22;
+	mov.f32 	%f446, %f445;
+	@%p8 bra 	BB0_11;
 
-	cvta.to.global.u64 	%rd36, %rd16;
-	add.s64 	%rd38, %rd36, %rd21;
-	ld.global.f32 	%f188, [%rd38];
-	mul.f32 	%f490, %f188, %f556;
+	ld.global.f32 	%f8, [%rd1+4];
+	ld.global.f32 	%f9, [%rd2+4];
+	mov.f32 	%f443, %f452;
+	@%p6 bra 	BB0_8;
 
-BB0_7:
-	ld.param.u32 	%r839, [SecondDerivative_param_6];
-	add.s32 	%r68, %r839, -1;
-	mov.f32 	%f494, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r68;
-	mov.f32 	%f495, %f494;
-	mov.f32 	%f496, %f494;
-	@%p9 bra 	BB0_15;
+	ld.global.f32 	%f163, [%rd3+4];
+	mul.f32 	%f443, %f163, %f452;
 
-	ld.global.f32 	%f10, [%rd22+4];
-	ld.global.f32 	%f11, [%rd23+4];
-	ld.global.f32 	%f12, [%rd24+4];
-	mov.f32 	%f491, %f504;
-	@%p6 bra 	BB0_10;
+BB0_8:
+	mov.f32 	%f444, %f499;
+	@%p7 bra 	BB0_10;
 
-	cvta.to.global.u64 	%rd46, %rd14;
-	add.s64 	%rd48, %rd46, %rd21;
-	ld.global.f32 	%f192, [%rd48+4];
-	mul.f32 	%f491, %f192, %f504;
+	add.s64 	%rd35, %rd4, %rd24;
+	ld.global.f32 	%f164, [%rd35+4];
+	mul.f32 	%f444, %f164, %f499;
 
 BB0_10:
-	mov.f32 	%f492, %f556;
-	@%p7 bra 	BB0_12;
-
-	cvta.to.global.u64 	%rd49, %rd16;
-	add.s64 	%rd51, %rd49, %rd21;
-	ld.global.f32 	%f193, [%rd51+4];
-	mul.f32 	%f492, %f193, %f556;
-
-BB0_12:
-	mov.f32 	%f493, %f556;
-	@%p7 bra 	BB0_14;
-
-	cvta.to.global.u64 	%rd52, %rd16;
-	add.s64 	%rd54, %rd52, %rd21;
-	ld.global.f32 	%f194, [%rd54+4];
-	mul.f32 	%f493, %f194, %f556;
-
-BB0_14:
-	ld.param.f32 	%f478, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f478;
+	ld.param.f32 	%f434, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f434;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f488, %f491;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f489, %f492;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f490, %f493;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f494, %f195, %f198;
-	mul.f32 	%f495, %f195, %f201;
-	mul.f32 	%f496, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f441, %f443;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f442, %f444;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f445, %f165, %f168;
+	mul.f32 	%f446, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.param.u64 	%rd283, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd282, %rd283;
-	add.s64 	%rd281, %rd282, %rd21;
-	ld.global.f32 	%f25, [%rd22+-4];
-	ld.global.f32 	%f26, [%rd23+-4];
-	ld.global.f32 	%f27, [%rd281+-4];
-	mov.f32 	%f497, %f504;
-	@%p6 bra 	BB0_18;
+	ld.global.f32 	%f18, [%rd1+-4];
+	ld.global.f32 	%f19, [%rd2+-4];
+	mov.f32 	%f447, %f452;
+	@%p6 bra 	BB0_14;
 
-	cvta.to.global.u64 	%rd62, %rd14;
-	add.s64 	%rd64, %rd62, %rd21;
-	ld.global.f32 	%f205, [%rd64+-4];
-	mul.f32 	%f497, %f205, %f504;
+	ld.global.f32 	%f172, [%rd3+-4];
+	mul.f32 	%f447, %f172, %f452;
 
-BB0_18:
-	mov.f32 	%f498, %f556;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f448, %f499;
+	@%p7 bra 	BB0_16;
 
-	cvta.to.global.u64 	%rd65, %rd16;
-	add.s64 	%rd67, %rd65, %rd21;
-	ld.global.f32 	%f206, [%rd67+-4];
-	mul.f32 	%f498, %f206, %f556;
+	add.s64 	%rd43, %rd4, %rd24;
+	ld.global.f32 	%f173, [%rd43+-4];
+	mul.f32 	%f448, %f173, %f499;
 
-BB0_20:
-	mov.f32 	%f499, %f556;
-	@%p7 bra 	BB0_22;
-
-	cvta.to.global.u64 	%rd68, %rd16;
-	add.s64 	%rd70, %rd68, %rd21;
-	ld.global.f32 	%f207, [%rd70+-4];
-	mul.f32 	%f499, %f207, %f556;
-
-BB0_22:
-	ld.param.f32 	%f481, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f481;
+BB0_16:
+	ld.param.f32 	%f433, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f433;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f488, %f497;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f489, %f498;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f490, %f499;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f494, %f208, %f211, %f494;
-	fma.rn.f32 	%f495, %f208, %f214, %f495;
-	fma.rn.f32 	%f496, %f208, %f217, %f496;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f441, %f447;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f442, %f448;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f445, %f174, %f177, %f445;
+	fma.rn.f32 	%f446, %f174, %f180, %f446;
 
-BB0_23:
-	add.f32 	%f40, %f494, 0f00000000;
-	st.global.f32 	[%rd25], %f40;
-	add.f32 	%f41, %f495, 0f00000000;
-	st.global.f32 	[%rd27], %f41;
-	add.f32 	%f42, %f496, 0f00000000;
-	st.global.f32 	[%rd29], %f42;
-	mov.f32 	%f503, %f556;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f445, 0f00000000;
+	st.global.f32 	[%rd26], %f28;
+	add.f32 	%f29, %f446, 0f00000000;
+	st.global.f32 	[%rd28], %f29;
+	mov.f32 	%f451, %f499;
+	@%p7 bra 	BB0_19;
 
-	cvta.to.global.u64 	%rd78, %rd16;
-	add.s64 	%rd80, %rd78, %rd21;
-	ld.global.f32 	%f218, [%rd80];
-	mul.f32 	%f503, %f218, %f556;
+	add.s64 	%rd51, %rd4, %rd24;
+	ld.global.f32 	%f181, [%rd51];
+	mul.f32 	%f451, %f181, %f499;
 
-BB0_25:
-	@%p6 bra 	BB0_27;
+BB0_19:
+	@%p6 bra 	BB0_21;
 
-	cvta.to.global.u64 	%rd81, %rd14;
-	add.s64 	%rd83, %rd81, %rd21;
-	ld.global.f32 	%f219, [%rd83];
-	mul.f32 	%f504, %f219, %f504;
+	ld.global.f32 	%f182, [%rd3];
+	mul.f32 	%f452, %f182, %f452;
 
-BB0_27:
-	mov.f32 	%f505, %f556;
-	@%p7 bra 	BB0_29;
+BB0_21:
+	ld.param.u32 	%r548, [SecondDerivative_param_7];
+	add.s32 	%r31, %r548, -1;
+	mov.f32 	%f455, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r31;
+	mov.f32 	%f456, %f455;
+	@%p16 bra 	BB0_27;
 
-	cvta.to.global.u64 	%rd84, %rd16;
-	add.s64 	%rd86, %rd84, %rd21;
-	ld.global.f32 	%f220, [%rd86];
-	mul.f32 	%f505, %f220, %f556;
+	ld.param.u32 	%r552, [SecondDerivative_param_6];
+	add.s32 	%r41, %r20, 1;
+	mad.lo.s32 	%r5, %r41, %r552, %r1;
+	mul.wide.s32 	%rd53, %r5, 4;
+	add.s64 	%rd54, %rd22, %rd53;
+	ld.global.f32 	%f34, [%rd54];
+	add.s64 	%rd56, %rd21, %rd53;
+	ld.global.f32 	%f35, [%rd56];
+	mov.f32 	%f453, %f499;
+	@%p7 bra 	BB0_24;
 
-BB0_29:
-	ld.param.u64 	%rd299, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd298, %rd299;
-	ld.param.u64 	%rd276, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd275, %rd276;
-	ld.param.u32 	%r826, [SecondDerivative_param_6];
-	ld.param.u32 	%r825, [SecondDerivative_param_7];
-	add.s32 	%r245, %r825, -1;
-	add.s32 	%r251, %r19, 1;
-	mad.lo.s32 	%r256, %r251, %r826, %r1;
-	mul.wide.s32 	%rd88, %r256, 4;
-	add.s64 	%rd1, %rd298, %rd88;
-	add.s64 	%rd2, %rd275, %rd88;
-	mov.f32 	%f509, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r245;
-	mov.f32 	%f510, %f509;
-	mov.f32 	%f511, %f509;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd59, %rd4, %rd53;
+	ld.global.f32 	%f185, [%rd59];
+	mul.f32 	%f453, %f185, %f499;
 
-	ld.param.u64 	%rd295, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd294, %rd295;
-	ld.global.f32 	%f49, [%rd1];
-	ld.global.f32 	%f50, [%rd2];
-	add.s64 	%rd92, %rd294, %rd88;
-	ld.global.f32 	%f51, [%rd92];
-	mov.f32 	%f506, %f556;
-	@%p7 bra 	BB0_32;
+BB0_24:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	cvta.to.global.u64 	%rd93, %rd16;
-	add.s64 	%rd95, %rd93, %rd88;
-	ld.global.f32 	%f224, [%rd95];
-	mul.f32 	%f506, %f224, %f556;
+	ld.param.f32 	%f436, [SecondDerivative_param_13];
+	ld.param.u64 	%rd229, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd228, %rd229;
+	add.s64 	%rd62, %rd228, %rd53;
+	ld.global.f32 	%f186, [%rd62];
+	mul.f32 	%f454, %f186, %f436;
 
-BB0_32:
-	ld.param.f32 	%f507, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
-
-	ld.param.f32 	%f487, [SecondDerivative_param_13];
-	ld.param.u64 	%rd296, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd96, %rd296;
-	add.s64 	%rd98, %rd96, %rd88;
-	ld.global.f32 	%f225, [%rd98];
-	mul.f32 	%f507, %f225, %f487;
-
-BB0_34:
-	mov.f32 	%f508, %f556;
-	@%p7 bra 	BB0_36;
-
-	cvta.to.global.u64 	%rd99, %rd16;
-	add.s64 	%rd101, %rd99, %rd88;
-	ld.global.f32 	%f226, [%rd101];
-	mul.f32 	%f508, %f226, %f556;
-
-BB0_36:
-	ld.param.f32 	%f480, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f480;
+BB0_26:
+	ld.param.f32 	%f432, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f432;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f503, %f506;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f504, %f507;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f505, %f508;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f509, %f227, %f230;
-	mul.f32 	%f510, %f227, %f233;
-	mul.f32 	%f511, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f451, %f453;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f452, %f454;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f455, %f187, %f190;
+	mul.f32 	%f456, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd285, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd284, %rd285;
-	ld.param.u64 	%rd278, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd277, %rd278;
-	ld.param.u32 	%r827, [SecondDerivative_param_6];
-	add.s32 	%r310, %r19, -1;
-	mad.lo.s32 	%r315, %r310, %r827, %r1;
-	mul.wide.s32 	%rd103, %r315, 4;
-	add.s64 	%rd3, %rd284, %rd103;
-	add.s64 	%rd4, %rd277, %rd103;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u32 	%r549, [SecondDerivative_param_6];
+	add.s32 	%r70, %r20, -1;
+	mad.lo.s32 	%r75, %r70, %r549, %r1;
+	mul.wide.s32 	%rd64, %r75, 4;
+	add.s64 	%rd5, %rd22, %rd64;
+	add.s64 	%rd6, %rd21, %rd64;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd292, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd291, %rd292;
-	ld.global.f32 	%f64, [%rd3];
-	ld.global.f32 	%f65, [%rd4];
-	add.s64 	%rd107, %rd291, %rd103;
-	ld.global.f32 	%f66, [%rd107];
-	mov.f32 	%f512, %f556;
-	@%p7 bra 	BB0_40;
+	ld.global.f32 	%f44, [%rd5];
+	ld.global.f32 	%f45, [%rd6];
+	mov.f32 	%f457, %f499;
+	@%p7 bra 	BB0_30;
 
-	cvta.to.global.u64 	%rd108, %rd16;
-	add.s64 	%rd110, %rd108, %rd103;
-	ld.global.f32 	%f237, [%rd110];
-	mul.f32 	%f512, %f237, %f556;
+	add.s64 	%rd68, %rd4, %rd64;
+	ld.global.f32 	%f194, [%rd68];
+	mul.f32 	%f457, %f194, %f499;
 
-BB0_40:
-	ld.param.u64 	%rd302, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd302, 0;
-	ld.param.f32 	%f513, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.f32 	%f458, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_32;
 
-	ld.param.f32 	%f485, [SecondDerivative_param_13];
-	ld.param.u64 	%rd293, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd111, %rd293;
-	add.s64 	%rd113, %rd111, %rd103;
-	ld.global.f32 	%f238, [%rd113];
-	mul.f32 	%f513, %f238, %f485;
+	ld.param.f32 	%f440, [SecondDerivative_param_13];
+	ld.param.u64 	%rd227, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd226, %rd227;
+	add.s64 	%rd71, %rd226, %rd64;
+	ld.global.f32 	%f195, [%rd71];
+	mul.f32 	%f458, %f195, %f440;
 
-BB0_42:
-	mov.f32 	%f514, %f556;
-	@%p7 bra 	BB0_44;
-
-	cvta.to.global.u64 	%rd114, %rd16;
-	add.s64 	%rd116, %rd114, %rd103;
-	ld.global.f32 	%f239, [%rd116];
-	mul.f32 	%f514, %f239, %f556;
-
-BB0_44:
-	ld.param.f32 	%f479, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f479;
+BB0_32:
+	ld.param.f32 	%f431, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f431;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f503, %f512;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f504, %f513;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f505, %f514;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f509, %f240, %f243, %f509;
-	fma.rn.f32 	%f510, %f240, %f246, %f510;
-	fma.rn.f32 	%f511, %f240, %f249, %f511;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f451, %f457;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f452, %f458;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f455, %f196, %f199, %f455;
+	fma.rn.f32 	%f456, %f196, %f202, %f456;
 
-BB0_45:
-	add.f32 	%f79, %f509, %f40;
-	st.global.f32 	[%rd25], %f79;
-	add.f32 	%f80, %f510, %f41;
-	st.global.f32 	[%rd27], %f80;
-	add.f32 	%f81, %f511, %f42;
-	st.global.f32 	[%rd29], %f81;
-	mov.f32 	%f518, %f556;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	ld.param.u64 	%rd247, [SecondDerivative_param_0];
+	cvta.to.global.u64 	%rd246, %rd247;
+	add.s64 	%rd245, %rd246, %rd24;
+	add.f32 	%f54, %f455, %f28;
+	st.global.f32 	[%rd245], %f54;
+	add.f32 	%f55, %f456, %f29;
+	st.global.f32 	[%rd28], %f55;
+	mov.f32 	%f461, %f499;
+	@%p7 bra 	BB0_35;
 
-	cvta.to.global.u64 	%rd124, %rd16;
-	add.s64 	%rd126, %rd124, %rd21;
-	ld.global.f32 	%f250, [%rd126];
-	mul.f32 	%f518, %f250, %f556;
+	add.s64 	%rd79, %rd4, %rd24;
+	ld.global.f32 	%f203, [%rd79];
+	mul.f32 	%f461, %f203, %f499;
 
-BB0_47:
-	mov.f32 	%f519, %f556;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f462, %f499;
+	@%p7 bra 	BB0_37;
 
-	cvta.to.global.u64 	%rd127, %rd16;
-	add.s64 	%rd129, %rd127, %rd21;
-	ld.global.f32 	%f251, [%rd129];
-	mul.f32 	%f519, %f251, %f556;
+	add.s64 	%rd82, %rd4, %rd24;
+	ld.global.f32 	%f204, [%rd82];
+	mul.f32 	%f462, %f204, %f499;
 
-BB0_49:
-	ld.param.u64 	%rd301, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd301, 0;
-	ld.param.f32 	%f520, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.f32 	%f463, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_39;
 
-	ld.param.f32 	%f483, [SecondDerivative_param_13];
-	ld.param.u64 	%rd286, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd130, %rd286;
-	add.s64 	%rd132, %rd130, %rd21;
-	ld.global.f32 	%f252, [%rd132];
-	mul.f32 	%f520, %f252, %f483;
+	ld.param.f32 	%f438, [SecondDerivative_param_13];
+	ld.global.f32 	%f205, [%rd3];
+	mul.f32 	%f463, %f205, %f438;
 
-BB0_51:
-	ld.param.u32 	%r828, [SecondDerivative_param_8];
-	add.s32 	%r436, %r828, -1;
-	mov.f32 	%f524, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r436;
-	mov.f32 	%f525, %f524;
-	mov.f32 	%f526, %f524;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r547, [SecondDerivative_param_8];
+	add.s32 	%r152, %r547, -1;
+	mov.f32 	%f467, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r152;
+	mov.f32 	%f468, %f467;
+	mov.f32 	%f469, %f467;
+	@%p25 bra 	BB0_47;
 
-	mov.u32 	%r847, %tid.x;
-	mov.u32 	%r846, %ctaid.x;
-	mov.u32 	%r845, %ntid.x;
-	mad.lo.s32 	%r844, %r845, %r846, %r847;
-	mov.u32 	%r843, %tid.y;
-	mov.u32 	%r842, %ctaid.y;
-	mov.u32 	%r841, %ntid.y;
-	mad.lo.s32 	%r840, %r841, %r842, %r843;
-	ld.param.u64 	%rd290, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd289, %rd290;
-	ld.param.u64 	%rd288, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd287, %rd288;
-	ld.param.u64 	%rd280, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd279, %rd280;
-	ld.param.u32 	%r830, [SecondDerivative_param_6];
-	ld.param.u32 	%r829, [SecondDerivative_param_7];
-	add.s32 	%r441, %r3, 1;
-	mad.lo.s32 	%r446, %r441, %r829, %r840;
-	mad.lo.s32 	%r5, %r446, %r830, %r844;
-	mul.wide.s32 	%rd134, %r5, 4;
-	add.s64 	%rd135, %rd287, %rd134;
-	ld.global.f32 	%f88, [%rd135];
-	add.s64 	%rd137, %rd279, %rd134;
-	ld.global.f32 	%f89, [%rd137];
-	add.s64 	%rd139, %rd289, %rd134;
-	ld.global.f32 	%f90, [%rd139];
-	cvta.to.global.u64 	%rd140, %rd16;
-	add.s64 	%rd5, %rd140, %rd134;
-	mov.f32 	%f521, %f556;
-	@%p7 bra 	BB0_54;
+	mov.u32 	%r560, %tid.y;
+	mov.u32 	%r559, %ctaid.y;
+	mov.u32 	%r558, %ntid.y;
+	mad.lo.s32 	%r557, %r558, %r559, %r560;
+	ld.param.u64 	%rd225, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd224, %rd225;
+	ld.param.u32 	%r551, [SecondDerivative_param_6];
+	ld.param.u32 	%r550, [SecondDerivative_param_7];
+	add.s32 	%r157, %r3, 1;
+	mad.lo.s32 	%r162, %r157, %r550, %r557;
+	mad.lo.s32 	%r6, %r162, %r551, %r1;
+	mul.wide.s32 	%rd84, %r6, 4;
+	add.s64 	%rd85, %rd22, %rd84;
+	ld.global.f32 	%f62, [%rd85];
+	add.s64 	%rd87, %rd21, %rd84;
+	ld.global.f32 	%f63, [%rd87];
+	add.s64 	%rd89, %rd224, %rd84;
+	ld.global.f32 	%f64, [%rd89];
+	add.s64 	%rd7, %rd4, %rd84;
+	mov.f32 	%f464, %f499;
+	@%p7 bra 	BB0_42;
 
-	ld.global.f32 	%f256, [%rd5];
-	mul.f32 	%f521, %f256, %f556;
+	ld.global.f32 	%f209, [%rd7];
+	mul.f32 	%f464, %f209, %f499;
 
-BB0_54:
-	mov.f32 	%f522, %f556;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f465, %f499;
+	@%p7 bra 	BB0_44;
 
-	ld.global.f32 	%f257, [%rd5];
-	mul.f32 	%f522, %f257, %f556;
+	ld.global.f32 	%f210, [%rd7];
+	mul.f32 	%f465, %f210, %f499;
 
-BB0_56:
-	ld.param.u64 	%rd300, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd300, 0;
-	ld.param.f32 	%f523, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
+BB0_44:
+	ld.param.u64 	%rd241, [SecondDerivative_param_12];
+	setp.eq.s64	%p58, %rd241, 0;
+	ld.param.f32 	%f466, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-	ld.param.f32 	%f457, [SecondDerivative_param_13];
-	ld.param.u64 	%rd266, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd141, %rd266;
-	add.s64 	%rd143, %rd141, %rd134;
-	ld.global.f32 	%f258, [%rd143];
-	mul.f32 	%f523, %f258, %f457;
+	ld.param.u64 	%rd217, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd216, %rd217;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	add.s64 	%rd93, %rd216, %rd84;
+	ld.global.f32 	%f211, [%rd93];
+	mul.f32 	%f466, %f211, %f410;
 
-BB0_58:
-	ld.param.f32 	%f458, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f458;
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f518, %f521;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f519, %f522;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f520, %f523;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f524, %f259, %f262;
-	mul.f32 	%f525, %f259, %f265;
-	mul.f32 	%f526, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f461, %f464;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f462, %f465;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f463, %f466;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f467, %f212, %f215;
+	mul.f32 	%f468, %f212, %f218;
+	mul.f32 	%f469, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
-	mov.u32 	%r838, %tid.x;
-	mov.u32 	%r837, %ctaid.x;
-	mov.u32 	%r836, %ntid.x;
-	mad.lo.s32 	%r835, %r836, %r837, %r838;
-	mov.u32 	%r834, %tid.y;
-	mov.u32 	%r833, %ctaid.y;
-	mov.u32 	%r832, %ntid.y;
-	mad.lo.s32 	%r831, %r832, %r833, %r834;
-	ld.param.u64 	%rd273, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd272, %rd273;
-	ld.param.u64 	%rd271, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd270, %rd271;
-	ld.param.u64 	%rd269, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd268, %rd269;
-	ld.param.u32 	%r824, [SecondDerivative_param_6];
-	ld.param.u32 	%r823, [SecondDerivative_param_7];
-	add.s32 	%r459, %r3, -1;
-	mad.lo.s32 	%r464, %r459, %r823, %r831;
-	mad.lo.s32 	%r6, %r464, %r824, %r835;
-	mul.wide.s32 	%rd145, %r6, 4;
-	add.s64 	%rd146, %rd268, %rd145;
-	ld.global.f32 	%f103, [%rd146];
-	add.s64 	%rd148, %rd270, %rd145;
-	ld.global.f32 	%f104, [%rd148];
-	add.s64 	%rd150, %rd272, %rd145;
-	ld.global.f32 	%f105, [%rd150];
-	cvta.to.global.u64 	%rd151, %rd16;
-	add.s64 	%rd6, %rd151, %rd145;
-	mov.f32 	%f527, %f556;
-	@%p7 bra 	BB0_62;
+	mov.u32 	%r556, %tid.y;
+	mov.u32 	%r555, %ctaid.y;
+	mov.u32 	%r554, %ntid.y;
+	mad.lo.s32 	%r553, %r554, %r555, %r556;
+	ld.param.u64 	%rd220, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd219, %rd220;
+	ld.param.u32 	%r546, [SecondDerivative_param_6];
+	ld.param.u32 	%r545, [SecondDerivative_param_7];
+	add.s32 	%r175, %r3, -1;
+	mad.lo.s32 	%r180, %r175, %r545, %r553;
+	mad.lo.s32 	%r7, %r180, %r546, %r1;
+	mul.wide.s32 	%rd95, %r7, 4;
+	add.s64 	%rd96, %rd22, %rd95;
+	ld.global.f32 	%f77, [%rd96];
+	add.s64 	%rd98, %rd21, %rd95;
+	ld.global.f32 	%f78, [%rd98];
+	add.s64 	%rd100, %rd219, %rd95;
+	ld.global.f32 	%f79, [%rd100];
+	add.s64 	%rd8, %rd4, %rd95;
+	mov.f32 	%f470, %f499;
+	@%p7 bra 	BB0_50;
 
-	ld.global.f32 	%f269, [%rd6];
-	mul.f32 	%f527, %f269, %f556;
+	ld.global.f32 	%f222, [%rd8];
+	mul.f32 	%f470, %f222, %f499;
 
-BB0_62:
-	mov.f32 	%f528, %f556;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f471, %f499;
+	@%p7 bra 	BB0_52;
 
-	ld.global.f32 	%f270, [%rd6];
-	mul.f32 	%f528, %f270, %f556;
+	ld.global.f32 	%f223, [%rd8];
+	mul.f32 	%f471, %f223, %f499;
 
-BB0_64:
-	ld.param.u64 	%rd297, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd297, 0;
-	ld.param.f32 	%f529, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd230, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd230, 0;
+	ld.param.f32 	%f472, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd274, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd152, %rd274;
-	add.s64 	%rd154, %rd152, %rd145;
-	ld.global.f32 	%f271, [%rd154];
-	mul.f32 	%f529, %f271, %f476;
+	ld.param.u64 	%rd222, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd221, %rd222;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	add.s64 	%rd104, %rd221, %rd95;
+	ld.global.f32 	%f224, [%rd104];
+	mul.f32 	%f472, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f518, %f527;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f519, %f528;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f520, %f529;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f524, %f272, %f275, %f524;
-	fma.rn.f32 	%f525, %f272, %f278, %f525;
-	fma.rn.f32 	%f526, %f272, %f281, %f526;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f461, %f470;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f462, %f471;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f463, %f472;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f467, %f225, %f228, %f467;
+	fma.rn.f32 	%f468, %f225, %f231, %f468;
+	fma.rn.f32 	%f469, %f225, %f234, %f469;
 
-BB0_67:
-	add.f32 	%f118, %f524, %f79;
-	st.global.f32 	[%rd25], %f118;
-	add.f32 	%f119, %f525, %f80;
-	st.global.f32 	[%rd27], %f119;
-	add.f32 	%f120, %f526, %f81;
-	st.global.f32 	[%rd29], %f120;
-	mov.f32 	%f122, %f556;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	ld.param.u64 	%rd244, [SecondDerivative_param_0];
+	cvta.to.global.u64 	%rd243, %rd244;
+	add.s64 	%rd242, %rd243, %rd24;
+	add.f32 	%f92, %f467, %f54;
+	st.global.f32 	[%rd242], %f92;
+	add.f32 	%f93, %f468, %f55;
+	st.global.f32 	[%rd28], %f93;
+	add.f32 	%f94, %f469, 0f00000000;
+	st.global.f32 	[%rd30], %f94;
+	mov.f32 	%f96, %f499;
+	@%p7 bra 	BB0_57;
 
-	cvta.to.global.u64 	%rd162, %rd16;
-	add.s64 	%rd164, %rd162, %rd21;
-	ld.global.f32 	%f282, [%rd164];
-	mul.f32 	%f122, %f282, %f556;
+	add.s64 	%rd114, %rd4, %rd24;
+	ld.global.f32 	%f235, [%rd114];
+	mul.f32 	%f96, %f235, %f499;
 
-BB0_69:
-	ld.param.u64 	%rd267, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd165, %rd267;
-	add.s64 	%rd7, %rd165, %rd21;
-	setp.eq.s64	%p40, %rd267, 0;
-	mov.f32 	%f124, %f555;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd218, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd115, %rd218;
+	add.s64 	%rd9, %rd115, %rd24;
+	setp.eq.s64	%p34, %rd218, 0;
+	mov.f32 	%f98, %f498;
+	@%p34 bra 	BB0_59;
 
-	ld.global.f32 	%f283, [%rd7];
-	mul.f32 	%f124, %f283, %f555;
+	ld.global.f32 	%f236, [%rd9];
+	mul.f32 	%f98, %f236, %f498;
 
-BB0_71:
-	mov.f32 	%f539, 0f00000000;
-	mov.f32 	%f540, %f539;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f482, 0f00000000;
+	mov.f32 	%f483, %f482;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f535, %f556;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f478, %f499;
+	@%p7 bra 	BB0_62;
 
-	cvta.to.global.u64 	%rd167, %rd16;
-	add.s64 	%rd169, %rd167, %rd21;
-	ld.global.f32 	%f286, [%rd169+4];
-	mul.f32 	%f535, %f286, %f556;
+	add.s64 	%rd119, %rd4, %rd24;
+	ld.global.f32 	%f239, [%rd119+4];
+	mul.f32 	%f478, %f239, %f499;
 
-BB0_74:
-	mov.f32 	%f536, %f555;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f479, %f498;
+	@%p34 bra 	BB0_64;
 
-	ld.global.f32 	%f287, [%rd7+4];
-	mul.f32 	%f536, %f287, %f555;
+	ld.global.f32 	%f240, [%rd9+4];
+	mul.f32 	%f479, %f240, %f498;
 
-BB0_76:
-	mov.f32 	%f539, 0f00000000;
-	mov.f32 	%f540, %f539;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f482, 0f00000000;
+	mov.f32 	%f483, %f482;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	ld.param.u32 	%r544, [SecondDerivative_param_6];
+	add.s32 	%r260, %r20, 1;
+	mad.lo.s32 	%r265, %r260, %r544, %r1;
+	mul.wide.s32 	%rd121, %r265, 4;
+	add.s64 	%rd122, %rd22, %rd121;
+	add.s64 	%rd124, %rd21, %rd121;
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.f32 	%f291, [%rd22+4];
-	ld.global.f32 	%f292, [%rd1+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.f32 	%f294, [%rd23+4];
-	ld.global.f32 	%f295, [%rd2+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f535, %f293;
-	mul.f32 	%f298, %f536, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.f32 	%f301, [%rd1];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.f32 	%f303, [%rd2];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f539, %f299, %f307;
-	sub.f32 	%f540, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.f32 	%f244, [%rd1+4];
+	ld.global.f32 	%f245, [%rd122+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.f32 	%f247, [%rd2+4];
+	ld.global.f32 	%f248, [%rd124+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f478, %f246;
+	mul.f32 	%f251, %f479, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.f32 	%f254, [%rd122];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.f32 	%f256, [%rd124];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f482, %f252, %f260;
+	sub.f32 	%f483, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.f32 	%f310, [%rd22+4];
-	ld.global.f32 	%f311, [%rd3+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.f32 	%f313, [%rd23+4];
-	ld.global.f32 	%f314, [%rd4+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f535, %f312;
-	mul.f32 	%f317, %f536, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f539;
-	fma.rn.f32 	%f319, %f309, %f317, %f540;
-	ld.global.f32 	%f320, [%rd3];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.f32 	%f322, [%rd4];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f539, %f318, %f326;
-	sub.f32 	%f540, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.f32 	%f263, [%rd1+4];
+	ld.global.f32 	%f264, [%rd5+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.f32 	%f266, [%rd2+4];
+	ld.global.f32 	%f267, [%rd6+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f478, %f265;
+	mul.f32 	%f270, %f479, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f482;
+	fma.rn.f32 	%f272, %f262, %f270, %f483;
+	ld.global.f32 	%f273, [%rd5];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.f32 	%f275, [%rd6];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f482, %f271, %f279;
+	sub.f32 	%f483, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f541, %f556;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f484, %f499;
+	@%p7 bra 	BB0_71;
 
-	cvta.to.global.u64 	%rd186, %rd16;
-	add.s64 	%rd188, %rd186, %rd21;
-	ld.global.f32 	%f328, [%rd188+-4];
-	mul.f32 	%f541, %f328, %f556;
+	add.s64 	%rd138, %rd4, %rd24;
+	ld.global.f32 	%f281, [%rd138+-4];
+	mul.f32 	%f484, %f281, %f499;
 
-BB0_83:
-	mov.f32 	%f542, %f555;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f485, %f498;
+	@%p34 bra 	BB0_73;
 
-	ld.global.f32 	%f329, [%rd7+-4];
-	mul.f32 	%f542, %f329, %f555;
+	ld.global.f32 	%f282, [%rd9+-4];
+	mul.f32 	%f485, %f282, %f498;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	ld.param.u32 	%r543, [SecondDerivative_param_6];
+	add.s32 	%r319, %r20, 1;
+	mad.lo.s32 	%r324, %r319, %r543, %r1;
+	mul.wide.s32 	%rd140, %r324, 4;
+	add.s64 	%rd141, %rd22, %rd140;
+	add.s64 	%rd143, %rd21, %rd140;
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.f32 	%f331, [%rd22+-4];
-	ld.global.f32 	%f332, [%rd1+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.f32 	%f334, [%rd23+-4];
-	ld.global.f32 	%f335, [%rd2+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f541, %f333;
-	mul.f32 	%f338, %f542, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f539, %f339;
-	sub.f32 	%f342, %f540, %f340;
-	ld.global.f32 	%f343, [%rd1];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.f32 	%f345, [%rd2];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f539, %f330, %f347, %f341;
-	fma.rn.f32 	%f540, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.f32 	%f284, [%rd1+-4];
+	ld.global.f32 	%f285, [%rd141+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.f32 	%f287, [%rd2+-4];
+	ld.global.f32 	%f288, [%rd143+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f484, %f286;
+	mul.f32 	%f291, %f485, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f482, %f292;
+	sub.f32 	%f295, %f483, %f293;
+	ld.global.f32 	%f296, [%rd141];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.f32 	%f298, [%rd143];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f482, %f283, %f300, %f294;
+	fma.rn.f32 	%f483, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.f32 	%f350, [%rd22+-4];
-	ld.global.f32 	%f351, [%rd3+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.f32 	%f353, [%rd23+-4];
-	ld.global.f32 	%f354, [%rd4+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f541, %f352;
-	mul.f32 	%f357, %f542, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f539, %f358;
-	sub.f32 	%f361, %f540, %f359;
-	ld.global.f32 	%f362, [%rd3];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.f32 	%f364, [%rd4];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f539, %f349, %f366, %f360;
-	fma.rn.f32 	%f540, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.f32 	%f303, [%rd1+-4];
+	ld.global.f32 	%f304, [%rd5+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.f32 	%f306, [%rd2+-4];
+	ld.global.f32 	%f307, [%rd6+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f484, %f305;
+	mul.f32 	%f310, %f485, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f482, %f311;
+	sub.f32 	%f314, %f483, %f312;
+	ld.global.f32 	%f315, [%rd5];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.f32 	%f317, [%rd6];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f482, %f302, %f319, %f313;
+	fma.rn.f32 	%f483, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f540, %f118;
-	st.global.f32 	[%rd25], %f149;
-	add.f32 	%f150, %f539, %f119;
-	st.global.f32 	[%rd27], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd29], %f151;
-	mov.f32 	%f153, %f555;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	ld.param.u64 	%rd233, [SecondDerivative_param_0];
+	cvta.to.global.u64 	%rd232, %rd233;
+	add.s64 	%rd231, %rd232, %rd24;
+	add.f32 	%f123, %f483, %f92;
+	st.global.f32 	[%rd231], %f123;
+	add.f32 	%f124, %f482, %f93;
+	st.global.f32 	[%rd28], %f124;
+	st.global.f32 	[%rd30], %f94;
+	mov.f32 	%f126, %f498;
+	@%p34 bra 	BB0_79;
 
-	ld.global.f32 	%f368, [%rd7];
-	mul.f32 	%f153, %f368, %f555;
+	ld.global.f32 	%f321, [%rd9];
+	mul.f32 	%f126, %f321, %f498;
 
-BB0_91:
-	mov.f32 	%f155, %f556;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f499;
+	@%p7 bra 	BB0_81;
 
-	cvta.to.global.u64 	%rd212, %rd16;
-	add.s64 	%rd214, %rd212, %rd21;
-	ld.global.f32 	%f369, [%rd214];
-	mul.f32 	%f155, %f369, %f556;
+	add.s64 	%rd164, %rd4, %rd24;
+	ld.global.f32 	%f322, [%rd164];
+	mul.f32 	%f128, %f322, %f499;
 
-BB0_93:
-	mov.f32 	%f553, 0f00000000;
-	mov.f32 	%f554, %f553;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f496, 0f00000000;
+	mov.f32 	%f497, %f496;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f549, %f555;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f492, %f498;
+	@%p34 bra 	BB0_84;
 
-	add.s64 	%rd217, %rd165, %rd88;
-	ld.global.f32 	%f372, [%rd217];
-	mul.f32 	%f549, %f372, %f555;
+	ld.param.u64 	%rd240, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd239, %rd240;
+	ld.param.u32 	%r539, [SecondDerivative_param_6];
+	add.s32 	%r388, %r20, 1;
+	mad.lo.s32 	%r393, %r388, %r539, %r1;
+	mul.wide.s32 	%rd166, %r393, 4;
+	add.s64 	%rd167, %rd239, %rd166;
+	ld.global.f32 	%f325, [%rd167];
+	mul.f32 	%f492, %f325, %f498;
 
-BB0_96:
-	mov.f32 	%f550, %f556;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f493, %f499;
+	@%p7 bra 	BB0_86;
 
-	cvta.to.global.u64 	%rd218, %rd16;
-	add.s64 	%rd220, %rd218, %rd88;
-	ld.global.f32 	%f373, [%rd220];
-	mul.f32 	%f550, %f373, %f556;
+	ld.param.u32 	%r540, [SecondDerivative_param_6];
+	add.s32 	%r403, %r20, 1;
+	mad.lo.s32 	%r408, %r403, %r540, %r1;
+	mul.wide.s32 	%rd169, %r408, 4;
+	add.s64 	%rd170, %rd4, %rd169;
+	ld.global.f32 	%f326, [%rd170];
+	mul.f32 	%f493, %f326, %f499;
 
-BB0_98:
-	mov.f32 	%f553, 0f00000000;
-	mov.f32 	%f554, %f553;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f496, 0f00000000;
+	mov.f32 	%f497, %f496;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	ld.param.u32 	%r542, [SecondDerivative_param_6];
+	add.s32 	%r423, %r20, 1;
+	mad.lo.s32 	%r428, %r423, %r542, %r1;
+	mul.wide.s32 	%rd172, %r428, 4;
+	add.s64 	%rd173, %rd22, %rd172;
+	add.s64 	%rd175, %rd21, %rd172;
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.f32 	%f377, [%rd1];
-	ld.global.f32 	%f378, [%rd1+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.f32 	%f380, [%rd2];
-	ld.global.f32 	%f381, [%rd2+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f549, %f379;
-	mul.f32 	%f384, %f550, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.f32 	%f387, [%rd22+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.f32 	%f389, [%rd23+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f553, %f385, %f393;
-	sub.f32 	%f554, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.f32 	%f330, [%rd173];
+	ld.global.f32 	%f331, [%rd173+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.f32 	%f333, [%rd175];
+	ld.global.f32 	%f334, [%rd175+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f492, %f332;
+	mul.f32 	%f337, %f493, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.f32 	%f340, [%rd1+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.f32 	%f342, [%rd2+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f496, %f338, %f346;
+	sub.f32 	%f497, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	ld.param.u32 	%r541, [SecondDerivative_param_6];
+	add.s32 	%r443, %r20, 1;
+	mad.lo.s32 	%r448, %r443, %r541, %r1;
+	mul.wide.s32 	%rd180, %r448, 4;
+	add.s64 	%rd181, %rd22, %rd180;
+	add.s64 	%rd183, %rd21, %rd180;
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.f32 	%f396, [%rd1];
-	ld.global.f32 	%f397, [%rd1+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.f32 	%f399, [%rd2];
-	ld.global.f32 	%f400, [%rd2+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f549, %f398;
-	mul.f32 	%f403, %f550, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f553;
-	fma.rn.f32 	%f405, %f395, %f403, %f554;
-	ld.global.f32 	%f406, [%rd22+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.f32 	%f408, [%rd23+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f553, %f404, %f412;
-	sub.f32 	%f554, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.f32 	%f349, [%rd181];
+	ld.global.f32 	%f350, [%rd181+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.f32 	%f352, [%rd183];
+	ld.global.f32 	%f353, [%rd183+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f492, %f351;
+	mul.f32 	%f356, %f493, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f496;
+	fma.rn.f32 	%f358, %f348, %f356, %f497;
+	ld.global.f32 	%f359, [%rd1+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.f32 	%f361, [%rd2+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f496, %f357, %f365;
+	sub.f32 	%f497, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	add.s64 	%rd239, %rd165, %rd103;
-	ld.global.f32 	%f414, [%rd239];
-	mul.f32 	%f555, %f414, %f555;
+	ld.param.u64 	%rd238, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd237, %rd238;
+	add.s64 	%rd189, %rd237, %rd64;
+	ld.global.f32 	%f367, [%rd189];
+	mul.f32 	%f498, %f367, %f498;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	cvta.to.global.u64 	%rd240, %rd16;
-	add.s64 	%rd242, %rd240, %rd103;
-	ld.global.f32 	%f415, [%rd242];
-	mul.f32 	%f556, %f415, %f556;
+	add.s64 	%rd192, %rd4, %rd64;
+	ld.global.f32 	%f368, [%rd192];
+	mul.f32 	%f499, %f368, %f499;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.f32 	%f417, [%rd3];
-	ld.global.f32 	%f418, [%rd3+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.f32 	%f420, [%rd4];
-	ld.global.f32 	%f421, [%rd4+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f555, %f419;
-	mul.f32 	%f424, %f556, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f553, %f425;
-	sub.f32 	%f428, %f554, %f426;
-	ld.global.f32 	%f429, [%rd22+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.f32 	%f431, [%rd23+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f553, %f416, %f433, %f427;
-	fma.rn.f32 	%f554, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.f32 	%f370, [%rd5];
+	ld.global.f32 	%f371, [%rd5+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.f32 	%f373, [%rd6];
+	ld.global.f32 	%f374, [%rd6+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f498, %f372;
+	mul.f32 	%f377, %f499, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f496, %f378;
+	sub.f32 	%f381, %f497, %f379;
+	ld.global.f32 	%f382, [%rd1+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.f32 	%f384, [%rd2+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f496, %f369, %f386, %f380;
+	fma.rn.f32 	%f497, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.f32 	%f436, [%rd3];
-	ld.global.f32 	%f437, [%rd3+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.f32 	%f439, [%rd4];
-	ld.global.f32 	%f440, [%rd4+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f555, %f438;
-	mul.f32 	%f443, %f556, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f553, %f444;
-	sub.f32 	%f447, %f554, %f445;
-	ld.global.f32 	%f448, [%rd22+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.f32 	%f450, [%rd23+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f553, %f435, %f452, %f446;
-	fma.rn.f32 	%f554, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.f32 	%f389, [%rd5];
+	ld.global.f32 	%f390, [%rd5+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.f32 	%f392, [%rd6];
+	ld.global.f32 	%f393, [%rd6+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f498, %f391;
+	mul.f32 	%f396, %f499, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f496, %f397;
+	sub.f32 	%f400, %f497, %f398;
+	ld.global.f32 	%f401, [%rd1+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.f32 	%f403, [%rd2+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f496, %f388, %f405, %f399;
+	fma.rn.f32 	%f497, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f554, %f149;
-	st.global.f32 	[%rd25], %f454;
-	add.f32 	%f455, %f553, %f150;
-	st.global.f32 	[%rd27], %f455;
-	st.global.f32 	[%rd29], %f151;
+BB0_99:
+	ld.param.u64 	%rd236, [SecondDerivative_param_0];
+	cvta.to.global.u64 	%rd235, %rd236;
+	add.s64 	%rd234, %rd235, %rd24;
+	add.f32 	%f407, %f497, %f123;
+	st.global.f32 	[%rd234], %f407;
+	add.f32 	%f408, %f496, %f124;
+	st.global.f32 	[%rd28], %f408;
+	st.global.f32 	[%rd30], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -1151,402 +1056,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -1556,75 +1375,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -1634,462 +1453,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -2124,402 +1936,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -2529,75 +2255,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -2607,462 +2333,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -3097,402 +2816,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -3502,75 +3135,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -3580,462 +3213,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -4070,402 +3696,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -4475,75 +4015,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -4553,462 +4093,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -5043,402 +4576,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -5448,75 +4895,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -5526,462 +4973,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -6016,402 +5456,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -6421,75 +5775,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -6499,462 +5853,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -6989,402 +6336,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -7394,75 +6655,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -7472,462 +6733,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -7962,402 +7216,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -8367,75 +7535,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -8445,462 +7613,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 
@@ -8935,402 +8096,316 @@ BB0_112:
 	.param .u8 SecondDerivative_param_18
 )
 {
-	.reg .pred 	%p<67>;
-	.reg .f32 	%f<563>;
+	.reg .pred 	%p<61>;
+	.reg .f32 	%f<506>;
 	.reg .b32 	%r<61>;
 	.reg .f64 	%fd<59>;
-	.reg .b64 	%rd<135>;
+	.reg .b64 	%rd<103>;
 
 
-	ld.param.u64 	%rd24, [SecondDerivative_param_0];
-	ld.param.u64 	%rd25, [SecondDerivative_param_1];
-	ld.param.u64 	%rd26, [SecondDerivative_param_2];
-	ld.param.u64 	%rd30, [SecondDerivative_param_3];
-	ld.param.u64 	%rd31, [SecondDerivative_param_4];
-	ld.param.u64 	%rd32, [SecondDerivative_param_5];
-	ld.param.u32 	%r14, [SecondDerivative_param_6];
-	ld.param.u32 	%r15, [SecondDerivative_param_7];
-	ld.param.u32 	%r16, [SecondDerivative_param_8];
-	ld.param.u64 	%rd27, [SecondDerivative_param_12];
-	ld.param.f32 	%f499, [SecondDerivative_param_13];
-	ld.param.f32 	%f557, [SecondDerivative_param_15];
-	ld.param.u64 	%rd29, [SecondDerivative_param_16];
-	ld.param.f32 	%f558, [SecondDerivative_param_17];
-	cvta.to.global.u64 	%rd2, %rd29;
-	cvta.to.global.u64 	%rd3, %rd27;
-	cvta.to.global.u64 	%rd4, %rd32;
-	cvta.to.global.u64 	%rd5, %rd31;
-	cvta.to.global.u64 	%rd6, %rd30;
-	mov.u32 	%r17, %ntid.x;
-	mov.u32 	%r18, %ctaid.x;
-	mov.u32 	%r19, %tid.x;
-	mad.lo.s32 	%r1, %r17, %r18, %r19;
-	mov.u32 	%r20, %ntid.y;
-	mov.u32 	%r21, %ctaid.y;
-	mov.u32 	%r22, %tid.y;
-	mad.lo.s32 	%r2, %r20, %r21, %r22;
-	mov.u32 	%r23, %ntid.z;
-	mov.u32 	%r24, %ctaid.z;
-	mov.u32 	%r25, %tid.z;
-	mad.lo.s32 	%r3, %r23, %r24, %r25;
-	setp.ge.s32	%p1, %r2, %r15;
-	setp.ge.s32	%p2, %r1, %r14;
+	ld.param.u64 	%rd23, [SecondDerivative_param_0];
+	ld.param.u64 	%rd24, [SecondDerivative_param_1];
+	ld.param.u64 	%rd25, [SecondDerivative_param_2];
+	ld.param.u64 	%rd29, [SecondDerivative_param_3];
+	ld.param.u64 	%rd30, [SecondDerivative_param_4];
+	ld.param.u64 	%rd31, [SecondDerivative_param_5];
+	ld.param.u32 	%r12, [SecondDerivative_param_6];
+	ld.param.u32 	%r13, [SecondDerivative_param_7];
+	ld.param.u32 	%r14, [SecondDerivative_param_8];
+	ld.param.u64 	%rd26, [SecondDerivative_param_12];
+	ld.param.f32 	%f449, [SecondDerivative_param_13];
+	ld.param.f32 	%f500, [SecondDerivative_param_15];
+	ld.param.u64 	%rd28, [SecondDerivative_param_16];
+	ld.param.f32 	%f501, [SecondDerivative_param_17];
+	cvta.to.global.u64 	%rd2, %rd28;
+	cvta.to.global.u64 	%rd3, %rd26;
+	cvta.to.global.u64 	%rd4, %rd31;
+	cvta.to.global.u64 	%rd5, %rd30;
+	cvta.to.global.u64 	%rd6, %rd29;
+	mov.u32 	%r15, %ntid.x;
+	mov.u32 	%r16, %ctaid.x;
+	mov.u32 	%r17, %tid.x;
+	mad.lo.s32 	%r1, %r15, %r16, %r17;
+	mov.u32 	%r18, %ntid.y;
+	mov.u32 	%r19, %ctaid.y;
+	mov.u32 	%r20, %tid.y;
+	mad.lo.s32 	%r2, %r18, %r19, %r20;
+	mov.u32 	%r21, %ntid.z;
+	mov.u32 	%r22, %ctaid.z;
+	mov.u32 	%r23, %tid.z;
+	mad.lo.s32 	%r3, %r21, %r22, %r23;
+	setp.ge.s32	%p1, %r2, %r13;
+	setp.ge.s32	%p2, %r1, %r12;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r16;
+	setp.ge.s32	%p4, %r3, %r14;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_112;
+	@%p5 bra 	BB0_100;
 
-	cvta.to.global.u64 	%rd33, %rd24;
-	mad.lo.s32 	%r4, %r3, %r15, %r2;
-	mad.lo.s32 	%r5, %r4, %r14, %r1;
-	mul.wide.s32 	%rd34, %r5, 4;
-	add.s64 	%rd7, %rd6, %rd34;
+	cvta.to.global.u64 	%rd32, %rd23;
+	mad.lo.s32 	%r4, %r3, %r13, %r2;
+	mad.lo.s32 	%r5, %r4, %r12, %r1;
+	mul.wide.s32 	%rd33, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd33;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd34;
+	add.s64 	%rd8, %rd5, %rd33;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd34;
-	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd33, %rd34;
-	mov.u32 	%r26, 0;
-	st.global.u32 	[%rd10], %r26;
-	cvta.to.global.u64 	%rd35, %rd25;
-	add.s64 	%rd11, %rd35, %rd34;
-	st.global.u32 	[%rd11], %r26;
-	cvta.to.global.u64 	%rd36, %rd26;
-	add.s64 	%rd12, %rd36, %rd34;
-	st.global.u32 	[%rd12], %r26;
-	add.s64 	%rd13, %rd3, %rd34;
-	setp.eq.s64	%p6, %rd27, 0;
-	mov.f32 	%f490, %f499;
+	add.s64 	%rd34, %rd4, %rd33;
+	ld.global.nc.f32 	%f3, [%rd34];
+	add.s64 	%rd9, %rd32, %rd33;
+	mov.u32 	%r24, 0;
+	st.global.u32 	[%rd9], %r24;
+	cvta.to.global.u64 	%rd35, %rd24;
+	add.s64 	%rd10, %rd35, %rd33;
+	st.global.u32 	[%rd10], %r24;
+	cvta.to.global.u64 	%rd36, %rd25;
+	add.s64 	%rd11, %rd36, %rd33;
+	st.global.u32 	[%rd11], %r24;
+	add.s64 	%rd12, %rd3, %rd33;
+	setp.eq.s64	%p6, %rd26, 0;
+	mov.f32 	%f443, %f449;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f186, [%rd13];
-	mul.f32 	%f490, %f186, %f499;
+	ld.global.nc.f32 	%f159, [%rd12];
+	mul.f32 	%f443, %f159, %f449;
 
 BB0_3:
-	ld.param.u64 	%rd125, [SecondDerivative_param_16];
-	add.s64 	%rd14, %rd2, %rd34;
-	setp.eq.s64	%p7, %rd125, 0;
-	mov.f32 	%f491, %f558;
+	ld.param.u64 	%rd99, [SecondDerivative_param_16];
+	add.s64 	%rd13, %rd2, %rd33;
+	setp.eq.s64	%p7, %rd99, 0;
+	mov.f32 	%f444, %f501;
 	@%p7 bra 	BB0_5;
 
-	ld.global.nc.f32 	%f187, [%rd14];
-	mul.f32 	%f491, %f187, %f558;
+	ld.global.nc.f32 	%f160, [%rd13];
+	mul.f32 	%f444, %f160, %f501;
 
 BB0_5:
-	mov.f32 	%f492, %f558;
-	@%p7 bra 	BB0_7;
-
-	ld.global.nc.f32 	%f188, [%rd14];
-	mul.f32 	%f492, %f188, %f558;
-
-BB0_7:
 	ld.param.u32 	%r50, [SecondDerivative_param_6];
 	add.s32 	%r6, %r50, -1;
-	mov.f32 	%f496, 0f00000000;
-	setp.ge.s32	%p9, %r1, %r6;
-	mov.f32 	%f497, %f496;
-	mov.f32 	%f498, %f496;
-	@%p9 bra 	BB0_15;
+	mov.f32 	%f447, 0f00000000;
+	setp.ge.s32	%p8, %r1, %r6;
+	mov.f32 	%f448, %f447;
+	@%p8 bra 	BB0_11;
 
-	ld.global.nc.f32 	%f10, [%rd7+4];
-	ld.global.nc.f32 	%f11, [%rd8+4];
-	ld.global.nc.f32 	%f12, [%rd9+4];
-	mov.f32 	%f493, %f499;
-	@%p6 bra 	BB0_10;
+	ld.global.nc.f32 	%f8, [%rd7+4];
+	ld.global.nc.f32 	%f9, [%rd8+4];
+	mov.f32 	%f445, %f449;
+	@%p6 bra 	BB0_8;
 
-	ld.global.nc.f32 	%f192, [%rd13+4];
-	mul.f32 	%f493, %f192, %f499;
+	ld.global.nc.f32 	%f163, [%rd12+4];
+	mul.f32 	%f445, %f163, %f449;
+
+BB0_8:
+	mov.f32 	%f446, %f501;
+	@%p7 bra 	BB0_10;
+
+	ld.global.nc.f32 	%f164, [%rd13+4];
+	mul.f32 	%f446, %f164, %f501;
 
 BB0_10:
-	mov.f32 	%f494, %f558;
-	@%p7 bra 	BB0_12;
-
-	ld.global.nc.f32 	%f193, [%rd14+4];
-	mul.f32 	%f494, %f193, %f558;
-
-BB0_12:
-	mov.f32 	%f495, %f558;
-	@%p7 bra 	BB0_14;
-
-	ld.global.nc.f32 	%f194, [%rd14+4];
-	mul.f32 	%f495, %f194, %f558;
-
-BB0_14:
-	ld.param.f32 	%f487, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd1, %f487;
+	ld.param.f32 	%f440, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd1, %f440;
 	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
 	mul.f64 	%fd3, %fd1, %fd2;
-	cvt.rn.f32.f64	%f195, %fd3;
-	sub.f32 	%f196, %f10, %f1;
-	add.f32 	%f197, %f490, %f493;
-	mul.f32 	%f198, %f196, %f197;
-	sub.f32 	%f199, %f11, %f2;
-	add.f32 	%f200, %f491, %f494;
-	mul.f32 	%f201, %f199, %f200;
-	sub.f32 	%f202, %f12, %f3;
-	add.f32 	%f203, %f492, %f495;
-	mul.f32 	%f204, %f202, %f203;
-	mul.f32 	%f496, %f195, %f198;
-	mul.f32 	%f497, %f195, %f201;
-	mul.f32 	%f498, %f195, %f204;
+	cvt.rn.f32.f64	%f165, %fd3;
+	sub.f32 	%f166, %f8, %f1;
+	add.f32 	%f167, %f443, %f445;
+	mul.f32 	%f168, %f166, %f167;
+	sub.f32 	%f169, %f9, %f2;
+	add.f32 	%f170, %f444, %f446;
+	mul.f32 	%f171, %f169, %f170;
+	mul.f32 	%f447, %f165, %f168;
+	mul.f32 	%f448, %f165, %f171;
 
-BB0_15:
-	setp.lt.s32	%p13, %r1, 1;
-	@%p13 bra 	BB0_23;
+BB0_11:
+	setp.lt.s32	%p11, %r1, 1;
+	@%p11 bra 	BB0_17;
 
-	ld.global.nc.f32 	%f25, [%rd7+-4];
-	ld.global.nc.f32 	%f26, [%rd8+-4];
-	ld.global.nc.f32 	%f27, [%rd9+-4];
-	@%p6 bra 	BB0_18;
+	ld.global.nc.f32 	%f18, [%rd7+-4];
+	ld.global.nc.f32 	%f19, [%rd8+-4];
+	@%p6 bra 	BB0_14;
 
-	ld.global.nc.f32 	%f205, [%rd13+-4];
-	mul.f32 	%f499, %f205, %f499;
+	ld.global.nc.f32 	%f172, [%rd12+-4];
+	mul.f32 	%f449, %f172, %f449;
 
-BB0_18:
-	mov.f32 	%f500, %f558;
-	@%p7 bra 	BB0_20;
+BB0_14:
+	mov.f32 	%f450, %f501;
+	@%p7 bra 	BB0_16;
 
-	ld.global.nc.f32 	%f206, [%rd14+-4];
-	mul.f32 	%f500, %f206, %f558;
+	ld.global.nc.f32 	%f173, [%rd13+-4];
+	mul.f32 	%f450, %f173, %f501;
 
-BB0_20:
-	mov.f32 	%f501, %f558;
-	@%p7 bra 	BB0_22;
-
-	ld.global.nc.f32 	%f207, [%rd14+-4];
-	mul.f32 	%f501, %f207, %f558;
-
-BB0_22:
-	ld.param.f32 	%f486, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd4, %f486;
+BB0_16:
+	ld.param.f32 	%f439, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd4, %f439;
 	mul.f64 	%fd5, %fd4, 0d3FE0000000000000;
 	mul.f64 	%fd6, %fd4, %fd5;
-	cvt.rn.f32.f64	%f208, %fd6;
-	sub.f32 	%f209, %f25, %f1;
-	add.f32 	%f210, %f490, %f499;
-	mul.f32 	%f211, %f209, %f210;
-	sub.f32 	%f212, %f26, %f2;
-	add.f32 	%f213, %f491, %f500;
-	mul.f32 	%f214, %f212, %f213;
-	sub.f32 	%f215, %f27, %f3;
-	add.f32 	%f216, %f492, %f501;
-	mul.f32 	%f217, %f215, %f216;
-	fma.rn.f32 	%f496, %f208, %f211, %f496;
-	fma.rn.f32 	%f497, %f208, %f214, %f497;
-	fma.rn.f32 	%f498, %f208, %f217, %f498;
+	cvt.rn.f32.f64	%f174, %fd6;
+	sub.f32 	%f175, %f18, %f1;
+	add.f32 	%f176, %f443, %f449;
+	mul.f32 	%f177, %f175, %f176;
+	sub.f32 	%f178, %f19, %f2;
+	add.f32 	%f179, %f444, %f450;
+	mul.f32 	%f180, %f178, %f179;
+	fma.rn.f32 	%f447, %f174, %f177, %f447;
+	fma.rn.f32 	%f448, %f174, %f180, %f448;
 
-BB0_23:
-	add.f32 	%f40, %f496, 0f00000000;
-	st.global.f32 	[%rd10], %f40;
-	add.f32 	%f41, %f497, 0f00000000;
-	st.global.f32 	[%rd11], %f41;
-	add.f32 	%f42, %f498, 0f00000000;
-	st.global.f32 	[%rd12], %f42;
-	mov.f32 	%f505, %f558;
-	@%p7 bra 	BB0_25;
+BB0_17:
+	add.f32 	%f28, %f447, 0f00000000;
+	st.global.f32 	[%rd9], %f28;
+	add.f32 	%f29, %f448, 0f00000000;
+	st.global.f32 	[%rd10], %f29;
+	mov.f32 	%f453, %f501;
+	@%p7 bra 	BB0_19;
 
-	ld.global.nc.f32 	%f218, [%rd14];
-	mul.f32 	%f505, %f218, %f558;
+	ld.global.nc.f32 	%f181, [%rd13];
+	mul.f32 	%f453, %f181, %f501;
 
-BB0_25:
-	ld.param.f32 	%f506, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_27;
+BB0_19:
+	ld.param.f32 	%f454, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_21;
 
-	ld.param.f32 	%f489, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f219, [%rd13];
-	mul.f32 	%f506, %f219, %f489;
+	ld.param.f32 	%f442, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f182, [%rd12];
+	mul.f32 	%f454, %f182, %f442;
 
-BB0_27:
-	mov.f32 	%f507, %f558;
-	@%p7 bra 	BB0_29;
-
-	ld.global.nc.f32 	%f220, [%rd14];
-	mul.f32 	%f507, %f220, %f558;
-
-BB0_29:
-	ld.param.u64 	%rd129, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd128, %rd129;
-	ld.param.u64 	%rd127, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd126, %rd127;
+BB0_21:
 	ld.param.u32 	%r52, [SecondDerivative_param_6];
 	ld.param.u32 	%r51, [SecondDerivative_param_7];
 	add.s32 	%r7, %r51, -1;
-	add.s32 	%r27, %r4, 1;
-	mad.lo.s32 	%r8, %r27, %r52, %r1;
+	add.s32 	%r25, %r4, 1;
+	mad.lo.s32 	%r8, %r25, %r52, %r1;
 	mul.wide.s32 	%rd38, %r8, 4;
-	add.s64 	%rd15, %rd126, %rd38;
-	add.s64 	%rd16, %rd128, %rd38;
-	mov.f32 	%f511, 0f00000000;
-	setp.ge.s32	%p20, %r2, %r7;
-	mov.f32 	%f512, %f511;
-	mov.f32 	%f513, %f511;
-	@%p20 bra 	BB0_37;
+	add.s64 	%rd14, %rd6, %rd38;
+	add.s64 	%rd15, %rd5, %rd38;
+	add.s64 	%rd16, %rd2, %rd38;
+	mov.f32 	%f457, 0f00000000;
+	setp.ge.s32	%p16, %r2, %r7;
+	mov.f32 	%f458, %f457;
+	@%p16 bra 	BB0_27;
 
-	ld.param.u64 	%rd112, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd111, %rd112;
-	ld.global.nc.f32 	%f49, [%rd15];
-	ld.global.nc.f32 	%f50, [%rd16];
-	add.s64 	%rd40, %rd111, %rd38;
-	ld.global.nc.f32 	%f51, [%rd40];
-	mov.f32 	%f508, %f558;
-	@%p7 bra 	BB0_32;
+	ld.global.nc.f32 	%f34, [%rd14];
+	ld.global.nc.f32 	%f35, [%rd15];
+	mov.f32 	%f455, %f501;
+	@%p7 bra 	BB0_24;
 
-	ld.param.u64 	%rd115, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd114, %rd115;
-	add.s64 	%rd113, %rd114, %rd38;
-	ld.global.nc.f32 	%f224, [%rd113];
-	mul.f32 	%f508, %f224, %f558;
+	ld.global.nc.f32 	%f185, [%rd16];
+	mul.f32 	%f455, %f185, %f501;
 
-BB0_32:
-	ld.param.f32 	%f509, [SecondDerivative_param_13];
-	@%p6 bra 	BB0_34;
+BB0_24:
+	ld.param.f32 	%f456, [SecondDerivative_param_13];
+	@%p6 bra 	BB0_26;
 
-	ld.param.f32 	%f484, [SecondDerivative_param_13];
-	ld.param.u64 	%rd117, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd116, %rd117;
-	add.s64 	%rd42, %rd116, %rd38;
-	ld.global.nc.f32 	%f225, [%rd42];
-	mul.f32 	%f509, %f225, %f484;
+	ld.param.f32 	%f437, [SecondDerivative_param_13];
+	ld.param.u64 	%rd93, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd92, %rd93;
+	add.s64 	%rd40, %rd92, %rd38;
+	ld.global.nc.f32 	%f186, [%rd40];
+	mul.f32 	%f456, %f186, %f437;
 
-BB0_34:
-	mov.f32 	%f510, %f558;
-	@%p7 bra 	BB0_36;
-
-	ld.param.u64 	%rd120, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd119, %rd120;
-	add.s64 	%rd118, %rd119, %rd38;
-	ld.global.nc.f32 	%f226, [%rd118];
-	mul.f32 	%f510, %f226, %f558;
-
-BB0_36:
-	ld.param.f32 	%f485, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd7, %f485;
+BB0_26:
+	ld.param.f32 	%f438, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd7, %f438;
 	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
 	mul.f64 	%fd9, %fd7, %fd8;
-	cvt.rn.f32.f64	%f227, %fd9;
-	sub.f32 	%f228, %f49, %f1;
-	add.f32 	%f229, %f505, %f508;
-	mul.f32 	%f230, %f228, %f229;
-	sub.f32 	%f231, %f50, %f2;
-	add.f32 	%f232, %f506, %f509;
-	mul.f32 	%f233, %f231, %f232;
-	sub.f32 	%f234, %f51, %f3;
-	add.f32 	%f235, %f507, %f510;
-	mul.f32 	%f236, %f234, %f235;
-	mul.f32 	%f511, %f227, %f230;
-	mul.f32 	%f512, %f227, %f233;
-	mul.f32 	%f513, %f227, %f236;
+	cvt.rn.f32.f64	%f187, %fd9;
+	sub.f32 	%f188, %f34, %f1;
+	add.f32 	%f189, %f453, %f455;
+	mul.f32 	%f190, %f188, %f189;
+	sub.f32 	%f191, %f35, %f2;
+	add.f32 	%f192, %f454, %f456;
+	mul.f32 	%f193, %f191, %f192;
+	mul.f32 	%f457, %f187, %f190;
+	mul.f32 	%f458, %f187, %f193;
 
-BB0_37:
-	ld.param.u64 	%rd104, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd103, %rd104;
-	ld.param.u64 	%rd102, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd101, %rd102;
-	ld.param.u32 	%r41, [SecondDerivative_param_6];
-	add.s32 	%r29, %r4, -1;
-	mad.lo.s32 	%r10, %r29, %r41, %r1;
-	mul.wide.s32 	%rd43, %r10, 4;
-	add.s64 	%rd18, %rd101, %rd43;
-	add.s64 	%rd19, %rd103, %rd43;
-	setp.lt.s32	%p24, %r2, 1;
-	@%p24 bra 	BB0_45;
+BB0_27:
+	ld.param.u64 	%rd95, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd94, %rd95;
+	ld.param.u64 	%rd83, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd82, %rd83;
+	ld.param.u64 	%rd81, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd80, %rd81;
+	ld.param.u32 	%r38, [SecondDerivative_param_6];
+	add.s32 	%r28, %r4, -1;
+	mad.lo.s32 	%r9, %r28, %r38, %r1;
+	mul.wide.s32 	%rd41, %r9, 4;
+	add.s64 	%rd17, %rd80, %rd41;
+	add.s64 	%rd18, %rd82, %rd41;
+	add.s64 	%rd19, %rd94, %rd41;
+	setp.lt.s32	%p19, %r2, 1;
+	@%p19 bra 	BB0_33;
 
-	ld.param.u64 	%rd108, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd107, %rd108;
-	ld.global.nc.f32 	%f64, [%rd18];
-	ld.global.nc.f32 	%f65, [%rd19];
-	add.s64 	%rd45, %rd107, %rd43;
-	ld.global.nc.f32 	%f66, [%rd45];
-	mov.f32 	%f514, %f558;
-	@%p7 bra 	BB0_40;
+	ld.global.nc.f32 	%f44, [%rd17];
+	ld.global.nc.f32 	%f45, [%rd18];
+	mov.f32 	%f459, %f501;
+	@%p7 bra 	BB0_30;
 
-	ld.param.u64 	%rd123, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd122, %rd123;
-	add.s64 	%rd121, %rd122, %rd43;
-	ld.global.nc.f32 	%f237, [%rd121];
-	mul.f32 	%f514, %f237, %f558;
+	ld.global.nc.f32 	%f194, [%rd19];
+	mul.f32 	%f459, %f194, %f501;
 
-BB0_40:
-	ld.param.u64 	%rd134, [SecondDerivative_param_12];
-	setp.eq.s64	%p66, %rd134, 0;
-	ld.param.f32 	%f515, [SecondDerivative_param_13];
-	@%p66 bra 	BB0_42;
+BB0_30:
+	ld.param.u64 	%rd102, [SecondDerivative_param_12];
+	setp.eq.s64	%p60, %rd102, 0;
+	ld.param.f32 	%f460, [SecondDerivative_param_13];
+	@%p60 bra 	BB0_32;
 
-	ld.param.f32 	%f482, [SecondDerivative_param_13];
-	ld.param.u64 	%rd110, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd109, %rd110;
-	add.s64 	%rd47, %rd109, %rd43;
-	ld.global.nc.f32 	%f238, [%rd47];
-	mul.f32 	%f515, %f238, %f482;
+	ld.param.f32 	%f434, [SecondDerivative_param_13];
+	ld.param.u64 	%rd91, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd90, %rd91;
+	add.s64 	%rd43, %rd90, %rd41;
+	ld.global.nc.f32 	%f195, [%rd43];
+	mul.f32 	%f460, %f195, %f434;
 
-BB0_42:
-	mov.f32 	%f516, %f558;
-	@%p7 bra 	BB0_44;
-
-	ld.param.u64 	%rd67, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd66, %rd67;
-	add.s64 	%rd65, %rd66, %rd43;
-	ld.global.nc.f32 	%f239, [%rd65];
-	mul.f32 	%f516, %f239, %f558;
-
-BB0_44:
-	ld.param.f32 	%f456, [SecondDerivative_param_10];
-	cvt.f64.f32	%fd10, %f456;
+BB0_32:
+	ld.param.f32 	%f435, [SecondDerivative_param_10];
+	cvt.f64.f32	%fd10, %f435;
 	mul.f64 	%fd11, %fd10, 0d3FE0000000000000;
 	mul.f64 	%fd12, %fd10, %fd11;
-	cvt.rn.f32.f64	%f240, %fd12;
-	sub.f32 	%f241, %f64, %f1;
-	add.f32 	%f242, %f505, %f514;
-	mul.f32 	%f243, %f241, %f242;
-	sub.f32 	%f244, %f65, %f2;
-	add.f32 	%f245, %f506, %f515;
-	mul.f32 	%f246, %f244, %f245;
-	sub.f32 	%f247, %f66, %f3;
-	add.f32 	%f248, %f507, %f516;
-	mul.f32 	%f249, %f247, %f248;
-	fma.rn.f32 	%f511, %f240, %f243, %f511;
-	fma.rn.f32 	%f512, %f240, %f246, %f512;
-	fma.rn.f32 	%f513, %f240, %f249, %f513;
+	cvt.rn.f32.f64	%f196, %fd12;
+	sub.f32 	%f197, %f44, %f1;
+	add.f32 	%f198, %f453, %f459;
+	mul.f32 	%f199, %f197, %f198;
+	sub.f32 	%f200, %f45, %f2;
+	add.f32 	%f201, %f454, %f460;
+	mul.f32 	%f202, %f200, %f201;
+	fma.rn.f32 	%f457, %f196, %f199, %f457;
+	fma.rn.f32 	%f458, %f196, %f202, %f458;
 
-BB0_45:
-	add.f32 	%f79, %f511, %f40;
-	st.global.f32 	[%rd10], %f79;
-	add.f32 	%f80, %f512, %f41;
-	st.global.f32 	[%rd11], %f80;
-	add.f32 	%f81, %f513, %f42;
-	st.global.f32 	[%rd12], %f81;
-	mov.f32 	%f520, %f558;
-	@%p7 bra 	BB0_47;
+BB0_33:
+	add.f32 	%f54, %f457, %f28;
+	st.global.f32 	[%rd9], %f54;
+	add.f32 	%f55, %f458, %f29;
+	st.global.f32 	[%rd10], %f55;
+	mov.f32 	%f463, %f501;
+	@%p7 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f250, [%rd14];
-	mul.f32 	%f520, %f250, %f558;
+	ld.global.nc.f32 	%f203, [%rd13];
+	mul.f32 	%f463, %f203, %f501;
 
-BB0_47:
-	mov.f32 	%f521, %f558;
-	@%p7 bra 	BB0_49;
+BB0_35:
+	mov.f32 	%f464, %f501;
+	@%p7 bra 	BB0_37;
 
-	ld.global.nc.f32 	%f251, [%rd14];
-	mul.f32 	%f521, %f251, %f558;
+	ld.global.nc.f32 	%f204, [%rd13];
+	mul.f32 	%f464, %f204, %f501;
 
-BB0_49:
-	ld.param.u64 	%rd133, [SecondDerivative_param_12];
-	setp.eq.s64	%p65, %rd133, 0;
-	ld.param.f32 	%f522, [SecondDerivative_param_13];
-	@%p65 bra 	BB0_51;
+BB0_37:
+	ld.param.u64 	%rd101, [SecondDerivative_param_12];
+	setp.eq.s64	%p59, %rd101, 0;
+	ld.param.f32 	%f465, [SecondDerivative_param_13];
+	@%p59 bra 	BB0_39;
 
-	ld.param.f32 	%f458, [SecondDerivative_param_13];
-	ld.global.nc.f32 	%f252, [%rd13];
-	mul.f32 	%f522, %f252, %f458;
+	ld.param.f32 	%f432, [SecondDerivative_param_13];
+	ld.global.nc.f32 	%f205, [%rd12];
+	mul.f32 	%f465, %f205, %f432;
 
-BB0_51:
-	ld.param.u32 	%r36, [SecondDerivative_param_8];
-	add.s32 	%r31, %r36, -1;
-	mov.f32 	%f526, 0f00000000;
-	setp.ge.s32	%p31, %r3, %r31;
-	mov.f32 	%f527, %f526;
-	mov.f32 	%f528, %f526;
-	@%p31 bra 	BB0_59;
+BB0_39:
+	ld.param.u32 	%r39, [SecondDerivative_param_8];
+	add.s32 	%r31, %r39, -1;
+	mov.f32 	%f469, 0f00000000;
+	setp.ge.s32	%p25, %r3, %r31;
+	mov.f32 	%f470, %f469;
+	mov.f32 	%f471, %f469;
+	@%p25 bra 	BB0_47;
 
 	mov.u32 	%r60, %tid.x;
 	mov.u32 	%r59, %ctaid.x;
@@ -9340,75 +8415,75 @@ BB0_51:
 	mov.u32 	%r55, %ctaid.y;
 	mov.u32 	%r54, %ntid.y;
 	mad.lo.s32 	%r53, %r54, %r55, %r56;
-	ld.param.u64 	%rd98, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd97, %rd98;
-	ld.param.u64 	%rd96, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd95, %rd96;
-	ld.param.u64 	%rd94, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd93, %rd94;
-	ld.param.u64 	%rd92, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd91, %rd92;
-	ld.param.u32 	%r40, [SecondDerivative_param_6];
-	ld.param.u32 	%r39, [SecondDerivative_param_7];
+	ld.param.u64 	%rd97, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd96, %rd97;
+	ld.param.u64 	%rd89, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd88, %rd89;
+	ld.param.u64 	%rd87, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd86, %rd87;
+	ld.param.u64 	%rd85, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd84, %rd85;
+	ld.param.u32 	%r41, [SecondDerivative_param_6];
+	ld.param.u32 	%r40, [SecondDerivative_param_7];
 	add.s32 	%r32, %r3, 1;
-	mad.lo.s32 	%r33, %r32, %r39, %r53;
-	mad.lo.s32 	%r12, %r33, %r40, %r57;
-	mul.wide.s32 	%rd48, %r12, 4;
-	add.s64 	%rd49, %rd91, %rd48;
-	ld.global.nc.f32 	%f88, [%rd49];
-	add.s64 	%rd50, %rd93, %rd48;
-	ld.global.nc.f32 	%f89, [%rd50];
-	add.s64 	%rd51, %rd95, %rd48;
-	ld.global.nc.f32 	%f90, [%rd51];
-	add.s64 	%rd21, %rd97, %rd48;
-	mov.f32 	%f523, %f558;
-	@%p7 bra 	BB0_54;
+	mad.lo.s32 	%r33, %r32, %r40, %r53;
+	mad.lo.s32 	%r10, %r33, %r41, %r57;
+	mul.wide.s32 	%rd44, %r10, 4;
+	add.s64 	%rd45, %rd84, %rd44;
+	ld.global.nc.f32 	%f62, [%rd45];
+	add.s64 	%rd46, %rd86, %rd44;
+	ld.global.nc.f32 	%f63, [%rd46];
+	add.s64 	%rd47, %rd88, %rd44;
+	ld.global.nc.f32 	%f64, [%rd47];
+	add.s64 	%rd20, %rd96, %rd44;
+	mov.f32 	%f466, %f501;
+	@%p7 bra 	BB0_42;
 
-	ld.global.nc.f32 	%f256, [%rd21];
-	mul.f32 	%f523, %f256, %f558;
+	ld.global.nc.f32 	%f209, [%rd20];
+	mul.f32 	%f466, %f209, %f501;
 
-BB0_54:
-	mov.f32 	%f524, %f558;
-	@%p7 bra 	BB0_56;
+BB0_42:
+	mov.f32 	%f467, %f501;
+	@%p7 bra 	BB0_44;
 
-	ld.global.nc.f32 	%f257, [%rd21];
-	mul.f32 	%f524, %f257, %f558;
+	ld.global.nc.f32 	%f210, [%rd20];
+	mul.f32 	%f467, %f210, %f501;
 
-BB0_56:
-	ld.param.u64 	%rd132, [SecondDerivative_param_12];
-	setp.eq.s64	%p64, %rd132, 0;
-	ld.param.f32 	%f525, [SecondDerivative_param_13];
-	@%p64 bra 	BB0_58;
-
-	ld.param.f32 	%f479, [SecondDerivative_param_13];
+BB0_44:
 	ld.param.u64 	%rd100, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd99, %rd100;
-	add.s64 	%rd53, %rd99, %rd48;
-	ld.global.nc.f32 	%f258, [%rd53];
-	mul.f32 	%f525, %f258, %f479;
+	setp.eq.s64	%p58, %rd100, 0;
+	ld.param.f32 	%f468, [SecondDerivative_param_13];
+	@%p58 bra 	BB0_46;
 
-BB0_58:
-	ld.param.f32 	%f480, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd13, %f480;
+	ld.param.f32 	%f410, [SecondDerivative_param_13];
+	ld.param.u64 	%rd62, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd61, %rd62;
+	add.s64 	%rd49, %rd61, %rd44;
+	ld.global.nc.f32 	%f211, [%rd49];
+	mul.f32 	%f468, %f211, %f410;
+
+BB0_46:
+	ld.param.f32 	%f411, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd13, %f411;
 	mul.f64 	%fd14, %fd13, 0d3FE0000000000000;
 	mul.f64 	%fd15, %fd13, %fd14;
-	cvt.rn.f32.f64	%f259, %fd15;
-	sub.f32 	%f260, %f88, %f1;
-	add.f32 	%f261, %f520, %f523;
-	mul.f32 	%f262, %f260, %f261;
-	sub.f32 	%f263, %f89, %f2;
-	add.f32 	%f264, %f521, %f524;
-	mul.f32 	%f265, %f263, %f264;
-	sub.f32 	%f266, %f90, %f3;
-	add.f32 	%f267, %f522, %f525;
-	mul.f32 	%f268, %f266, %f267;
-	mul.f32 	%f526, %f259, %f262;
-	mul.f32 	%f527, %f259, %f265;
-	mul.f32 	%f528, %f259, %f268;
+	cvt.rn.f32.f64	%f212, %fd15;
+	sub.f32 	%f213, %f62, %f1;
+	add.f32 	%f214, %f463, %f466;
+	mul.f32 	%f215, %f213, %f214;
+	sub.f32 	%f216, %f63, %f2;
+	add.f32 	%f217, %f464, %f467;
+	mul.f32 	%f218, %f216, %f217;
+	sub.f32 	%f219, %f64, %f3;
+	add.f32 	%f220, %f465, %f468;
+	mul.f32 	%f221, %f219, %f220;
+	mul.f32 	%f469, %f212, %f215;
+	mul.f32 	%f470, %f212, %f218;
+	mul.f32 	%f471, %f212, %f221;
 
-BB0_59:
-	setp.lt.s32	%p35, %r3, 1;
-	@%p35 bra 	BB0_67;
+BB0_47:
+	setp.lt.s32	%p29, %r3, 1;
+	@%p29 bra 	BB0_55;
 
 	mov.u32 	%r49, %tid.x;
 	mov.u32 	%r48, %ctaid.x;
@@ -9418,462 +8493,455 @@ BB0_59:
 	mov.u32 	%r44, %ctaid.y;
 	mov.u32 	%r43, %ntid.y;
 	mad.lo.s32 	%r42, %r43, %r44, %r45;
-	ld.param.u64 	%rd88, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd87, %rd88;
-	ld.param.u64 	%rd86, [SecondDerivative_param_5];
-	cvta.to.global.u64 	%rd85, %rd86;
-	ld.param.u64 	%rd84, [SecondDerivative_param_4];
-	cvta.to.global.u64 	%rd83, %rd84;
-	ld.param.u64 	%rd82, [SecondDerivative_param_3];
-	cvta.to.global.u64 	%rd81, %rd82;
-	ld.param.u32 	%r38, [SecondDerivative_param_6];
-	ld.param.u32 	%r37, [SecondDerivative_param_7];
+	ld.param.u64 	%rd77, [SecondDerivative_param_16];
+	cvta.to.global.u64 	%rd76, %rd77;
+	ld.param.u64 	%rd75, [SecondDerivative_param_5];
+	cvta.to.global.u64 	%rd74, %rd75;
+	ld.param.u64 	%rd73, [SecondDerivative_param_4];
+	cvta.to.global.u64 	%rd72, %rd73;
+	ld.param.u64 	%rd71, [SecondDerivative_param_3];
+	cvta.to.global.u64 	%rd70, %rd71;
+	ld.param.u32 	%r37, [SecondDerivative_param_6];
+	ld.param.u32 	%r36, [SecondDerivative_param_7];
 	add.s32 	%r34, %r3, -1;
-	mad.lo.s32 	%r35, %r34, %r37, %r42;
-	mad.lo.s32 	%r13, %r35, %r38, %r46;
-	mul.wide.s32 	%rd54, %r13, 4;
-	add.s64 	%rd55, %rd81, %rd54;
-	ld.global.nc.f32 	%f103, [%rd55];
-	add.s64 	%rd56, %rd83, %rd54;
-	ld.global.nc.f32 	%f104, [%rd56];
-	add.s64 	%rd57, %rd85, %rd54;
-	ld.global.nc.f32 	%f105, [%rd57];
-	add.s64 	%rd22, %rd87, %rd54;
-	mov.f32 	%f529, %f558;
-	@%p7 bra 	BB0_62;
+	mad.lo.s32 	%r35, %r34, %r36, %r42;
+	mad.lo.s32 	%r11, %r35, %r37, %r46;
+	mul.wide.s32 	%rd50, %r11, 4;
+	add.s64 	%rd51, %rd70, %rd50;
+	ld.global.nc.f32 	%f77, [%rd51];
+	add.s64 	%rd52, %rd72, %rd50;
+	ld.global.nc.f32 	%f78, [%rd52];
+	add.s64 	%rd53, %rd74, %rd50;
+	ld.global.nc.f32 	%f79, [%rd53];
+	add.s64 	%rd21, %rd76, %rd50;
+	mov.f32 	%f472, %f501;
+	@%p7 bra 	BB0_50;
 
-	ld.global.nc.f32 	%f269, [%rd22];
-	mul.f32 	%f529, %f269, %f558;
+	ld.global.nc.f32 	%f222, [%rd21];
+	mul.f32 	%f472, %f222, %f501;
 
-BB0_62:
-	mov.f32 	%f530, %f558;
-	@%p7 bra 	BB0_64;
+BB0_50:
+	mov.f32 	%f473, %f501;
+	@%p7 bra 	BB0_52;
 
-	ld.global.nc.f32 	%f270, [%rd22];
-	mul.f32 	%f530, %f270, %f558;
+	ld.global.nc.f32 	%f223, [%rd21];
+	mul.f32 	%f473, %f223, %f501;
 
-BB0_64:
-	ld.param.u64 	%rd124, [SecondDerivative_param_12];
-	setp.eq.s64	%p63, %rd124, 0;
-	ld.param.f32 	%f531, [SecondDerivative_param_13];
-	@%p63 bra 	BB0_66;
+BB0_52:
+	ld.param.u64 	%rd98, [SecondDerivative_param_12];
+	setp.eq.s64	%p57, %rd98, 0;
+	ld.param.f32 	%f474, [SecondDerivative_param_13];
+	@%p57 bra 	BB0_54;
 
-	ld.param.f32 	%f476, [SecondDerivative_param_13];
-	ld.param.u64 	%rd90, [SecondDerivative_param_12];
-	cvta.to.global.u64 	%rd89, %rd90;
-	add.s64 	%rd59, %rd89, %rd54;
-	ld.global.nc.f32 	%f271, [%rd59];
-	mul.f32 	%f531, %f271, %f476;
+	ld.param.f32 	%f429, [SecondDerivative_param_13];
+	ld.param.u64 	%rd79, [SecondDerivative_param_12];
+	cvta.to.global.u64 	%rd78, %rd79;
+	add.s64 	%rd55, %rd78, %rd50;
+	ld.global.nc.f32 	%f224, [%rd55];
+	mul.f32 	%f474, %f224, %f429;
 
-BB0_66:
-	ld.param.f32 	%f477, [SecondDerivative_param_11];
-	cvt.f64.f32	%fd16, %f477;
+BB0_54:
+	ld.param.f32 	%f430, [SecondDerivative_param_11];
+	cvt.f64.f32	%fd16, %f430;
 	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
 	mul.f64 	%fd18, %fd16, %fd17;
-	cvt.rn.f32.f64	%f272, %fd18;
-	sub.f32 	%f273, %f103, %f1;
-	add.f32 	%f274, %f520, %f529;
-	mul.f32 	%f275, %f273, %f274;
-	sub.f32 	%f276, %f104, %f2;
-	add.f32 	%f277, %f521, %f530;
-	mul.f32 	%f278, %f276, %f277;
-	sub.f32 	%f279, %f105, %f3;
-	add.f32 	%f280, %f522, %f531;
-	mul.f32 	%f281, %f279, %f280;
-	fma.rn.f32 	%f526, %f272, %f275, %f526;
-	fma.rn.f32 	%f527, %f272, %f278, %f527;
-	fma.rn.f32 	%f528, %f272, %f281, %f528;
+	cvt.rn.f32.f64	%f225, %fd18;
+	sub.f32 	%f226, %f77, %f1;
+	add.f32 	%f227, %f463, %f472;
+	mul.f32 	%f228, %f226, %f227;
+	sub.f32 	%f229, %f78, %f2;
+	add.f32 	%f230, %f464, %f473;
+	mul.f32 	%f231, %f229, %f230;
+	sub.f32 	%f232, %f79, %f3;
+	add.f32 	%f233, %f465, %f474;
+	mul.f32 	%f234, %f232, %f233;
+	fma.rn.f32 	%f469, %f225, %f228, %f469;
+	fma.rn.f32 	%f470, %f225, %f231, %f470;
+	fma.rn.f32 	%f471, %f225, %f234, %f471;
 
-BB0_67:
-	add.f32 	%f118, %f526, %f79;
-	st.global.f32 	[%rd10], %f118;
-	add.f32 	%f119, %f527, %f80;
-	st.global.f32 	[%rd11], %f119;
-	add.f32 	%f120, %f528, %f81;
-	st.global.f32 	[%rd12], %f120;
-	mov.f32 	%f122, %f558;
-	@%p7 bra 	BB0_69;
+BB0_55:
+	add.f32 	%f92, %f469, %f54;
+	st.global.f32 	[%rd9], %f92;
+	add.f32 	%f93, %f470, %f55;
+	st.global.f32 	[%rd10], %f93;
+	add.f32 	%f94, %f471, 0f00000000;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f96, %f501;
+	@%p7 bra 	BB0_57;
 
-	ld.global.nc.f32 	%f282, [%rd14];
-	mul.f32 	%f122, %f282, %f558;
+	ld.global.nc.f32 	%f235, [%rd13];
+	mul.f32 	%f96, %f235, %f501;
 
-BB0_69:
-	ld.param.u64 	%rd69, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd68, %rd69;
-	add.s64 	%rd23, %rd68, %rd34;
-	setp.eq.s64	%p40, %rd69, 0;
-	mov.f32 	%f124, %f557;
-	@%p40 bra 	BB0_71;
+BB0_57:
+	ld.param.u64 	%rd64, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd63, %rd64;
+	add.s64 	%rd22, %rd63, %rd33;
+	setp.eq.s64	%p34, %rd64, 0;
+	mov.f32 	%f98, %f500;
+	@%p34 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f283, [%rd23];
-	mul.f32 	%f124, %f283, %f557;
+	ld.global.nc.f32 	%f236, [%rd22];
+	mul.f32 	%f98, %f236, %f500;
 
-BB0_71:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p9 bra 	BB0_80;
+BB0_59:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p8 bra 	BB0_68;
 
-	mov.f32 	%f537, %f558;
-	@%p7 bra 	BB0_74;
+	mov.f32 	%f480, %f501;
+	@%p7 bra 	BB0_62;
 
-	ld.global.nc.f32 	%f286, [%rd14+4];
-	mul.f32 	%f537, %f286, %f558;
+	ld.global.nc.f32 	%f239, [%rd13+4];
+	mul.f32 	%f480, %f239, %f501;
 
-BB0_74:
-	mov.f32 	%f538, %f557;
-	@%p40 bra 	BB0_76;
+BB0_62:
+	mov.f32 	%f481, %f500;
+	@%p34 bra 	BB0_64;
 
-	ld.global.nc.f32 	%f287, [%rd23+4];
-	mul.f32 	%f538, %f287, %f557;
+	ld.global.nc.f32 	%f240, [%rd22+4];
+	mul.f32 	%f481, %f240, %f500;
 
-BB0_76:
-	mov.f32 	%f541, 0f00000000;
-	mov.f32 	%f542, %f541;
-	@%p20 bra 	BB0_78;
+BB0_64:
+	mov.f32 	%f484, 0f00000000;
+	mov.f32 	%f485, %f484;
+	@%p16 bra 	BB0_66;
 
-	ld.param.f32 	%f474, [SecondDerivative_param_10];
-	ld.param.f32 	%f473, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd19, %f473;
+	ld.param.f32 	%f427, [SecondDerivative_param_10];
+	ld.param.f32 	%f426, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd19, %f426;
 	mul.f64 	%fd20, %fd19, 0d3FE0000000000000;
 	mul.f64 	%fd21, %fd20, 0d3FE0000000000000;
-	cvt.f64.f32	%fd22, %f474;
+	cvt.f64.f32	%fd22, %f427;
 	mul.f64 	%fd23, %fd22, %fd21;
-	cvt.rn.f32.f64	%f290, %fd23;
-	ld.global.nc.f32 	%f291, [%rd7+4];
-	ld.global.nc.f32 	%f292, [%rd15+4];
-	sub.f32 	%f293, %f292, %f291;
-	ld.global.nc.f32 	%f294, [%rd8+4];
-	ld.global.nc.f32 	%f295, [%rd16+4];
-	sub.f32 	%f296, %f295, %f294;
-	mul.f32 	%f297, %f537, %f293;
-	mul.f32 	%f298, %f538, %f296;
-	fma.rn.f32 	%f299, %f290, %f297, 0f00000000;
-	fma.rn.f32 	%f300, %f290, %f298, 0f00000000;
-	ld.global.nc.f32 	%f301, [%rd15];
-	sub.f32 	%f302, %f301, %f1;
-	ld.global.nc.f32 	%f303, [%rd16];
-	sub.f32 	%f304, %f303, %f2;
-	mul.f32 	%f305, %f122, %f302;
-	mul.f32 	%f306, %f124, %f304;
-	mul.f32 	%f307, %f290, %f305;
-	mul.f32 	%f308, %f290, %f306;
-	sub.f32 	%f541, %f299, %f307;
-	sub.f32 	%f542, %f300, %f308;
+	cvt.rn.f32.f64	%f243, %fd23;
+	ld.global.nc.f32 	%f244, [%rd7+4];
+	ld.global.nc.f32 	%f245, [%rd14+4];
+	sub.f32 	%f246, %f245, %f244;
+	ld.global.nc.f32 	%f247, [%rd8+4];
+	ld.global.nc.f32 	%f248, [%rd15+4];
+	sub.f32 	%f249, %f248, %f247;
+	mul.f32 	%f250, %f480, %f246;
+	mul.f32 	%f251, %f481, %f249;
+	fma.rn.f32 	%f252, %f243, %f250, 0f00000000;
+	fma.rn.f32 	%f253, %f243, %f251, 0f00000000;
+	ld.global.nc.f32 	%f254, [%rd14];
+	sub.f32 	%f255, %f254, %f1;
+	ld.global.nc.f32 	%f256, [%rd15];
+	sub.f32 	%f257, %f256, %f2;
+	mul.f32 	%f258, %f96, %f255;
+	mul.f32 	%f259, %f98, %f257;
+	mul.f32 	%f260, %f243, %f258;
+	mul.f32 	%f261, %f243, %f259;
+	sub.f32 	%f484, %f252, %f260;
+	sub.f32 	%f485, %f253, %f261;
 
-BB0_78:
-	@%p24 bra 	BB0_80;
+BB0_66:
+	@%p19 bra 	BB0_68;
 
-	ld.param.f32 	%f472, [SecondDerivative_param_10];
-	ld.param.f32 	%f471, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd24, %f471;
+	ld.param.f32 	%f425, [SecondDerivative_param_10];
+	ld.param.f32 	%f424, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd24, %f424;
 	mul.f64 	%fd25, %fd24, 0d3FE0000000000000;
 	mul.f64 	%fd26, %fd25, 0d3FE0000000000000;
-	cvt.f64.f32	%fd27, %f472;
+	cvt.f64.f32	%fd27, %f425;
 	mul.f64 	%fd28, %fd27, %fd26;
-	cvt.rn.f32.f64	%f309, %fd28;
-	ld.global.nc.f32 	%f310, [%rd7+4];
-	ld.global.nc.f32 	%f311, [%rd18+4];
-	sub.f32 	%f312, %f310, %f311;
-	ld.global.nc.f32 	%f313, [%rd8+4];
-	ld.global.nc.f32 	%f314, [%rd19+4];
-	sub.f32 	%f315, %f313, %f314;
-	mul.f32 	%f316, %f537, %f312;
-	mul.f32 	%f317, %f538, %f315;
-	fma.rn.f32 	%f318, %f309, %f316, %f541;
-	fma.rn.f32 	%f319, %f309, %f317, %f542;
-	ld.global.nc.f32 	%f320, [%rd18];
-	sub.f32 	%f321, %f1, %f320;
-	ld.global.nc.f32 	%f322, [%rd19];
-	sub.f32 	%f323, %f2, %f322;
-	mul.f32 	%f324, %f122, %f321;
-	mul.f32 	%f325, %f124, %f323;
-	mul.f32 	%f326, %f309, %f324;
-	mul.f32 	%f327, %f309, %f325;
-	sub.f32 	%f541, %f318, %f326;
-	sub.f32 	%f542, %f319, %f327;
+	cvt.rn.f32.f64	%f262, %fd28;
+	ld.global.nc.f32 	%f263, [%rd7+4];
+	ld.global.nc.f32 	%f264, [%rd17+4];
+	sub.f32 	%f265, %f263, %f264;
+	ld.global.nc.f32 	%f266, [%rd8+4];
+	ld.global.nc.f32 	%f267, [%rd18+4];
+	sub.f32 	%f268, %f266, %f267;
+	mul.f32 	%f269, %f480, %f265;
+	mul.f32 	%f270, %f481, %f268;
+	fma.rn.f32 	%f271, %f262, %f269, %f484;
+	fma.rn.f32 	%f272, %f262, %f270, %f485;
+	ld.global.nc.f32 	%f273, [%rd17];
+	sub.f32 	%f274, %f1, %f273;
+	ld.global.nc.f32 	%f275, [%rd18];
+	sub.f32 	%f276, %f2, %f275;
+	mul.f32 	%f277, %f96, %f274;
+	mul.f32 	%f278, %f98, %f276;
+	mul.f32 	%f279, %f262, %f277;
+	mul.f32 	%f280, %f262, %f278;
+	sub.f32 	%f484, %f271, %f279;
+	sub.f32 	%f485, %f272, %f280;
 
-BB0_80:
-	@%p13 bra 	BB0_89;
+BB0_68:
+	@%p11 bra 	BB0_77;
 
-	mov.f32 	%f543, %f558;
-	@%p7 bra 	BB0_83;
+	mov.f32 	%f486, %f501;
+	@%p7 bra 	BB0_71;
 
-	ld.global.nc.f32 	%f328, [%rd14+-4];
-	mul.f32 	%f543, %f328, %f558;
+	ld.global.nc.f32 	%f281, [%rd13+-4];
+	mul.f32 	%f486, %f281, %f501;
 
-BB0_83:
-	mov.f32 	%f544, %f557;
-	@%p40 bra 	BB0_85;
+BB0_71:
+	mov.f32 	%f487, %f500;
+	@%p34 bra 	BB0_73;
 
-	ld.global.nc.f32 	%f329, [%rd23+-4];
-	mul.f32 	%f544, %f329, %f557;
+	ld.global.nc.f32 	%f282, [%rd22+-4];
+	mul.f32 	%f487, %f282, %f500;
 
-BB0_85:
-	@%p20 bra 	BB0_87;
+BB0_73:
+	@%p16 bra 	BB0_75;
 
-	ld.param.f32 	%f470, [SecondDerivative_param_10];
-	ld.param.f32 	%f469, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd29, %f469;
+	ld.param.f32 	%f423, [SecondDerivative_param_10];
+	ld.param.f32 	%f422, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd29, %f422;
 	mul.f64 	%fd30, %fd29, 0d3FE0000000000000;
 	mul.f64 	%fd31, %fd30, 0d3FE0000000000000;
-	cvt.f64.f32	%fd32, %f470;
+	cvt.f64.f32	%fd32, %f423;
 	mul.f64 	%fd33, %fd32, %fd31;
-	cvt.rn.f32.f64	%f330, %fd33;
-	ld.global.nc.f32 	%f331, [%rd7+-4];
-	ld.global.nc.f32 	%f332, [%rd15+-4];
-	sub.f32 	%f333, %f332, %f331;
-	ld.global.nc.f32 	%f334, [%rd8+-4];
-	ld.global.nc.f32 	%f335, [%rd16+-4];
-	sub.f32 	%f336, %f335, %f334;
-	mul.f32 	%f337, %f543, %f333;
-	mul.f32 	%f338, %f544, %f336;
-	mul.f32 	%f339, %f330, %f337;
-	mul.f32 	%f340, %f330, %f338;
-	sub.f32 	%f341, %f541, %f339;
-	sub.f32 	%f342, %f542, %f340;
-	ld.global.nc.f32 	%f343, [%rd15];
-	sub.f32 	%f344, %f343, %f1;
-	ld.global.nc.f32 	%f345, [%rd16];
-	sub.f32 	%f346, %f345, %f2;
-	mul.f32 	%f347, %f122, %f344;
-	mul.f32 	%f348, %f124, %f346;
-	fma.rn.f32 	%f541, %f330, %f347, %f341;
-	fma.rn.f32 	%f542, %f330, %f348, %f342;
+	cvt.rn.f32.f64	%f283, %fd33;
+	ld.global.nc.f32 	%f284, [%rd7+-4];
+	ld.global.nc.f32 	%f285, [%rd14+-4];
+	sub.f32 	%f286, %f285, %f284;
+	ld.global.nc.f32 	%f287, [%rd8+-4];
+	ld.global.nc.f32 	%f288, [%rd15+-4];
+	sub.f32 	%f289, %f288, %f287;
+	mul.f32 	%f290, %f486, %f286;
+	mul.f32 	%f291, %f487, %f289;
+	mul.f32 	%f292, %f283, %f290;
+	mul.f32 	%f293, %f283, %f291;
+	sub.f32 	%f294, %f484, %f292;
+	sub.f32 	%f295, %f485, %f293;
+	ld.global.nc.f32 	%f296, [%rd14];
+	sub.f32 	%f297, %f296, %f1;
+	ld.global.nc.f32 	%f298, [%rd15];
+	sub.f32 	%f299, %f298, %f2;
+	mul.f32 	%f300, %f96, %f297;
+	mul.f32 	%f301, %f98, %f299;
+	fma.rn.f32 	%f484, %f283, %f300, %f294;
+	fma.rn.f32 	%f485, %f283, %f301, %f295;
 
-BB0_87:
-	@%p24 bra 	BB0_89;
+BB0_75:
+	@%p19 bra 	BB0_77;
 
-	ld.param.f32 	%f468, [SecondDerivative_param_10];
-	ld.param.f32 	%f467, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd34, %f467;
+	ld.param.f32 	%f421, [SecondDerivative_param_10];
+	ld.param.f32 	%f420, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd34, %f420;
 	mul.f64 	%fd35, %fd34, 0d3FE0000000000000;
 	mul.f64 	%fd36, %fd35, 0d3FE0000000000000;
-	cvt.f64.f32	%fd37, %f468;
+	cvt.f64.f32	%fd37, %f421;
 	mul.f64 	%fd38, %fd37, %fd36;
-	cvt.rn.f32.f64	%f349, %fd38;
-	ld.global.nc.f32 	%f350, [%rd7+-4];
-	ld.global.nc.f32 	%f351, [%rd18+-4];
-	sub.f32 	%f352, %f350, %f351;
-	ld.global.nc.f32 	%f353, [%rd8+-4];
-	ld.global.nc.f32 	%f354, [%rd19+-4];
-	sub.f32 	%f355, %f353, %f354;
-	mul.f32 	%f356, %f543, %f352;
-	mul.f32 	%f357, %f544, %f355;
-	mul.f32 	%f358, %f349, %f356;
-	mul.f32 	%f359, %f349, %f357;
-	sub.f32 	%f360, %f541, %f358;
-	sub.f32 	%f361, %f542, %f359;
-	ld.global.nc.f32 	%f362, [%rd18];
-	sub.f32 	%f363, %f1, %f362;
-	ld.global.nc.f32 	%f364, [%rd19];
-	sub.f32 	%f365, %f2, %f364;
-	mul.f32 	%f366, %f122, %f363;
-	mul.f32 	%f367, %f124, %f365;
-	fma.rn.f32 	%f541, %f349, %f366, %f360;
-	fma.rn.f32 	%f542, %f349, %f367, %f361;
+	cvt.rn.f32.f64	%f302, %fd38;
+	ld.global.nc.f32 	%f303, [%rd7+-4];
+	ld.global.nc.f32 	%f304, [%rd17+-4];
+	sub.f32 	%f305, %f303, %f304;
+	ld.global.nc.f32 	%f306, [%rd8+-4];
+	ld.global.nc.f32 	%f307, [%rd18+-4];
+	sub.f32 	%f308, %f306, %f307;
+	mul.f32 	%f309, %f486, %f305;
+	mul.f32 	%f310, %f487, %f308;
+	mul.f32 	%f311, %f302, %f309;
+	mul.f32 	%f312, %f302, %f310;
+	sub.f32 	%f313, %f484, %f311;
+	sub.f32 	%f314, %f485, %f312;
+	ld.global.nc.f32 	%f315, [%rd17];
+	sub.f32 	%f316, %f1, %f315;
+	ld.global.nc.f32 	%f317, [%rd18];
+	sub.f32 	%f318, %f2, %f317;
+	mul.f32 	%f319, %f96, %f316;
+	mul.f32 	%f320, %f98, %f318;
+	fma.rn.f32 	%f484, %f302, %f319, %f313;
+	fma.rn.f32 	%f485, %f302, %f320, %f314;
 
-BB0_89:
-	add.f32 	%f149, %f542, %f118;
-	st.global.f32 	[%rd10], %f149;
-	add.f32 	%f150, %f541, %f119;
-	st.global.f32 	[%rd11], %f150;
-	add.f32 	%f151, %f120, 0f00000000;
-	st.global.f32 	[%rd12], %f151;
-	mov.f32 	%f153, %f557;
-	@%p40 bra 	BB0_91;
+BB0_77:
+	add.f32 	%f123, %f485, %f92;
+	st.global.f32 	[%rd9], %f123;
+	add.f32 	%f124, %f484, %f93;
+	st.global.f32 	[%rd10], %f124;
+	st.global.f32 	[%rd11], %f94;
+	mov.f32 	%f126, %f500;
+	@%p34 bra 	BB0_79;
 
-	ld.global.nc.f32 	%f368, [%rd23];
-	mul.f32 	%f153, %f368, %f557;
+	ld.global.nc.f32 	%f321, [%rd22];
+	mul.f32 	%f126, %f321, %f500;
 
-BB0_91:
-	mov.f32 	%f155, %f558;
-	@%p7 bra 	BB0_93;
+BB0_79:
+	mov.f32 	%f128, %f501;
+	@%p7 bra 	BB0_81;
 
-	ld.global.nc.f32 	%f369, [%rd14];
-	mul.f32 	%f155, %f369, %f558;
+	ld.global.nc.f32 	%f322, [%rd13];
+	mul.f32 	%f128, %f322, %f501;
 
-BB0_93:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p20 bra 	BB0_102;
+BB0_81:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p16 bra 	BB0_90;
 
-	mov.f32 	%f551, %f557;
-	@%p40 bra 	BB0_96;
+	mov.f32 	%f494, %f500;
+	@%p34 bra 	BB0_84;
 
-	ld.param.u64 	%rd77, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd76, %rd77;
-	add.s64 	%rd62, %rd76, %rd38;
-	ld.global.nc.f32 	%f372, [%rd62];
-	mul.f32 	%f551, %f372, %f557;
+	ld.param.u64 	%rd69, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd68, %rd69;
+	add.s64 	%rd58, %rd68, %rd38;
+	ld.global.nc.f32 	%f325, [%rd58];
+	mul.f32 	%f494, %f325, %f500;
 
-BB0_96:
-	mov.f32 	%f552, %f558;
-	@%p7 bra 	BB0_98;
+BB0_84:
+	mov.f32 	%f495, %f501;
+	@%p7 bra 	BB0_86;
 
-	ld.param.u64 	%rd80, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd79, %rd80;
-	add.s64 	%rd78, %rd79, %rd38;
-	ld.global.nc.f32 	%f373, [%rd78];
-	mul.f32 	%f552, %f373, %f558;
+	ld.global.nc.f32 	%f326, [%rd16];
+	mul.f32 	%f495, %f326, %f501;
 
-BB0_98:
-	mov.f32 	%f555, 0f00000000;
-	mov.f32 	%f556, %f555;
-	@%p9 bra 	BB0_100;
+BB0_86:
+	mov.f32 	%f498, 0f00000000;
+	mov.f32 	%f499, %f498;
+	@%p8 bra 	BB0_88;
 
-	ld.param.f32 	%f466, [SecondDerivative_param_10];
-	ld.param.f32 	%f465, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd39, %f465;
+	ld.param.f32 	%f419, [SecondDerivative_param_10];
+	ld.param.f32 	%f418, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd39, %f418;
 	mul.f64 	%fd40, %fd39, 0d3FE0000000000000;
 	mul.f64 	%fd41, %fd40, 0d3FE0000000000000;
-	cvt.f64.f32	%fd42, %f466;
+	cvt.f64.f32	%fd42, %f419;
 	mul.f64 	%fd43, %fd42, %fd41;
-	cvt.rn.f32.f64	%f376, %fd43;
-	ld.global.nc.f32 	%f377, [%rd15];
-	ld.global.nc.f32 	%f378, [%rd15+4];
-	sub.f32 	%f379, %f378, %f377;
-	ld.global.nc.f32 	%f380, [%rd16];
-	ld.global.nc.f32 	%f381, [%rd16+4];
-	sub.f32 	%f382, %f381, %f380;
-	mul.f32 	%f383, %f551, %f379;
-	mul.f32 	%f384, %f552, %f382;
-	fma.rn.f32 	%f385, %f376, %f383, 0f00000000;
-	fma.rn.f32 	%f386, %f376, %f384, 0f00000000;
-	ld.global.nc.f32 	%f387, [%rd7+4];
-	sub.f32 	%f388, %f387, %f1;
-	ld.global.nc.f32 	%f389, [%rd8+4];
-	sub.f32 	%f390, %f389, %f2;
-	mul.f32 	%f391, %f153, %f388;
-	mul.f32 	%f392, %f155, %f390;
-	mul.f32 	%f393, %f376, %f391;
-	mul.f32 	%f394, %f376, %f392;
-	sub.f32 	%f555, %f385, %f393;
-	sub.f32 	%f556, %f386, %f394;
+	cvt.rn.f32.f64	%f329, %fd43;
+	ld.global.nc.f32 	%f330, [%rd14];
+	ld.global.nc.f32 	%f331, [%rd14+4];
+	sub.f32 	%f332, %f331, %f330;
+	ld.global.nc.f32 	%f333, [%rd15];
+	ld.global.nc.f32 	%f334, [%rd15+4];
+	sub.f32 	%f335, %f334, %f333;
+	mul.f32 	%f336, %f494, %f332;
+	mul.f32 	%f337, %f495, %f335;
+	fma.rn.f32 	%f338, %f329, %f336, 0f00000000;
+	fma.rn.f32 	%f339, %f329, %f337, 0f00000000;
+	ld.global.nc.f32 	%f340, [%rd7+4];
+	sub.f32 	%f341, %f340, %f1;
+	ld.global.nc.f32 	%f342, [%rd8+4];
+	sub.f32 	%f343, %f342, %f2;
+	mul.f32 	%f344, %f126, %f341;
+	mul.f32 	%f345, %f128, %f343;
+	mul.f32 	%f346, %f329, %f344;
+	mul.f32 	%f347, %f329, %f345;
+	sub.f32 	%f498, %f338, %f346;
+	sub.f32 	%f499, %f339, %f347;
 
-BB0_100:
-	@%p13 bra 	BB0_102;
+BB0_88:
+	@%p11 bra 	BB0_90;
 
-	ld.param.f32 	%f464, [SecondDerivative_param_10];
-	ld.param.f32 	%f463, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd44, %f463;
+	ld.param.f32 	%f417, [SecondDerivative_param_10];
+	ld.param.f32 	%f416, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd44, %f416;
 	mul.f64 	%fd45, %fd44, 0d3FE0000000000000;
 	mul.f64 	%fd46, %fd45, 0d3FE0000000000000;
-	cvt.f64.f32	%fd47, %f464;
+	cvt.f64.f32	%fd47, %f417;
 	mul.f64 	%fd48, %fd47, %fd46;
-	cvt.rn.f32.f64	%f395, %fd48;
-	ld.global.nc.f32 	%f396, [%rd15];
-	ld.global.nc.f32 	%f397, [%rd15+-4];
-	sub.f32 	%f398, %f396, %f397;
-	ld.global.nc.f32 	%f399, [%rd16];
-	ld.global.nc.f32 	%f400, [%rd16+-4];
-	sub.f32 	%f401, %f399, %f400;
-	mul.f32 	%f402, %f551, %f398;
-	mul.f32 	%f403, %f552, %f401;
-	fma.rn.f32 	%f404, %f395, %f402, %f555;
-	fma.rn.f32 	%f405, %f395, %f403, %f556;
-	ld.global.nc.f32 	%f406, [%rd7+-4];
-	sub.f32 	%f407, %f1, %f406;
-	ld.global.nc.f32 	%f408, [%rd8+-4];
-	sub.f32 	%f409, %f2, %f408;
-	mul.f32 	%f410, %f153, %f407;
-	mul.f32 	%f411, %f155, %f409;
-	mul.f32 	%f412, %f395, %f410;
-	mul.f32 	%f413, %f395, %f411;
-	sub.f32 	%f555, %f404, %f412;
-	sub.f32 	%f556, %f405, %f413;
+	cvt.rn.f32.f64	%f348, %fd48;
+	ld.global.nc.f32 	%f349, [%rd14];
+	ld.global.nc.f32 	%f350, [%rd14+-4];
+	sub.f32 	%f351, %f349, %f350;
+	ld.global.nc.f32 	%f352, [%rd15];
+	ld.global.nc.f32 	%f353, [%rd15+-4];
+	sub.f32 	%f354, %f352, %f353;
+	mul.f32 	%f355, %f494, %f351;
+	mul.f32 	%f356, %f495, %f354;
+	fma.rn.f32 	%f357, %f348, %f355, %f498;
+	fma.rn.f32 	%f358, %f348, %f356, %f499;
+	ld.global.nc.f32 	%f359, [%rd7+-4];
+	sub.f32 	%f360, %f1, %f359;
+	ld.global.nc.f32 	%f361, [%rd8+-4];
+	sub.f32 	%f362, %f2, %f361;
+	mul.f32 	%f363, %f126, %f360;
+	mul.f32 	%f364, %f128, %f362;
+	mul.f32 	%f365, %f348, %f363;
+	mul.f32 	%f366, %f348, %f364;
+	sub.f32 	%f498, %f357, %f365;
+	sub.f32 	%f499, %f358, %f366;
 
-BB0_102:
-	@%p24 bra 	BB0_111;
+BB0_90:
+	@%p19 bra 	BB0_99;
 
-	@%p40 bra 	BB0_105;
+	@%p34 bra 	BB0_93;
 
-	ld.param.u64 	%rd72, [SecondDerivative_param_14];
-	cvta.to.global.u64 	%rd71, %rd72;
-	add.s64 	%rd64, %rd71, %rd43;
-	ld.global.nc.f32 	%f414, [%rd64];
-	mul.f32 	%f557, %f414, %f557;
+	ld.param.u64 	%rd67, [SecondDerivative_param_14];
+	cvta.to.global.u64 	%rd66, %rd67;
+	add.s64 	%rd60, %rd66, %rd41;
+	ld.global.nc.f32 	%f367, [%rd60];
+	mul.f32 	%f500, %f367, %f500;
 
-BB0_105:
-	@%p7 bra 	BB0_107;
+BB0_93:
+	@%p7 bra 	BB0_95;
 
-	ld.param.u64 	%rd75, [SecondDerivative_param_16];
-	cvta.to.global.u64 	%rd74, %rd75;
-	add.s64 	%rd73, %rd74, %rd43;
-	ld.global.nc.f32 	%f415, [%rd73];
-	mul.f32 	%f558, %f415, %f558;
+	ld.global.nc.f32 	%f368, [%rd19];
+	mul.f32 	%f501, %f368, %f501;
 
-BB0_107:
-	@%p9 bra 	BB0_109;
+BB0_95:
+	@%p8 bra 	BB0_97;
 
-	ld.param.f32 	%f462, [SecondDerivative_param_10];
-	ld.param.f32 	%f461, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd49, %f461;
+	ld.param.f32 	%f415, [SecondDerivative_param_10];
+	ld.param.f32 	%f414, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd49, %f414;
 	mul.f64 	%fd50, %fd49, 0d3FE0000000000000;
 	mul.f64 	%fd51, %fd50, 0d3FE0000000000000;
-	cvt.f64.f32	%fd52, %f462;
+	cvt.f64.f32	%fd52, %f415;
 	mul.f64 	%fd53, %fd52, %fd51;
-	cvt.rn.f32.f64	%f416, %fd53;
-	ld.global.nc.f32 	%f417, [%rd18];
-	ld.global.nc.f32 	%f418, [%rd18+4];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd19];
-	ld.global.nc.f32 	%f421, [%rd19+4];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f557, %f419;
-	mul.f32 	%f424, %f558, %f422;
-	mul.f32 	%f425, %f416, %f423;
-	mul.f32 	%f426, %f416, %f424;
-	sub.f32 	%f427, %f555, %f425;
-	sub.f32 	%f428, %f556, %f426;
-	ld.global.nc.f32 	%f429, [%rd7+4];
-	sub.f32 	%f430, %f429, %f1;
-	ld.global.nc.f32 	%f431, [%rd8+4];
-	sub.f32 	%f432, %f431, %f2;
-	mul.f32 	%f433, %f153, %f430;
-	mul.f32 	%f434, %f155, %f432;
-	fma.rn.f32 	%f555, %f416, %f433, %f427;
-	fma.rn.f32 	%f556, %f416, %f434, %f428;
+	cvt.rn.f32.f64	%f369, %fd53;
+	ld.global.nc.f32 	%f370, [%rd17];
+	ld.global.nc.f32 	%f371, [%rd17+4];
+	sub.f32 	%f372, %f371, %f370;
+	ld.global.nc.f32 	%f373, [%rd18];
+	ld.global.nc.f32 	%f374, [%rd18+4];
+	sub.f32 	%f375, %f374, %f373;
+	mul.f32 	%f376, %f500, %f372;
+	mul.f32 	%f377, %f501, %f375;
+	mul.f32 	%f378, %f369, %f376;
+	mul.f32 	%f379, %f369, %f377;
+	sub.f32 	%f380, %f498, %f378;
+	sub.f32 	%f381, %f499, %f379;
+	ld.global.nc.f32 	%f382, [%rd7+4];
+	sub.f32 	%f383, %f382, %f1;
+	ld.global.nc.f32 	%f384, [%rd8+4];
+	sub.f32 	%f385, %f384, %f2;
+	mul.f32 	%f386, %f126, %f383;
+	mul.f32 	%f387, %f128, %f385;
+	fma.rn.f32 	%f498, %f369, %f386, %f380;
+	fma.rn.f32 	%f499, %f369, %f387, %f381;
 
-BB0_109:
-	@%p13 bra 	BB0_111;
+BB0_97:
+	@%p11 bra 	BB0_99;
 
-	ld.param.f32 	%f460, [SecondDerivative_param_10];
-	ld.param.f32 	%f459, [SecondDerivative_param_9];
-	cvt.f64.f32	%fd54, %f459;
+	ld.param.f32 	%f413, [SecondDerivative_param_10];
+	ld.param.f32 	%f412, [SecondDerivative_param_9];
+	cvt.f64.f32	%fd54, %f412;
 	mul.f64 	%fd55, %fd54, 0d3FE0000000000000;
 	mul.f64 	%fd56, %fd55, 0d3FE0000000000000;
-	cvt.f64.f32	%fd57, %f460;
+	cvt.f64.f32	%fd57, %f413;
 	mul.f64 	%fd58, %fd57, %fd56;
-	cvt.rn.f32.f64	%f435, %fd58;
-	ld.global.nc.f32 	%f436, [%rd18];
-	ld.global.nc.f32 	%f437, [%rd18+-4];
-	sub.f32 	%f438, %f436, %f437;
-	ld.global.nc.f32 	%f439, [%rd19];
-	ld.global.nc.f32 	%f440, [%rd19+-4];
-	sub.f32 	%f441, %f439, %f440;
-	mul.f32 	%f442, %f557, %f438;
-	mul.f32 	%f443, %f558, %f441;
-	mul.f32 	%f444, %f435, %f442;
-	mul.f32 	%f445, %f435, %f443;
-	sub.f32 	%f446, %f555, %f444;
-	sub.f32 	%f447, %f556, %f445;
-	ld.global.nc.f32 	%f448, [%rd7+-4];
-	sub.f32 	%f449, %f1, %f448;
-	ld.global.nc.f32 	%f450, [%rd8+-4];
-	sub.f32 	%f451, %f2, %f450;
-	mul.f32 	%f452, %f153, %f449;
-	mul.f32 	%f453, %f155, %f451;
-	fma.rn.f32 	%f555, %f435, %f452, %f446;
-	fma.rn.f32 	%f556, %f435, %f453, %f447;
+	cvt.rn.f32.f64	%f388, %fd58;
+	ld.global.nc.f32 	%f389, [%rd17];
+	ld.global.nc.f32 	%f390, [%rd17+-4];
+	sub.f32 	%f391, %f389, %f390;
+	ld.global.nc.f32 	%f392, [%rd18];
+	ld.global.nc.f32 	%f393, [%rd18+-4];
+	sub.f32 	%f394, %f392, %f393;
+	mul.f32 	%f395, %f500, %f391;
+	mul.f32 	%f396, %f501, %f394;
+	mul.f32 	%f397, %f388, %f395;
+	mul.f32 	%f398, %f388, %f396;
+	sub.f32 	%f399, %f498, %f397;
+	sub.f32 	%f400, %f499, %f398;
+	ld.global.nc.f32 	%f401, [%rd7+-4];
+	sub.f32 	%f402, %f1, %f401;
+	ld.global.nc.f32 	%f403, [%rd8+-4];
+	sub.f32 	%f404, %f2, %f403;
+	mul.f32 	%f405, %f126, %f402;
+	mul.f32 	%f406, %f128, %f404;
+	fma.rn.f32 	%f498, %f388, %f405, %f399;
+	fma.rn.f32 	%f499, %f388, %f406, %f400;
 
-BB0_111:
-	add.f32 	%f454, %f556, %f149;
-	st.global.f32 	[%rd10], %f454;
-	add.f32 	%f455, %f555, %f150;
-	st.global.f32 	[%rd11], %f455;
-	st.global.f32 	[%rd12], %f151;
+BB0_99:
+	add.f32 	%f407, %f499, %f123;
+	st.global.f32 	[%rd9], %f407;
+	add.f32 	%f408, %f498, %f124;
+	st.global.f32 	[%rd10], %f408;
+	st.global.f32 	[%rd11], %f94;
 
-BB0_112:
+BB0_100:
 	ret;
 }
 

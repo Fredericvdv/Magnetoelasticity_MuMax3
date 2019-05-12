@@ -3,9 +3,10 @@ package engine
 // Utilities for setting magnetic configurations.
 
 import (
-	"github.com/mumax/3/data"
 	"math"
 	"math/rand"
+
+	"github.com/mumax/3/data"
 )
 
 func init() {
@@ -20,6 +21,7 @@ func init() {
 	DeclFunc("RandomMagSeed", RandomMagSeed, "Random magnetization with given seed")
 	DeclFunc("Conical", Conical, "Conical state for given wave vector, cone direction, and cone angle")
 	DeclFunc("Helical", Helical, "Helical state for given wave vector")
+	DeclFunc("Gaussian", Gaussian, "Gaussian pulse")
 }
 
 // Magnetic configuration returns m vector for position (x,y,z)
@@ -68,6 +70,27 @@ func Vortex(circ, pol int) Config {
 		my := x * float64(circ) / r
 		mz := 1.5 * float64(pol) * math.Exp(-r2/diam2)
 		return noNaN(data.Vector{mx, my, mz}, pol)
+	}
+}
+
+func Gaussian(A, pos_x, pos_y, sig_x, sig_y float64) Config {
+	return func(x, y, z float64) data.Vector {
+		norm := A * math.Exp(-((x-pos_x)*(x-pos_x)/(2*sig_x*sig_x) + (y-pos_y)*(y-pos_y)/(2*sig_y*sig_y)))
+		angle := math.Atan(y / x)
+		ux := 0.0
+		uy := 0.0
+		uz := 0.0
+		if x >= 0 {
+			ux = norm * math.Cos(angle)
+			uy = norm * math.Sin(angle)
+			uz = 0.0
+		} else {
+			ux = -norm * math.Cos(angle)
+			uy = -norm * math.Sin(angle)
+			uz = 0.0
+		}
+
+		return data.Vector{ux, uy, uz}
 	}
 }
 
