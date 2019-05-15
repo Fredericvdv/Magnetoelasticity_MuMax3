@@ -21,7 +21,8 @@ func init() {
 	DeclFunc("RandomMagSeed", RandomMagSeed, "Random magnetization with given seed")
 	DeclFunc("Conical", Conical, "Conical state for given wave vector, cone direction, and cone angle")
 	DeclFunc("Helical", Helical, "Helical state for given wave vector")
-	DeclFunc("Gaussian", Gaussian, "Gaussian pulse")
+	DeclFunc("GaussianSherical", GaussianSherical, "Gaussian pulse with sherical symmetry")
+	DeclFunc("GaussianUniform", GaussianUniform, "Gaussian pulse in one direction")
 }
 
 // Magnetic configuration returns m vector for position (x,y,z)
@@ -73,7 +74,7 @@ func Vortex(circ, pol int) Config {
 	}
 }
 
-func Gaussian(A, pos_x, pos_y, sig_x, sig_y float64) Config {
+func GaussianSherical(A, pos_x, pos_y, sig_x, sig_y float64) Config {
 	return func(x, y, z float64) data.Vector {
 		norm := A * math.Exp(-((x-pos_x)*(x-pos_x)/(2*sig_x*sig_x) + (y-pos_y)*(y-pos_y)/(2*sig_y*sig_y)))
 		angle := math.Atan(y / x)
@@ -89,7 +90,19 @@ func Gaussian(A, pos_x, pos_y, sig_x, sig_y float64) Config {
 			uy = -norm * math.Sin(angle)
 			uz = 0.0
 		}
+		return data.Vector{ux, uy, uz}
+	}
+}
 
+func GaussianUniform(A, pos, sig, angle1, angle2 float64) Config {
+	return func(x, y, z float64) data.Vector {
+		angle1 := angle1 * 3.1415 / 180
+		angle2 := angle2 * 3.1415 / 180
+		rot := math.Cos(angle1)*x + math.Sin(angle1)*y
+		norm := A * math.Exp(-((rot - pos) * (rot - pos) / (2 * sig * sig)))
+		ux := math.Cos(angle2) * norm
+		uy := math.Sin(angle2) * norm
+		uz := 0.0
 		return data.Vector{ux, uy, uz}
 	}
 }
