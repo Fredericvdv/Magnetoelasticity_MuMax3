@@ -11,6 +11,8 @@ import (
 // Adaptive Heun solver.
 type secondHeun struct{}
 
+
+
 // Adaptive Heun method, can be used as solver.Step
 func (_ *secondHeun) Step() {
 	fmt.Println("#########################")
@@ -18,14 +20,12 @@ func (_ *secondHeun) Step() {
 	fmt.Println("Number of steps:", NSteps+NUndone)
 	fmt.Println("#########################")
 
-
 	//################
 	// Differential equation:
 	// du/dt = g(t)
 	// dg(t)/dt = [f(t) - eta*g(t)]/rho
 	// dg(t)/dt = right
 	// with f(t) = nabla sigma
-
 
 	//#################################
 	//Set initial states and initialisations:
@@ -37,7 +37,7 @@ func (_ *secondHeun) Step() {
 	udot := DU.Buffer()
 	fmt.Println("Max vector norm udot:", cuda.MaxVecNorm(udot))
 
-	//Necessary to calculate error 
+	//Necessary to calculate error
 	udot2 := cuda.Buffer(VECTOR, udot.Size())
 	defer cuda.Recycle(udot2)
 
@@ -57,7 +57,6 @@ func (_ *secondHeun) Step() {
 	right2 := cuda.Buffer(VECTOR, y.Size())
 	defer cuda.Recycle(right2)
 
-
 	//#############################
 	//Time
 	if FixDt != 0 {
@@ -67,7 +66,6 @@ func (_ *secondHeun) Step() {
 	util.Assert(dt > 0)
 	Time += Dt_si
 	fmt.Println("dt = ", Dt_si)
-
 
 	//#####################
 	//Stage 1: predictor
@@ -84,8 +82,6 @@ func (_ *secondHeun) Step() {
 	cuda.Madd2(udot2, udot, right, 1, dt)
 	calcRightPart(right2, dudot0, udot2)
 
-
-
 	//###############################
 	//Error calculation
 	err := cuda.MaxVecDiff(right, right2)
@@ -97,7 +93,6 @@ func (_ *secondHeun) Step() {
 	if err2 != 0.0 {
 		err2 = err2 * float64(dt) / cuda.MaxVecNorm(udot2)
 	}
-
 
 	//################################
 	//Prints
@@ -123,6 +118,7 @@ func (_ *secondHeun) Step() {
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - (g1(t+dt)-dt*f(t))]
 		// y(t+dt) = y1(t+dt) + 0.5*dt*dt*f(t)
 		cuda.Madd3(y, y, udot2, udot, 1, dt/2, -dt/2)
+		
 
 		// First derivtion of displacement = g(t+dt)= next udot
 		// g(t+dt) = g(t) + 0.5*dt*[f(t+dt) + f(t)]
@@ -133,6 +129,7 @@ func (_ *secondHeun) Step() {
 		// g(t+dt) = g(t) + 0.5*dt*[f(t+dt) + f(t)]
 		// g(t+dt) = g1(t+dt) + 0.5*dt*[f(t+dt) - f(t)]
 		cuda.Madd3(udot, udot, right, right2, 1, dt/2, dt/2)
+	
 
 		//If you run second derivative together with LLG, then remove NSteps++
 		NSteps++

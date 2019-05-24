@@ -6,11 +6,13 @@ import (
 )
 
 var (
+	//Als je dit veld als output wil?
 	SecondDerivDisp = NewVectorField("force", "", "Force/volume", calcSecondDerivDisp)
 	C11             = NewScalarParam("C11", "N/m2", "Stiffness constant C11")
 	C12             = NewScalarParam("C12", "N/m2", "Stiffness constant C12")
 	C44             = NewScalarParam("C44", "N/m2", "Stiffness constant C44")
 )
+
 
 func calcSecondDerivDisp(dst *data.Slice) {
 	SecondDerivative(dst, U, C11, C12, C44)

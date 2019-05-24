@@ -5,56 +5,56 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for madd2region kernel
 var madd2region_code cu.Function
 
 // Stores the arguments for madd2region kernel invocation
-type madd2region_args_t struct{
-	 arg_dst unsafe.Pointer
-	 arg_src1 unsafe.Pointer
-	 arg_fac1 float32
-	 arg_src2 unsafe.Pointer
-	 arg_fac2 float32
-	 arg_param2_ unsafe.Pointer
-	 arg_param2_mul float32
-	 arg_src3 unsafe.Pointer
-	 arg_fac3 float32
-	 arg_param3_ unsafe.Pointer
-	 arg_param3_mul float32
-	 arg_N int
-	 argptr [12]unsafe.Pointer
+type madd2region_args_t struct {
+	arg_dst        unsafe.Pointer
+	arg_src1       unsafe.Pointer
+	arg_fac1       float32
+	arg_src2       unsafe.Pointer
+	arg_fac2       float32
+	arg_param2_    unsafe.Pointer
+	arg_param2_mul float32
+	arg_src3       unsafe.Pointer
+	arg_fac3       float32
+	arg_param3_    unsafe.Pointer
+	arg_param3_mul float32
+	arg_N          int
+	argptr         [12]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for madd2region kernel invocation
 var madd2region_args madd2region_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 madd2region_args.argptr[0] = unsafe.Pointer(&madd2region_args.arg_dst)
-	 madd2region_args.argptr[1] = unsafe.Pointer(&madd2region_args.arg_src1)
-	 madd2region_args.argptr[2] = unsafe.Pointer(&madd2region_args.arg_fac1)
-	 madd2region_args.argptr[3] = unsafe.Pointer(&madd2region_args.arg_src2)
-	 madd2region_args.argptr[4] = unsafe.Pointer(&madd2region_args.arg_fac2)
-	 madd2region_args.argptr[5] = unsafe.Pointer(&madd2region_args.arg_param2_)
-	 madd2region_args.argptr[6] = unsafe.Pointer(&madd2region_args.arg_param2_mul)
-	 madd2region_args.argptr[7] = unsafe.Pointer(&madd2region_args.arg_src3)
-	 madd2region_args.argptr[8] = unsafe.Pointer(&madd2region_args.arg_fac3)
-	 madd2region_args.argptr[9] = unsafe.Pointer(&madd2region_args.arg_param3_)
-	 madd2region_args.argptr[10] = unsafe.Pointer(&madd2region_args.arg_param3_mul)
-	 madd2region_args.argptr[11] = unsafe.Pointer(&madd2region_args.arg_N)
-	 }
+	madd2region_args.argptr[0] = unsafe.Pointer(&madd2region_args.arg_dst)
+	madd2region_args.argptr[1] = unsafe.Pointer(&madd2region_args.arg_src1)
+	madd2region_args.argptr[2] = unsafe.Pointer(&madd2region_args.arg_fac1)
+	madd2region_args.argptr[3] = unsafe.Pointer(&madd2region_args.arg_src2)
+	madd2region_args.argptr[4] = unsafe.Pointer(&madd2region_args.arg_fac2)
+	madd2region_args.argptr[5] = unsafe.Pointer(&madd2region_args.arg_param2_)
+	madd2region_args.argptr[6] = unsafe.Pointer(&madd2region_args.arg_param2_mul)
+	madd2region_args.argptr[7] = unsafe.Pointer(&madd2region_args.arg_src3)
+	madd2region_args.argptr[8] = unsafe.Pointer(&madd2region_args.arg_fac3)
+	madd2region_args.argptr[9] = unsafe.Pointer(&madd2region_args.arg_param3_)
+	madd2region_args.argptr[10] = unsafe.Pointer(&madd2region_args.arg_param3_mul)
+	madd2region_args.argptr[11] = unsafe.Pointer(&madd2region_args.arg_N)
+}
 
 // Wrapper for madd2region CUDA kernel, asynchronous.
-func k_madd2region_async ( dst unsafe.Pointer, src1 unsafe.Pointer, fac1 float32, src2 unsafe.Pointer, fac2 float32, param2_ unsafe.Pointer, param2_mul float32, src3 unsafe.Pointer, fac3 float32, param3_ unsafe.Pointer, param3_mul float32, N int,  cfg *config) {
-	if Synchronous{ // debug
+func k_madd2region_async(dst unsafe.Pointer, src1 unsafe.Pointer, fac1 float32, src2 unsafe.Pointer, fac2 float32, param2_ unsafe.Pointer, param2_mul float32, src3 unsafe.Pointer, fac3 float32, param3_ unsafe.Pointer, param3_mul float32, N int, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("madd2region")
 	}
@@ -62,49 +62,48 @@ func k_madd2region_async ( dst unsafe.Pointer, src1 unsafe.Pointer, fac1 float32
 	madd2region_args.Lock()
 	defer madd2region_args.Unlock()
 
-	if madd2region_code == 0{
+	if madd2region_code == 0 {
 		madd2region_code = fatbinLoad(madd2region_map, "madd2region")
 	}
 
-	 madd2region_args.arg_dst = dst
-	 madd2region_args.arg_src1 = src1
-	 madd2region_args.arg_fac1 = fac1
-	 madd2region_args.arg_src2 = src2
-	 madd2region_args.arg_fac2 = fac2
-	 madd2region_args.arg_param2_ = param2_
-	 madd2region_args.arg_param2_mul = param2_mul
-	 madd2region_args.arg_src3 = src3
-	 madd2region_args.arg_fac3 = fac3
-	 madd2region_args.arg_param3_ = param3_
-	 madd2region_args.arg_param3_mul = param3_mul
-	 madd2region_args.arg_N = N
-	
+	madd2region_args.arg_dst = dst
+	madd2region_args.arg_src1 = src1
+	madd2region_args.arg_fac1 = fac1
+	madd2region_args.arg_src2 = src2
+	madd2region_args.arg_fac2 = fac2
+	madd2region_args.arg_param2_ = param2_
+	madd2region_args.arg_param2_mul = param2_mul
+	madd2region_args.arg_src3 = src3
+	madd2region_args.arg_fac3 = fac3
+	madd2region_args.arg_param3_ = param3_
+	madd2region_args.arg_param3_mul = param3_mul
+	madd2region_args.arg_N = N
 
 	args := madd2region_args.argptr[:]
 	cu.LaunchKernel(madd2region_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("madd2region")
 	}
 }
 
 // maps compute capability on PTX code for madd2region kernel.
-var madd2region_map = map[int]string{ 0: "" ,
-30: madd2region_ptx_30 ,
-35: madd2region_ptx_35 ,
-37: madd2region_ptx_37 ,
-50: madd2region_ptx_50 ,
-52: madd2region_ptx_52 ,
-53: madd2region_ptx_53 ,
-60: madd2region_ptx_60 ,
-61: madd2region_ptx_61 ,
-70: madd2region_ptx_70 ,
-75: madd2region_ptx_75  }
+var madd2region_map = map[int]string{0: "",
+	30: madd2region_ptx_30,
+	35: madd2region_ptx_35,
+	37: madd2region_ptx_37,
+	50: madd2region_ptx_50,
+	52: madd2region_ptx_52,
+	53: madd2region_ptx_53,
+	60: madd2region_ptx_60,
+	61: madd2region_ptx_61,
+	70: madd2region_ptx_70,
+	75: madd2region_ptx_75}
 
 // madd2region PTX code for various compute capabilities.
-const(
-  madd2region_ptx_30 = `
+const (
+	madd2region_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -193,7 +192,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_35 = `
+	madd2region_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -282,7 +281,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_37 = `
+	madd2region_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -371,7 +370,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_50 = `
+	madd2region_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -460,7 +459,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_52 = `
+	madd2region_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -549,7 +548,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_53 = `
+	madd2region_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -638,7 +637,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_60 = `
+	madd2region_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -727,7 +726,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_61 = `
+	madd2region_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -816,7 +815,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_70 = `
+	madd2region_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -905,7 +904,7 @@ BB0_6:
 
 
 `
-   madd2region_ptx_75 = `
+	madd2region_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -994,4 +993,4 @@ BB0_6:
 
 
 `
- )
+)
