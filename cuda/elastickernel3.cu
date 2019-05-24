@@ -41,55 +41,75 @@ Elastodynamic3(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     cc = make_float3(amul(C2_, C2_mul, I),0.0,amul(C3_, C3_mul, I));    
     if (iz < Nz-1) {
         I_ = idx(ix, iy, iz+1);
-        cc_ = make_float3(amul(C2_, C2_mul, I_), 0.0,amul(C3_, C3_mul, I_));
-        if (ix < Nx-1) {
-            I_ = idx(ix+1, iy, iz+1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz+1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wx*0.5*wz*had(cc_,d2-u_); 
-            
-            I_ = idx(ix+1, iy, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wx*0.5*wz*had(cc,u_-u0);
-        }
-        if (ix > 0) {
-            I_ = idx(ix-1, iy, iz+1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz+1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wx*0.5*wz*had(cc_,u_-d2); 
-            
-            I_ = idx(ix-1, iy, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wx*0.5*wz*had(cc,u0-u_);
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C2_, C2_mul, I_), 0.0,amul(C3_, C3_mul, I_));
+            if (ix < Nx-1) {
+                I_ = idx(ix+1, iy, iz+1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz+1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wx*0.5*wz*had(cc_,d2-u_); 
+                }
+                
+                I_ = idx(ix+1, iy, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wx*0.5*wz*had(cc,u_-u0);
+                }
+            }
+            if (ix > 0) {
+                I_ = idx(ix-1, iy, iz+1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz+1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wx*0.5*wz*had(cc_,u_-d2); 
+                }
+                
+                I_ = idx(ix-1, iy, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wx*0.5*wz*had(cc,u0-u_);
+                }
+            }
         }
     }
     if (iz > 0) {
         I_ = idx(ix, iy, iz-1);
-        cc_ = make_float3(amul(C2_, C2_mul, I_), 0.0,amul(C3_, C3_mul, I_));
-        if (ix < Nx-1) {
-            I_ = idx(ix+1, iy, iz-1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz-1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wx*0.5*wz*had(cc_,d2-u_); 
-            
-            I_ = idx(ix+1, iy, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wx*0.5*wz*had(cc,u_-u0);
-        }
-        //If there is neighbour below
-        if (ix > 0) {
-            I_ = idx(ix-1, iy, iz-1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz-1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wx*0.5*wz*had(cc_,u_-d2); 
-            
-            I_ = idx(ix-1, iy, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wx*0.5*wz*had(cc,u0-u_);
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C2_, C2_mul, I_), 0.0,amul(C3_, C3_mul, I_));
+            if (ix < Nx-1) {
+                I_ = idx(ix+1, iy, iz-1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz-1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wx*0.5*wz*had(cc_,d2-u_); 
+                }
+                
+                I_ = idx(ix+1, iy, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wx*0.5*wz*had(cc,u_-u0);
+                }
+            }
+            //If there is neighbour below
+            if (ix > 0) {
+                I_ = idx(ix-1, iy, iz-1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz-1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wx*0.5*wz*had(cc_,u_-d2); 
+                }
+                
+                I_ = idx(ix-1, iy, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wx*0.5*wz*had(cc,u0-u_);
+                }
+            }
         }
     }
     
@@ -104,54 +124,74 @@ Elastodynamic3(float* __restrict__ dux, float* __restrict__ duy, float* __restri
         //If there is a neighbor to the right
         if (iy < Ny-1) {
             I_ = idx(ix, iy+1, iz);
-            cc_ = make_float3( 0.0,amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_));
-            if (iz < Nz-1) {
-                I_ = idx(ix, iy+1, iz+1);
-                d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-                I_ = idx(ix, iy+1, iz);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ += 0.5*wy*0.5*wz*had(cc_,d2-u_); 
-                
-                I_ = idx(ix, iy, iz+1);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ -= 0.5*wy*0.5*wz*had(cc,u_-u0);
-            }
-            if (iz > 0) {
-                I_ = idx(ix, iy+1, iz-1);
-                d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-                I_ = idx(ix, iy+1, iz);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ += 0.5*wy*0.5*wz*had(cc_,u_-d2); 
-                
-                I_ = idx(ix, iy, iz-1);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ -= 0.5*wy*0.5*wz*had(cc,u0-u_);
+            if (amul(C1_, C1_mul, I_)!=0) {
+                cc_ = make_float3( 0.0,amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_));
+                if (iz < Nz-1) {
+                    I_ = idx(ix, iy+1, iz+1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                        I_ = idx(ix, iy+1, iz);
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ += 0.5*wy*0.5*wz*had(cc_,d2-u_); 
+                    }
+                    
+                    I_ = idx(ix, iy, iz+1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ -= 0.5*wy*0.5*wz*had(cc,u_-u0);
+                    }
+                }
+                if (iz > 0) {
+                    I_ = idx(ix, iy+1, iz-1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                        I_ = idx(ix, iy+1, iz);
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ += 0.5*wy*0.5*wz*had(cc_,u_-d2);
+                    } 
+                    
+                    I_ = idx(ix, iy, iz-1);
+                    if (amul(C1_, C1_mul, I_)!=0) {   
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ -= 0.5*wy*0.5*wz*had(cc,u0-u_);
+                    }
+                }
             }
         }
         if (iy > 0) {
             I_ = idx(ix, iy-1, iz);
-            cc_ = make_float3(0.0,amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_));
-            if (iz < Nz-1) {
-                I_ = idx(ix, iy-1, iz+1);
-                d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-                I_ = idx(ix, iy-1, iz);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ -= 0.5*wy*0.5*wz*had(cc_,d2-u_); 
-                
-                I_ = idx(ix, iy, iz+1);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ += 0.5*wy*0.5*wz*had(cc,u_-u0);
-            }
-            if (iz > 0) {
-                I_ = idx(ix, iy-1, iz-1);
-                d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-                I_ = idx(ix, iy-1, iz);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ -= 0.5*wy*0.5*wz*had(cc_,u_-d2); 
-                
-                I_ = idx(ix, iy, iz-1);
-                u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-                d_ += 0.5*wy*0.5*wz*had(cc,u0-u_);
+            if (amul(C1_, C1_mul, I_)!=0) {
+                cc_ = make_float3(0.0,amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_));
+                if (iz < Nz-1) {
+                    I_ = idx(ix, iy-1, iz+1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                        I_ = idx(ix, iy-1, iz);
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ -= 0.5*wy*0.5*wz*had(cc_,d2-u_); 
+                    }
+                    
+                    I_ = idx(ix, iy, iz+1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ += 0.5*wy*0.5*wz*had(cc,u_-u0);
+                    }
+                }
+                if (iz > 0) {
+                    I_ = idx(ix, iy-1, iz-1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                        I_ = idx(ix, iy-1, iz);
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ -= 0.5*wy*0.5*wz*had(cc_,u_-d2); 
+                    }
+                    
+                    I_ = idx(ix, iy, iz-1);
+                    if (amul(C1_, C1_mul, I_)!=0) {
+                        u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                        d_ += 0.5*wy*0.5*wz*had(cc,u0-u_);
+                    }
+                }
             }
         }
 
@@ -165,55 +205,75 @@ Elastodynamic3(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     cc = make_float3(0.0, amul(C2_, C2_mul, I),amul(C3_, C3_mul, I));    
     if (iz < Nz-1) {
         I_ = idx(ix, iy, iz+1);
-        cc_ = make_float3( 0.0, amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_));
-        if (iy < Ny-1) {
-            I_ = idx(ix, iy+1, iz+1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz+1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wy*0.5*wz*had(cc_,d2-u_); 
-            
-            I_ = idx(ix, iy+1, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wy*0.5*wz*had(cc,u_-u0);
-        }
-        if (iy > 0) {
-            I_ = idx(ix, iy-1, iz+1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz+1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wy*0.5*wz*had(cc_,u_-d2); 
-            
-            I_ = idx(ix, iy-1, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wy*0.5*wz*had(cc,u0-u_);
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3( 0.0, amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_));
+            if (iy < Ny-1) {
+                I_ = idx(ix, iy+1, iz+1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz+1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wy*0.5*wz*had(cc_,d2-u_); 
+                }
+                
+                I_ = idx(ix, iy+1, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wy*0.5*wz*had(cc,u_-u0);
+                }
+            }
+            if (iy > 0) {
+                I_ = idx(ix, iy-1, iz+1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz+1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wy*0.5*wz*had(cc_,u_-d2); 
+                }
+                
+                I_ = idx(ix, iy-1, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wy*0.5*wz*had(cc,u0-u_);
+                }
+            }
         }
     }
     if (iz > 0) {
         I_ = idx(ix, iy, iz-1);
-        cc_ = make_float3( 0.0, amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_));
-        if (iy < Ny-1) {
-            I_ = idx(ix, iy+1, iz-1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz-1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wy*0.5*wz*had(cc_,d2-u_); 
-            
-            I_ = idx(ix, iy+1, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wy*0.5*wz*had(cc,u_-u0);
-        }
-        //If there is neighbour below
-        if (iy > 0) {
-            I_ = idx(ix, iy-1, iz-1);
-            d2 = make_float3(ux[I_], uy[I_], uz[I_]);
-            I_ = idx(ix, iy, iz-1);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ -= 0.5*wy*0.5*wz*had(cc_,u_-d2); 
-            
-            I_ = idx(ix, iy-1, iz);
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            d_ += 0.5*wy*0.5*wz*had(cc,u0-u_);
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3( 0.0, amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_));
+            if (iy < Ny-1) {
+                I_ = idx(ix, iy+1, iz-1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz-1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wy*0.5*wz*had(cc_,d2-u_); 
+                }
+                
+                I_ = idx(ix, iy+1, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wy*0.5*wz*had(cc,u_-u0);
+                }
+            }
+            //If there is neighbour below
+            if (iy > 0) {
+                I_ = idx(ix, iy-1, iz-1);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    d2 = make_float3(ux[I_], uy[I_], uz[I_]);
+                    I_ = idx(ix, iy, iz-1);
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ -= 0.5*wy*0.5*wz*had(cc_,u_-d2); 
+                }
+                
+                I_ = idx(ix, iy-1, iz);
+                if (amul(C1_, C1_mul, I_)!=0) {
+                    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+                    d_ += 0.5*wy*0.5*wz*had(cc,u0-u_);
+                }
+            }
         }
     }
 

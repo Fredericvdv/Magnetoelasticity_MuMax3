@@ -47,15 +47,19 @@ Elastodynamic1(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     if (ix < Nx-1) {
         I_ = idx(ix+1, iy, iz);
         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-        cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-        d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+            d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
+        }
     } 
     //If there is left neighbour
     if (ix > 0) {
         I_ = idx(ix-1, iy, iz);
         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-        cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-        d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0));
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+            d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0));
+        }
     }
     
     dux[I] += d_.x ;
@@ -70,15 +74,19 @@ Elastodynamic1(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     if (iy < Ny-1) {
         I_ = idx(ix, iy+1, iz);
         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
-        d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
+            d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
+        }
     } 
     //If there is left neighbour
     if (iy > 0) {
         I_ = idx(ix, iy-1, iz);
         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
-        d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0));
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
+            d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0));
+        }
     }
     
     dux[I] += d_.x ;
@@ -93,15 +101,19 @@ Elastodynamic1(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     if (iz < Nz-1) {
         I_ = idx(ix, iy, iz+1);
         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
-        d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
+            d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
+        }
     } 
     //If there is left neighbour
     if (iz > 0) {
         I_ = idx(ix, iy, iz-1);
         u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-        cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
-        d_ += 0.5*wz*wz*had((cc+cc_),(u_-u0));
+        if (amul(C1_, C1_mul, I_)!=0) {
+            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
+            d_ += 0.5*wz*wz*had((cc+cc_),(u_-u0));
+        }
     }
     
     dux[I] += d_.x ;

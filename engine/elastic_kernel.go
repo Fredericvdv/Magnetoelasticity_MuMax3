@@ -18,16 +18,13 @@ func calcSecondDerivDisp(dst *data.Slice) {
 }
 
 func SecondDerivative(dst *data.Slice, u displacement, C1, C2, C3 *RegionwiseScalar) {
-	//No elastodynamics is calculated if stiffness constants are zero
-	if C11.nonZero() || C12.nonZero() || C44.nonZero() {
-		c1 := C1.MSlice()
-		defer c1.Recycle()
+	c1 := C1.MSlice()
+	defer c1.Recycle()
 
-		c2 := C2.MSlice()
-		defer c2.Recycle()
+	c2 := C2.MSlice()
+	defer c2.Recycle()
 
-		c3 := C3.MSlice()
-		defer c3.Recycle()
-		cuda.SecondDerivative(dst, u.Buffer(), U.Mesh(), c1, c2, c3)
-	}
+	c3 := C3.MSlice()
+	defer c3.Recycle()
+	cuda.SecondDerivative(dst, u.Buffer(), U.Mesh(), c1, c2, c3)
 }
