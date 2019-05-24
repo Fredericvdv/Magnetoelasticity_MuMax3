@@ -11,8 +11,6 @@ import (
 // Adaptive Heun solver.
 type secondHeun struct{}
 
-
-
 // Adaptive Heun method, can be used as solver.Step
 func (_ *secondHeun) Step() {
 	fmt.Println("#########################")
@@ -109,7 +107,6 @@ func (_ *secondHeun) Step() {
 	fmt.Println("err = maxVecDiff * dt /MaxVexNorm", err)
 	fmt.Println("err2 = maxVecDiff * dt /MaxVexNorm", err2)
 
-
 	//##########################
 	// adjust next time step
 	if (err < MaxErr && err2 < MaxErr) || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop
@@ -118,7 +115,6 @@ func (_ *secondHeun) Step() {
 		// y(t+dt) = y1(t+dt) + 0.5*dt*[g1(t+dt) - (g1(t+dt)-dt*f(t))]
 		// y(t+dt) = y1(t+dt) + 0.5*dt*dt*f(t)
 		cuda.Madd3(y, y, udot2, udot, 1, dt/2, -dt/2)
-		
 
 		// First derivtion of displacement = g(t+dt)= next udot
 		// g(t+dt) = g(t) + 0.5*dt*[f(t+dt) + f(t)]
@@ -129,7 +125,6 @@ func (_ *secondHeun) Step() {
 		// g(t+dt) = g(t) + 0.5*dt*[f(t+dt) + f(t)]
 		// g(t+dt) = g1(t+dt) + 0.5*dt*[f(t+dt) - f(t)]
 		cuda.Madd3(udot, udot, right, right2, 1, dt/2, dt/2)
-	
 
 		//If you run second derivative together with LLG, then remove NSteps++
 		NSteps++

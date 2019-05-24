@@ -11,7 +11,7 @@ var (
 	// 1 - frozen, 0 - free. TODO: check if it only contains 0/1 values
 	FrozenDispLoc = NewScalarParam("frozenDispLoc", "", "Defines displacment region that should be fixed")
 	FrozenDispVal = NewVectorParam("frozenDispVal", "", "Defines fixed displacement value")
-	bf            = NewVectorParam("elasticforce", "", "Defines force density [N/m3]")
+	bf            = NewExcitation("elasticforce", "N/m3", "Defines force density [N/m3]")
 )
 
 func FreezeDisp(dst *data.Slice) {
@@ -29,7 +29,7 @@ func calcRightPart(dst, f, g *data.Slice) {
 	RightPart(dst, f, g, Eta, Rho, bf)
 }
 
-func RightPart(dst, f, g *data.Slice, Eta, Rho *RegionwiseScalar, bf *RegionwiseVector) {
+func RightPart(dst, f, g *data.Slice, Eta, Rho *RegionwiseScalar, bf *Excitation) {
 	//No elastodynamics is calculated if stiffness constants are zero
 	if Rho.nonZero() {
 		rho, _ := Rho.Slice()

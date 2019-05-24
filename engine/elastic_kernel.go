@@ -13,7 +13,6 @@ var (
 	C44             = NewScalarParam("C44", "N/m2", "Stiffness constant C44")
 )
 
-
 func calcSecondDerivDisp(dst *data.Slice) {
 	SecondDerivative(dst, U, C11, C12, C44)
 }
