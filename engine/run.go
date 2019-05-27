@@ -64,6 +64,7 @@ const (
 	DORMANDPRINCE  = 5
 	FEHLBERG       = 6
 	SECONDDERIV    = 7
+	ELAS_RUNGEKUTTA= 8
 )
 
 func SetSolver(typ int) {
@@ -90,6 +91,8 @@ func SetSolver(typ int) {
 		stepper = new(RK56)
 	case SECONDDERIV:
 		stepper = new(secondHeun)
+	case ELAS_RUNGEKUTTA:
+		stepper = new(elasRK4)
 	}
 	solvertype = typ
 }
