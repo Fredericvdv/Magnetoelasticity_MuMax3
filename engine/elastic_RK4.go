@@ -2,11 +2,10 @@ package engine
 
 import (
 	"fmt"
-	"math"
 	"github.com/mumax/3/cuda"
-	"github.com/mumax/3/util"
 	"github.com/mumax/3/data"
-
+	"github.com/mumax/3/util"
+	"math"
 )
 
 // Classical 4th order RK solver.
@@ -24,7 +23,6 @@ func (_ *elasRK4) Step() {
 	// dv(t)/dt = [f(t) + bf(t) - eta*g(t)]/rho
 	// dv(t)/dt = right
 	// with f(t) = nabla sigma
-
 
 	//#################################
 	//Initialisation:
@@ -51,13 +49,12 @@ func (_ *elasRK4) Step() {
 	defer cuda.Recycle(kv3)
 	defer cuda.Recycle(kv4)
 
-	//f(t) = nabla sigma 
+	//f(t) = nabla sigma
 	f := cuda.Buffer(3, size)
 	defer cuda.Recycle(f)
 
 	right := cuda.Buffer(3, size)
 	defer cuda.Recycle(right)
-
 
 	//#############################
 	//Time
@@ -70,11 +67,10 @@ func (_ *elasRK4) Step() {
 	Time += Dt_si
 	fmt.Println("dt = ", Dt_si)
 
-
 	//#####################
 	// du/dt = v(t) ~ ku
 	// dv/dt = right(t) ~ kv
-	//Stage 1: 
+	//Stage 1:
 	calcSecondDerivDisp(f)
 	fmt.Println("Max vector norm f1:", cuda.MaxVecNorm(f))
 	calcRightPart(kv1, f, v)
@@ -87,7 +83,7 @@ func (_ *elasRK4) Step() {
 	cuda.Madd2(u, u0, ku1, 1, (1./2.)*dt)
 	calcSecondDerivDisp(f)
 	fmt.Println("Max vector norm f2:", cuda.MaxVecNorm(f))
-	//calcRightPart(kv2, f, ku2) is better but this result in internal loop 
+	//calcRightPart(kv2, f, ku2) is better but this result in internal loop
 	calcRightPart(kv2, f, ku1)
 
 	cuda.Madd2(ku2, v, kv2, 1, (1./2.)*dt)
@@ -109,7 +105,6 @@ func (_ *elasRK4) Step() {
 
 	cuda.Madd2(ku4, v, kv3, 1, 1.*dt)
 
-
 	//###############################
 	//Error calculation
 	err := cuda.MaxVecDiff(ku1, ku4)
@@ -121,7 +116,6 @@ func (_ *elasRK4) Step() {
 	if err2 != 0.0 {
 		err2 = err2 * float64(dt) / cuda.MaxVecNorm(kv4)
 	}
-
 
 	//################################
 	//Prints
@@ -135,7 +129,6 @@ func (_ *elasRK4) Step() {
 
 	fmt.Println("err = maxVecDiff * dt /MaxVexNorm", err)
 	fmt.Println("err2 = maxVecDiff * dt /MaxVexNorm", err2)
-
 
 	//##########################
 	// adjust next time step

@@ -1,0 +1,24 @@
+
+SetMesh(1000, 1, 1, 10e-09, 10e-09, 10e-09, 0, 0, 0)
+
+defregion(2, xrange(4480e-9,4490e-9))  
+
+C11 = 2e10
+c12 = 0.5e10
+C44 = 2e10
+
+rho = 1e4
+//eta=2e10
+eta=0
+
+u = GaussianUniform(1e-13,-4000e-9,200e-9,0,90)
+
+SetSolver(8)
+MaxErr=1e-14
+
+
+//speed = sqrt(C11/rho) //1414.21 nm/ns
+
+run(6e-9)
+
+expect("amplitude", u.Comp(1).Region(2).average(), 0.5e-13, 0.01)

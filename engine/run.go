@@ -56,15 +56,15 @@ type Stepper interface {
 
 // Arguments for SetSolver
 const (
-	BACKWARD_EULER = -1
-	EULER          = 1
-	HEUN           = 2
-	BOGAKISHAMPINE = 3
-	RUNGEKUTTA     = 4
-	DORMANDPRINCE  = 5
-	FEHLBERG       = 6
-	SECONDDERIV    = 7
-	ELAS_RUNGEKUTTA= 8
+	BACKWARD_EULER  = -1
+	EULER           = 1
+	HEUN            = 2
+	BOGAKISHAMPINE  = 3
+	RUNGEKUTTA      = 4
+	DORMANDPRINCE   = 5
+	FEHLBERG        = 6
+	SECONDDERIV     = 7
+	ELAS_RUNGEKUTTA = 8
 )
 
 func SetSolver(typ int) {

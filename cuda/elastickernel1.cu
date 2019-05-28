@@ -121,7 +121,7 @@ Elastodynamic1(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     duz[I] += d_.z ;
 
 
-    //Output should be equal to:
+    // Output should be equal to:
     // dux[I] = dxx.x + dxy.y + dxz.z + dyy.x + dyx.y + dzz.x + dzx.z;
     // duy[I] = dyy.y + dyx.x + dyz.z + dxx.y + dxy.x + dzz.y + dzy.z;
     // duz[I] = dzz.z + dzx.x + dzy.y + dxx.z + dxz.x + dyy.z + dyz.y; 
