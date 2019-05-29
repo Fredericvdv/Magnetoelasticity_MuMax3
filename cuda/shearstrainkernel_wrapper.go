@@ -5,60 +5,60 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for ShearStrain kernel
 var ShearStrain_code cu.Function
 
 // Stores the arguments for ShearStrain kernel invocation
-type ShearStrain_args_t struct{
-	 arg_exy unsafe.Pointer
-	 arg_eyz unsafe.Pointer
-	 arg_ezx unsafe.Pointer
-	 arg_ux unsafe.Pointer
-	 arg_uy unsafe.Pointer
-	 arg_uz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_wx float32
-	 arg_wy float32
-	 arg_wz float32
-	 arg_C1_ unsafe.Pointer
-	 arg_C1_mul float32
-	 argptr [14]unsafe.Pointer
+type ShearStrain_args_t struct {
+	arg_exy    unsafe.Pointer
+	arg_eyz    unsafe.Pointer
+	arg_ezx    unsafe.Pointer
+	arg_ux     unsafe.Pointer
+	arg_uy     unsafe.Pointer
+	arg_uz     unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_wx     float32
+	arg_wy     float32
+	arg_wz     float32
+	arg_C1_    unsafe.Pointer
+	arg_C1_mul float32
+	argptr     [14]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for ShearStrain kernel invocation
 var ShearStrain_args ShearStrain_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 ShearStrain_args.argptr[0] = unsafe.Pointer(&ShearStrain_args.arg_exy)
-	 ShearStrain_args.argptr[1] = unsafe.Pointer(&ShearStrain_args.arg_eyz)
-	 ShearStrain_args.argptr[2] = unsafe.Pointer(&ShearStrain_args.arg_ezx)
-	 ShearStrain_args.argptr[3] = unsafe.Pointer(&ShearStrain_args.arg_ux)
-	 ShearStrain_args.argptr[4] = unsafe.Pointer(&ShearStrain_args.arg_uy)
-	 ShearStrain_args.argptr[5] = unsafe.Pointer(&ShearStrain_args.arg_uz)
-	 ShearStrain_args.argptr[6] = unsafe.Pointer(&ShearStrain_args.arg_Nx)
-	 ShearStrain_args.argptr[7] = unsafe.Pointer(&ShearStrain_args.arg_Ny)
-	 ShearStrain_args.argptr[8] = unsafe.Pointer(&ShearStrain_args.arg_Nz)
-	 ShearStrain_args.argptr[9] = unsafe.Pointer(&ShearStrain_args.arg_wx)
-	 ShearStrain_args.argptr[10] = unsafe.Pointer(&ShearStrain_args.arg_wy)
-	 ShearStrain_args.argptr[11] = unsafe.Pointer(&ShearStrain_args.arg_wz)
-	 ShearStrain_args.argptr[12] = unsafe.Pointer(&ShearStrain_args.arg_C1_)
-	 ShearStrain_args.argptr[13] = unsafe.Pointer(&ShearStrain_args.arg_C1_mul)
-	 }
+	ShearStrain_args.argptr[0] = unsafe.Pointer(&ShearStrain_args.arg_exy)
+	ShearStrain_args.argptr[1] = unsafe.Pointer(&ShearStrain_args.arg_eyz)
+	ShearStrain_args.argptr[2] = unsafe.Pointer(&ShearStrain_args.arg_ezx)
+	ShearStrain_args.argptr[3] = unsafe.Pointer(&ShearStrain_args.arg_ux)
+	ShearStrain_args.argptr[4] = unsafe.Pointer(&ShearStrain_args.arg_uy)
+	ShearStrain_args.argptr[5] = unsafe.Pointer(&ShearStrain_args.arg_uz)
+	ShearStrain_args.argptr[6] = unsafe.Pointer(&ShearStrain_args.arg_Nx)
+	ShearStrain_args.argptr[7] = unsafe.Pointer(&ShearStrain_args.arg_Ny)
+	ShearStrain_args.argptr[8] = unsafe.Pointer(&ShearStrain_args.arg_Nz)
+	ShearStrain_args.argptr[9] = unsafe.Pointer(&ShearStrain_args.arg_wx)
+	ShearStrain_args.argptr[10] = unsafe.Pointer(&ShearStrain_args.arg_wy)
+	ShearStrain_args.argptr[11] = unsafe.Pointer(&ShearStrain_args.arg_wz)
+	ShearStrain_args.argptr[12] = unsafe.Pointer(&ShearStrain_args.arg_C1_)
+	ShearStrain_args.argptr[13] = unsafe.Pointer(&ShearStrain_args.arg_C1_mul)
+}
 
 // Wrapper for ShearStrain CUDA kernel, asynchronous.
-func k_ShearStrain_async ( exy unsafe.Pointer, eyz unsafe.Pointer, ezx unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32,  cfg *config) {
-	if Synchronous{ // debug
+func k_ShearStrain_async(exy unsafe.Pointer, eyz unsafe.Pointer, ezx unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("ShearStrain")
 	}
@@ -66,51 +66,50 @@ func k_ShearStrain_async ( exy unsafe.Pointer, eyz unsafe.Pointer, ezx unsafe.Po
 	ShearStrain_args.Lock()
 	defer ShearStrain_args.Unlock()
 
-	if ShearStrain_code == 0{
+	if ShearStrain_code == 0 {
 		ShearStrain_code = fatbinLoad(ShearStrain_map, "ShearStrain")
 	}
 
-	 ShearStrain_args.arg_exy = exy
-	 ShearStrain_args.arg_eyz = eyz
-	 ShearStrain_args.arg_ezx = ezx
-	 ShearStrain_args.arg_ux = ux
-	 ShearStrain_args.arg_uy = uy
-	 ShearStrain_args.arg_uz = uz
-	 ShearStrain_args.arg_Nx = Nx
-	 ShearStrain_args.arg_Ny = Ny
-	 ShearStrain_args.arg_Nz = Nz
-	 ShearStrain_args.arg_wx = wx
-	 ShearStrain_args.arg_wy = wy
-	 ShearStrain_args.arg_wz = wz
-	 ShearStrain_args.arg_C1_ = C1_
-	 ShearStrain_args.arg_C1_mul = C1_mul
-	
+	ShearStrain_args.arg_exy = exy
+	ShearStrain_args.arg_eyz = eyz
+	ShearStrain_args.arg_ezx = ezx
+	ShearStrain_args.arg_ux = ux
+	ShearStrain_args.arg_uy = uy
+	ShearStrain_args.arg_uz = uz
+	ShearStrain_args.arg_Nx = Nx
+	ShearStrain_args.arg_Ny = Ny
+	ShearStrain_args.arg_Nz = Nz
+	ShearStrain_args.arg_wx = wx
+	ShearStrain_args.arg_wy = wy
+	ShearStrain_args.arg_wz = wz
+	ShearStrain_args.arg_C1_ = C1_
+	ShearStrain_args.arg_C1_mul = C1_mul
 
 	args := ShearStrain_args.argptr[:]
 	cu.LaunchKernel(ShearStrain_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("ShearStrain")
 	}
 }
 
 // maps compute capability on PTX code for ShearStrain kernel.
-var ShearStrain_map = map[int]string{ 0: "" ,
-30: ShearStrain_ptx_30 ,
-35: ShearStrain_ptx_35 ,
-37: ShearStrain_ptx_37 ,
-50: ShearStrain_ptx_50 ,
-52: ShearStrain_ptx_52 ,
-53: ShearStrain_ptx_53 ,
-60: ShearStrain_ptx_60 ,
-61: ShearStrain_ptx_61 ,
-70: ShearStrain_ptx_70 ,
-75: ShearStrain_ptx_75  }
+var ShearStrain_map = map[int]string{0: "",
+	30: ShearStrain_ptx_30,
+	35: ShearStrain_ptx_35,
+	37: ShearStrain_ptx_37,
+	50: ShearStrain_ptx_50,
+	52: ShearStrain_ptx_52,
+	53: ShearStrain_ptx_53,
+	60: ShearStrain_ptx_60,
+	61: ShearStrain_ptx_61,
+	70: ShearStrain_ptx_70,
+	75: ShearStrain_ptx_75}
 
 // ShearStrain PTX code for various compute capabilities.
-const(
-  ShearStrain_ptx_30 = `
+const (
+	ShearStrain_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -466,7 +465,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_35 = `
+	ShearStrain_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -816,7 +815,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_37 = `
+	ShearStrain_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -1166,7 +1165,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_50 = `
+	ShearStrain_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -1516,7 +1515,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_52 = `
+	ShearStrain_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -1866,7 +1865,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_53 = `
+	ShearStrain_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -2216,7 +2215,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_60 = `
+	ShearStrain_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -2566,7 +2565,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_61 = `
+	ShearStrain_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -2916,7 +2915,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_70 = `
+	ShearStrain_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -3266,7 +3265,7 @@ BB0_34:
 
 
 `
-   ShearStrain_ptx_75 = `
+	ShearStrain_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -3616,4 +3615,4 @@ BB0_34:
 
 
 `
- )
+)
