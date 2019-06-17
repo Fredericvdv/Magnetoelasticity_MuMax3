@@ -43,7 +43,6 @@ func (ts *TimeSolver) Run(seconds float64) {
 func (ts *TimeSolver) Steps(nSteps int) {
 	Dt_si = FixDt
 	for n := 0; n < nSteps; n++ {
-		LogOut("step: ", n)
 		ts.Step()
 	}
 
