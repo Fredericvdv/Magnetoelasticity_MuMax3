@@ -42,18 +42,18 @@ func (s *RK4stepper) Step() {
 	Time = t0 + (1./2.)*Dt_si
 	cuda.Madd2(Y, Y, k1, 1, (1./2.)*h) // Y = Y*1 + k1*h/2
 	M.normalize()
-	torqueFn(k2)
+	rhs(k2)
 
 	// stage 3
 	cuda.Madd2(Y, Y0, k2, 1, (1./2.)*h) // Y = Y0*1 + k2*1/2
 	M.normalize()
-	torqueFn(k3)
+	rhs(k3)
 
 	// stage 4
 	Time = t0 + Dt_si
 	cuda.Madd2(Y, Y0, k3, 1, 1.*h) // Y = Y0*1 + k3*1
 	M.normalize()
-	torqueFn(k4)
+	rhs(k4)
 
 	madd5(Y, Y0, k1, k2, k3, k4, 1, (1./6.)*h, (1./3.)*h, (1./3.)*h, (1./6.)*h)
 }
