@@ -5,48 +5,48 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for KineticEnergy kernel
 var KineticEnergy_code cu.Function
 
 // Stores the arguments for KineticEnergy kernel invocation
-type KineticEnergy_args_t struct{
-	 arg_energy unsafe.Pointer
-	 arg_dux unsafe.Pointer
-	 arg_duy unsafe.Pointer
-	 arg_duz unsafe.Pointer
-	 arg_rho unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 argptr [8]unsafe.Pointer
+type KineticEnergy_args_t struct {
+	arg_energy unsafe.Pointer
+	arg_dux    unsafe.Pointer
+	arg_duy    unsafe.Pointer
+	arg_duz    unsafe.Pointer
+	arg_rho    unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	argptr     [8]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for KineticEnergy kernel invocation
 var KineticEnergy_args KineticEnergy_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 KineticEnergy_args.argptr[0] = unsafe.Pointer(&KineticEnergy_args.arg_energy)
-	 KineticEnergy_args.argptr[1] = unsafe.Pointer(&KineticEnergy_args.arg_dux)
-	 KineticEnergy_args.argptr[2] = unsafe.Pointer(&KineticEnergy_args.arg_duy)
-	 KineticEnergy_args.argptr[3] = unsafe.Pointer(&KineticEnergy_args.arg_duz)
-	 KineticEnergy_args.argptr[4] = unsafe.Pointer(&KineticEnergy_args.arg_rho)
-	 KineticEnergy_args.argptr[5] = unsafe.Pointer(&KineticEnergy_args.arg_Nx)
-	 KineticEnergy_args.argptr[6] = unsafe.Pointer(&KineticEnergy_args.arg_Ny)
-	 KineticEnergy_args.argptr[7] = unsafe.Pointer(&KineticEnergy_args.arg_Nz)
-	 }
+	KineticEnergy_args.argptr[0] = unsafe.Pointer(&KineticEnergy_args.arg_energy)
+	KineticEnergy_args.argptr[1] = unsafe.Pointer(&KineticEnergy_args.arg_dux)
+	KineticEnergy_args.argptr[2] = unsafe.Pointer(&KineticEnergy_args.arg_duy)
+	KineticEnergy_args.argptr[3] = unsafe.Pointer(&KineticEnergy_args.arg_duz)
+	KineticEnergy_args.argptr[4] = unsafe.Pointer(&KineticEnergy_args.arg_rho)
+	KineticEnergy_args.argptr[5] = unsafe.Pointer(&KineticEnergy_args.arg_Nx)
+	KineticEnergy_args.argptr[6] = unsafe.Pointer(&KineticEnergy_args.arg_Ny)
+	KineticEnergy_args.argptr[7] = unsafe.Pointer(&KineticEnergy_args.arg_Nz)
+}
 
 // Wrapper for KineticEnergy CUDA kernel, asynchronous.
-func k_KineticEnergy_async ( energy unsafe.Pointer, dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, rho unsafe.Pointer, Nx int, Ny int, Nz int,  cfg *config) {
-	if Synchronous{ // debug
+func k_KineticEnergy_async(energy unsafe.Pointer, dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, rho unsafe.Pointer, Nx int, Ny int, Nz int, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("KineticEnergy")
 	}
@@ -54,45 +54,44 @@ func k_KineticEnergy_async ( energy unsafe.Pointer, dux unsafe.Pointer, duy unsa
 	KineticEnergy_args.Lock()
 	defer KineticEnergy_args.Unlock()
 
-	if KineticEnergy_code == 0{
+	if KineticEnergy_code == 0 {
 		KineticEnergy_code = fatbinLoad(KineticEnergy_map, "KineticEnergy")
 	}
 
-	 KineticEnergy_args.arg_energy = energy
-	 KineticEnergy_args.arg_dux = dux
-	 KineticEnergy_args.arg_duy = duy
-	 KineticEnergy_args.arg_duz = duz
-	 KineticEnergy_args.arg_rho = rho
-	 KineticEnergy_args.arg_Nx = Nx
-	 KineticEnergy_args.arg_Ny = Ny
-	 KineticEnergy_args.arg_Nz = Nz
-	
+	KineticEnergy_args.arg_energy = energy
+	KineticEnergy_args.arg_dux = dux
+	KineticEnergy_args.arg_duy = duy
+	KineticEnergy_args.arg_duz = duz
+	KineticEnergy_args.arg_rho = rho
+	KineticEnergy_args.arg_Nx = Nx
+	KineticEnergy_args.arg_Ny = Ny
+	KineticEnergy_args.arg_Nz = Nz
 
 	args := KineticEnergy_args.argptr[:]
 	cu.LaunchKernel(KineticEnergy_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("KineticEnergy")
 	}
 }
 
 // maps compute capability on PTX code for KineticEnergy kernel.
-var KineticEnergy_map = map[int]string{ 0: "" ,
-30: KineticEnergy_ptx_30 ,
-35: KineticEnergy_ptx_35 ,
-37: KineticEnergy_ptx_37 ,
-50: KineticEnergy_ptx_50 ,
-52: KineticEnergy_ptx_52 ,
-53: KineticEnergy_ptx_53 ,
-60: KineticEnergy_ptx_60 ,
-61: KineticEnergy_ptx_61 ,
-70: KineticEnergy_ptx_70 ,
-75: KineticEnergy_ptx_75  }
+var KineticEnergy_map = map[int]string{0: "",
+	30: KineticEnergy_ptx_30,
+	35: KineticEnergy_ptx_35,
+	37: KineticEnergy_ptx_37,
+	50: KineticEnergy_ptx_50,
+	52: KineticEnergy_ptx_52,
+	53: KineticEnergy_ptx_53,
+	60: KineticEnergy_ptx_60,
+	61: KineticEnergy_ptx_61,
+	70: KineticEnergy_ptx_70,
+	75: KineticEnergy_ptx_75}
 
 // KineticEnergy PTX code for various compute capabilities.
-const(
-  KineticEnergy_ptx_30 = `
+const (
+	KineticEnergy_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -177,7 +176,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_35 = `
+	KineticEnergy_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -262,7 +261,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_37 = `
+	KineticEnergy_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -347,7 +346,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_50 = `
+	KineticEnergy_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -432,7 +431,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_52 = `
+	KineticEnergy_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -517,7 +516,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_53 = `
+	KineticEnergy_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -602,7 +601,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_60 = `
+	KineticEnergy_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -687,7 +686,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_61 = `
+	KineticEnergy_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -772,7 +771,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_70 = `
+	KineticEnergy_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -857,7 +856,7 @@ BB0_2:
 
 
 `
-   KineticEnergy_ptx_75 = `
+	KineticEnergy_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -942,4 +941,4 @@ BB0_2:
 
 
 `
- )
+)

@@ -5,64 +5,64 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for ElsticEnergy kernel
 var ElsticEnergy_code cu.Function
 
 // Stores the arguments for ElsticEnergy kernel invocation
-type ElsticEnergy_args_t struct{
-	 arg_energy unsafe.Pointer
-	 arg_exx unsafe.Pointer
-	 arg_eyy unsafe.Pointer
-	 arg_ezz unsafe.Pointer
-	 arg_exy unsafe.Pointer
-	 arg_eyz unsafe.Pointer
-	 arg_exz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_C1_ unsafe.Pointer
-	 arg_C1_mul float32
-	 arg_C2_ unsafe.Pointer
-	 arg_C2_mul float32
-	 arg_C3_ unsafe.Pointer
-	 arg_C3_mul float32
-	 argptr [16]unsafe.Pointer
+type ElsticEnergy_args_t struct {
+	arg_energy unsafe.Pointer
+	arg_exx    unsafe.Pointer
+	arg_eyy    unsafe.Pointer
+	arg_ezz    unsafe.Pointer
+	arg_exy    unsafe.Pointer
+	arg_eyz    unsafe.Pointer
+	arg_exz    unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_C1_    unsafe.Pointer
+	arg_C1_mul float32
+	arg_C2_    unsafe.Pointer
+	arg_C2_mul float32
+	arg_C3_    unsafe.Pointer
+	arg_C3_mul float32
+	argptr     [16]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for ElsticEnergy kernel invocation
 var ElsticEnergy_args ElsticEnergy_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 ElsticEnergy_args.argptr[0] = unsafe.Pointer(&ElsticEnergy_args.arg_energy)
-	 ElsticEnergy_args.argptr[1] = unsafe.Pointer(&ElsticEnergy_args.arg_exx)
-	 ElsticEnergy_args.argptr[2] = unsafe.Pointer(&ElsticEnergy_args.arg_eyy)
-	 ElsticEnergy_args.argptr[3] = unsafe.Pointer(&ElsticEnergy_args.arg_ezz)
-	 ElsticEnergy_args.argptr[4] = unsafe.Pointer(&ElsticEnergy_args.arg_exy)
-	 ElsticEnergy_args.argptr[5] = unsafe.Pointer(&ElsticEnergy_args.arg_eyz)
-	 ElsticEnergy_args.argptr[6] = unsafe.Pointer(&ElsticEnergy_args.arg_exz)
-	 ElsticEnergy_args.argptr[7] = unsafe.Pointer(&ElsticEnergy_args.arg_Nx)
-	 ElsticEnergy_args.argptr[8] = unsafe.Pointer(&ElsticEnergy_args.arg_Ny)
-	 ElsticEnergy_args.argptr[9] = unsafe.Pointer(&ElsticEnergy_args.arg_Nz)
-	 ElsticEnergy_args.argptr[10] = unsafe.Pointer(&ElsticEnergy_args.arg_C1_)
-	 ElsticEnergy_args.argptr[11] = unsafe.Pointer(&ElsticEnergy_args.arg_C1_mul)
-	 ElsticEnergy_args.argptr[12] = unsafe.Pointer(&ElsticEnergy_args.arg_C2_)
-	 ElsticEnergy_args.argptr[13] = unsafe.Pointer(&ElsticEnergy_args.arg_C2_mul)
-	 ElsticEnergy_args.argptr[14] = unsafe.Pointer(&ElsticEnergy_args.arg_C3_)
-	 ElsticEnergy_args.argptr[15] = unsafe.Pointer(&ElsticEnergy_args.arg_C3_mul)
-	 }
+	ElsticEnergy_args.argptr[0] = unsafe.Pointer(&ElsticEnergy_args.arg_energy)
+	ElsticEnergy_args.argptr[1] = unsafe.Pointer(&ElsticEnergy_args.arg_exx)
+	ElsticEnergy_args.argptr[2] = unsafe.Pointer(&ElsticEnergy_args.arg_eyy)
+	ElsticEnergy_args.argptr[3] = unsafe.Pointer(&ElsticEnergy_args.arg_ezz)
+	ElsticEnergy_args.argptr[4] = unsafe.Pointer(&ElsticEnergy_args.arg_exy)
+	ElsticEnergy_args.argptr[5] = unsafe.Pointer(&ElsticEnergy_args.arg_eyz)
+	ElsticEnergy_args.argptr[6] = unsafe.Pointer(&ElsticEnergy_args.arg_exz)
+	ElsticEnergy_args.argptr[7] = unsafe.Pointer(&ElsticEnergy_args.arg_Nx)
+	ElsticEnergy_args.argptr[8] = unsafe.Pointer(&ElsticEnergy_args.arg_Ny)
+	ElsticEnergy_args.argptr[9] = unsafe.Pointer(&ElsticEnergy_args.arg_Nz)
+	ElsticEnergy_args.argptr[10] = unsafe.Pointer(&ElsticEnergy_args.arg_C1_)
+	ElsticEnergy_args.argptr[11] = unsafe.Pointer(&ElsticEnergy_args.arg_C1_mul)
+	ElsticEnergy_args.argptr[12] = unsafe.Pointer(&ElsticEnergy_args.arg_C2_)
+	ElsticEnergy_args.argptr[13] = unsafe.Pointer(&ElsticEnergy_args.arg_C2_mul)
+	ElsticEnergy_args.argptr[14] = unsafe.Pointer(&ElsticEnergy_args.arg_C3_)
+	ElsticEnergy_args.argptr[15] = unsafe.Pointer(&ElsticEnergy_args.arg_C3_mul)
+}
 
 // Wrapper for ElsticEnergy CUDA kernel, asynchronous.
-func k_ElsticEnergy_async ( energy unsafe.Pointer, exx unsafe.Pointer, eyy unsafe.Pointer, ezz unsafe.Pointer, exy unsafe.Pointer, eyz unsafe.Pointer, exz unsafe.Pointer, Nx int, Ny int, Nz int, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32,  cfg *config) {
-	if Synchronous{ // debug
+func k_ElsticEnergy_async(energy unsafe.Pointer, exx unsafe.Pointer, eyy unsafe.Pointer, ezz unsafe.Pointer, exy unsafe.Pointer, eyz unsafe.Pointer, exz unsafe.Pointer, Nx int, Ny int, Nz int, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("ElsticEnergy")
 	}
@@ -70,53 +70,52 @@ func k_ElsticEnergy_async ( energy unsafe.Pointer, exx unsafe.Pointer, eyy unsaf
 	ElsticEnergy_args.Lock()
 	defer ElsticEnergy_args.Unlock()
 
-	if ElsticEnergy_code == 0{
+	if ElsticEnergy_code == 0 {
 		ElsticEnergy_code = fatbinLoad(ElsticEnergy_map, "ElsticEnergy")
 	}
 
-	 ElsticEnergy_args.arg_energy = energy
-	 ElsticEnergy_args.arg_exx = exx
-	 ElsticEnergy_args.arg_eyy = eyy
-	 ElsticEnergy_args.arg_ezz = ezz
-	 ElsticEnergy_args.arg_exy = exy
-	 ElsticEnergy_args.arg_eyz = eyz
-	 ElsticEnergy_args.arg_exz = exz
-	 ElsticEnergy_args.arg_Nx = Nx
-	 ElsticEnergy_args.arg_Ny = Ny
-	 ElsticEnergy_args.arg_Nz = Nz
-	 ElsticEnergy_args.arg_C1_ = C1_
-	 ElsticEnergy_args.arg_C1_mul = C1_mul
-	 ElsticEnergy_args.arg_C2_ = C2_
-	 ElsticEnergy_args.arg_C2_mul = C2_mul
-	 ElsticEnergy_args.arg_C3_ = C3_
-	 ElsticEnergy_args.arg_C3_mul = C3_mul
-	
+	ElsticEnergy_args.arg_energy = energy
+	ElsticEnergy_args.arg_exx = exx
+	ElsticEnergy_args.arg_eyy = eyy
+	ElsticEnergy_args.arg_ezz = ezz
+	ElsticEnergy_args.arg_exy = exy
+	ElsticEnergy_args.arg_eyz = eyz
+	ElsticEnergy_args.arg_exz = exz
+	ElsticEnergy_args.arg_Nx = Nx
+	ElsticEnergy_args.arg_Ny = Ny
+	ElsticEnergy_args.arg_Nz = Nz
+	ElsticEnergy_args.arg_C1_ = C1_
+	ElsticEnergy_args.arg_C1_mul = C1_mul
+	ElsticEnergy_args.arg_C2_ = C2_
+	ElsticEnergy_args.arg_C2_mul = C2_mul
+	ElsticEnergy_args.arg_C3_ = C3_
+	ElsticEnergy_args.arg_C3_mul = C3_mul
 
 	args := ElsticEnergy_args.argptr[:]
 	cu.LaunchKernel(ElsticEnergy_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("ElsticEnergy")
 	}
 }
 
 // maps compute capability on PTX code for ElsticEnergy kernel.
-var ElsticEnergy_map = map[int]string{ 0: "" ,
-30: ElsticEnergy_ptx_30 ,
-35: ElsticEnergy_ptx_35 ,
-37: ElsticEnergy_ptx_37 ,
-50: ElsticEnergy_ptx_50 ,
-52: ElsticEnergy_ptx_52 ,
-53: ElsticEnergy_ptx_53 ,
-60: ElsticEnergy_ptx_60 ,
-61: ElsticEnergy_ptx_61 ,
-70: ElsticEnergy_ptx_70 ,
-75: ElsticEnergy_ptx_75  }
+var ElsticEnergy_map = map[int]string{0: "",
+	30: ElsticEnergy_ptx_30,
+	35: ElsticEnergy_ptx_35,
+	37: ElsticEnergy_ptx_37,
+	50: ElsticEnergy_ptx_50,
+	52: ElsticEnergy_ptx_52,
+	53: ElsticEnergy_ptx_53,
+	60: ElsticEnergy_ptx_60,
+	61: ElsticEnergy_ptx_61,
+	70: ElsticEnergy_ptx_70,
+	75: ElsticEnergy_ptx_75}
 
 // ElsticEnergy PTX code for various compute capabilities.
-const(
-  ElsticEnergy_ptx_30 = `
+const (
+	ElsticEnergy_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -262,7 +261,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_35 = `
+	ElsticEnergy_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -408,7 +407,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_37 = `
+	ElsticEnergy_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -554,7 +553,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_50 = `
+	ElsticEnergy_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -700,7 +699,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_52 = `
+	ElsticEnergy_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -846,7 +845,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_53 = `
+	ElsticEnergy_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -992,7 +991,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_60 = `
+	ElsticEnergy_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -1138,7 +1137,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_61 = `
+	ElsticEnergy_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -1284,7 +1283,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_70 = `
+	ElsticEnergy_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -1430,7 +1429,7 @@ BB0_8:
 
 
 `
-   ElsticEnergy_ptx_75 = `
+	ElsticEnergy_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -1576,4 +1575,4 @@ BB0_8:
 
 
 `
- )
+)
