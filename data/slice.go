@@ -166,6 +166,23 @@ func (s *Slice) Comp(i int) *Slice {
 	return sl
 }
 
+// Ptrs returns a copy of the ptrs slice
+func (s *Slice) Ptrs() []unsafe.Pointer {
+	ptrs := make([]unsafe.Pointer, len(s.ptrs))
+	copy(ptrs, s.ptrs)
+	return ptrs
+}
+
+// Subslice returns a subslice with components ranging from
+// minComp to maxComp (exclusive)
+func (s *Slice) SubSlice(minComp, maxComp int) *Slice {
+	sl := new(Slice)
+	sl.ptrs = s.ptrs[minComp:maxComp]
+	sl.size = s.size
+	sl.memType = s.memType
+	return sl
+}
+
 // DevPtr returns a CUDA device pointer to a component.
 // Slice must have GPUAccess.
 // It is safe to call on a nil slice, returns NULL.
