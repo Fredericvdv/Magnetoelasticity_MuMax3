@@ -28,3 +28,24 @@ func InitTimeSolver() {
 	Slvr.AddODE(M.Buffer(), LLGrhs) // dm/dt = torqueFn
 	Slvr.AddPostChangeFunction(M.normalize)
 }
+
+// --- HARD CODED EXAMPLE BELOW ----- // TODO: remove this example
+
+var UU *varVectorField
+
+func init() {
+	//DeclLValue("uu", UU, `examplatory variable UU`)
+	DeclFunc("AddCustomEquationForU", AddCustomEquationForU, "Add custom equation for u")
+
+	// make a variable field to play with
+	UU = new(varVectorField)
+	UU.name = "u"
+	UU.unit = ""
+	UU.normalized = false
+	DeclLValue("u", UU, `field to play with`)
+}
+
+func AddCustomEquationForU(rhs Quantity) {
+	UU.alloc()
+	Slvr.AddODE(UU.Buffer(), rhs.EvalTo)
+}
