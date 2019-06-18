@@ -13,12 +13,13 @@ type stepper interface {
 type Solver struct {
 	stepper
 
-	Time *float64
+	Time   *float64
+	dt     float64
+	inject chan func()
+	pause  bool
+	nsteps int
 
-	dt float64
-
-	Y *data.Slice
-
+	Y          *data.Slice
 	funcs      []func(*data.Slice)
 	vars       []*data.Slice
 	postChange []func()
@@ -30,6 +31,10 @@ func NewSolver(time *float64, fixdt float64) *Solver {
 	s.Time = time
 	s.dt = fixdt
 	return s
+}
+
+func (s *Solver) SetInjectChannel(inject chan func()) {
+	s.inject = inject
 }
 
 // Add an ordinary differential equation to solver
@@ -64,10 +69,35 @@ func (s *Solver) Func(dst *data.Slice) {
 	}
 }
 
-func (s *Solver) Steps(n int) {
-	for i := 0; i < n; i++ {
-		s.stepper.Step()
+func (s *Solver) RunWhile(condition func() bool) {
+	// TODO: sanity check
+	s.pause = false // may be set by <-Inject
+	const output = true
+	s.runWhile(condition, output)
+	s.pause = true
+}
+
+func (s *Solver) runWhile(condition func() bool, output bool) {
+	//DoOutput() // allow t=0 output   // TODO
+	for condition() && !s.pause {
+		select {
+		default:
+			s.step(output)
+		// accept tasks form Inject channel
+		case f := <-s.inject:
+			f()
+		}
 	}
+}
+
+func (s *Solver) step(output bool) {
+	s.stepper.Step()
+	s.nsteps++
+}
+
+func (s *Solver) Steps(n int) {
+	stop := s.nsteps + n
+	s.RunWhile(func() bool { return s.nsteps < stop })
 }
 
 func (s *Solver) ApplyPostChangeFunctions() {

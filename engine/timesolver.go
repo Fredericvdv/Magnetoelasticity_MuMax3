@@ -27,6 +27,7 @@ func InitTimeSolver() {
 	Slvr = odeint.NewSolver(&Time, FixDt)
 	Slvr.AddODE(M.Buffer(), LLGrhs) // dm/dt = torqueFn
 	Slvr.AddPostChangeFunction(M.normalize)
+	Slvr.SetInjectChannel(Inject)
 }
 
 // --- HARD CODED EXAMPLE BELOW ----- // TODO: remove this example
