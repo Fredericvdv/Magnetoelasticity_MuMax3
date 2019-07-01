@@ -5,70 +5,70 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import (
+import(
+	"unsafe"
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
-	"unsafe"
 )
 
 // CUDA handle for Elastodynamic2 kernel
 var Elastodynamic2_code cu.Function
 
 // Stores the arguments for Elastodynamic2 kernel invocation
-type Elastodynamic2_args_t struct {
-	arg_dux    unsafe.Pointer
-	arg_duy    unsafe.Pointer
-	arg_duz    unsafe.Pointer
-	arg_ux     unsafe.Pointer
-	arg_uy     unsafe.Pointer
-	arg_uz     unsafe.Pointer
-	arg_Nx     int
-	arg_Ny     int
-	arg_Nz     int
-	arg_wx     float32
-	arg_wy     float32
-	arg_wz     float32
-	arg_C1_    unsafe.Pointer
-	arg_C1_mul float32
-	arg_C2_    unsafe.Pointer
-	arg_C2_mul float32
-	arg_C3_    unsafe.Pointer
-	arg_C3_mul float32
-	arg_PBC    byte
-	argptr     [19]unsafe.Pointer
+type Elastodynamic2_args_t struct{
+	 arg_dux unsafe.Pointer
+	 arg_duy unsafe.Pointer
+	 arg_duz unsafe.Pointer
+	 arg_ux unsafe.Pointer
+	 arg_uy unsafe.Pointer
+	 arg_uz unsafe.Pointer
+	 arg_Nx int
+	 arg_Ny int
+	 arg_Nz int
+	 arg_wx float32
+	 arg_wy float32
+	 arg_wz float32
+	 arg_C1_ unsafe.Pointer
+	 arg_C1_mul float32
+	 arg_C2_ unsafe.Pointer
+	 arg_C2_mul float32
+	 arg_C3_ unsafe.Pointer
+	 arg_C3_mul float32
+	 arg_PBC byte
+	 argptr [19]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for Elastodynamic2 kernel invocation
 var Elastodynamic2_args Elastodynamic2_args_t
 
-func init() {
+func init(){
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	Elastodynamic2_args.argptr[0] = unsafe.Pointer(&Elastodynamic2_args.arg_dux)
-	Elastodynamic2_args.argptr[1] = unsafe.Pointer(&Elastodynamic2_args.arg_duy)
-	Elastodynamic2_args.argptr[2] = unsafe.Pointer(&Elastodynamic2_args.arg_duz)
-	Elastodynamic2_args.argptr[3] = unsafe.Pointer(&Elastodynamic2_args.arg_ux)
-	Elastodynamic2_args.argptr[4] = unsafe.Pointer(&Elastodynamic2_args.arg_uy)
-	Elastodynamic2_args.argptr[5] = unsafe.Pointer(&Elastodynamic2_args.arg_uz)
-	Elastodynamic2_args.argptr[6] = unsafe.Pointer(&Elastodynamic2_args.arg_Nx)
-	Elastodynamic2_args.argptr[7] = unsafe.Pointer(&Elastodynamic2_args.arg_Ny)
-	Elastodynamic2_args.argptr[8] = unsafe.Pointer(&Elastodynamic2_args.arg_Nz)
-	Elastodynamic2_args.argptr[9] = unsafe.Pointer(&Elastodynamic2_args.arg_wx)
-	Elastodynamic2_args.argptr[10] = unsafe.Pointer(&Elastodynamic2_args.arg_wy)
-	Elastodynamic2_args.argptr[11] = unsafe.Pointer(&Elastodynamic2_args.arg_wz)
-	Elastodynamic2_args.argptr[12] = unsafe.Pointer(&Elastodynamic2_args.arg_C1_)
-	Elastodynamic2_args.argptr[13] = unsafe.Pointer(&Elastodynamic2_args.arg_C1_mul)
-	Elastodynamic2_args.argptr[14] = unsafe.Pointer(&Elastodynamic2_args.arg_C2_)
-	Elastodynamic2_args.argptr[15] = unsafe.Pointer(&Elastodynamic2_args.arg_C2_mul)
-	Elastodynamic2_args.argptr[16] = unsafe.Pointer(&Elastodynamic2_args.arg_C3_)
-	Elastodynamic2_args.argptr[17] = unsafe.Pointer(&Elastodynamic2_args.arg_C3_mul)
-	Elastodynamic2_args.argptr[18] = unsafe.Pointer(&Elastodynamic2_args.arg_PBC)
-}
+	 Elastodynamic2_args.argptr[0] = unsafe.Pointer(&Elastodynamic2_args.arg_dux)
+	 Elastodynamic2_args.argptr[1] = unsafe.Pointer(&Elastodynamic2_args.arg_duy)
+	 Elastodynamic2_args.argptr[2] = unsafe.Pointer(&Elastodynamic2_args.arg_duz)
+	 Elastodynamic2_args.argptr[3] = unsafe.Pointer(&Elastodynamic2_args.arg_ux)
+	 Elastodynamic2_args.argptr[4] = unsafe.Pointer(&Elastodynamic2_args.arg_uy)
+	 Elastodynamic2_args.argptr[5] = unsafe.Pointer(&Elastodynamic2_args.arg_uz)
+	 Elastodynamic2_args.argptr[6] = unsafe.Pointer(&Elastodynamic2_args.arg_Nx)
+	 Elastodynamic2_args.argptr[7] = unsafe.Pointer(&Elastodynamic2_args.arg_Ny)
+	 Elastodynamic2_args.argptr[8] = unsafe.Pointer(&Elastodynamic2_args.arg_Nz)
+	 Elastodynamic2_args.argptr[9] = unsafe.Pointer(&Elastodynamic2_args.arg_wx)
+	 Elastodynamic2_args.argptr[10] = unsafe.Pointer(&Elastodynamic2_args.arg_wy)
+	 Elastodynamic2_args.argptr[11] = unsafe.Pointer(&Elastodynamic2_args.arg_wz)
+	 Elastodynamic2_args.argptr[12] = unsafe.Pointer(&Elastodynamic2_args.arg_C1_)
+	 Elastodynamic2_args.argptr[13] = unsafe.Pointer(&Elastodynamic2_args.arg_C1_mul)
+	 Elastodynamic2_args.argptr[14] = unsafe.Pointer(&Elastodynamic2_args.arg_C2_)
+	 Elastodynamic2_args.argptr[15] = unsafe.Pointer(&Elastodynamic2_args.arg_C2_mul)
+	 Elastodynamic2_args.argptr[16] = unsafe.Pointer(&Elastodynamic2_args.arg_C3_)
+	 Elastodynamic2_args.argptr[17] = unsafe.Pointer(&Elastodynamic2_args.arg_C3_mul)
+	 Elastodynamic2_args.argptr[18] = unsafe.Pointer(&Elastodynamic2_args.arg_PBC)
+	 }
 
 // Wrapper for Elastodynamic2 CUDA kernel, asynchronous.
-func k_Elastodynamic2_async(dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, PBC byte, cfg *config) {
-	if Synchronous { // debug
+func k_Elastodynamic2_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, PBC byte,  cfg *config) {
+	if Synchronous{ // debug
 		Sync()
 		timer.Start("Elastodynamic2")
 	}
@@ -76,55 +76,56 @@ func k_Elastodynamic2_async(dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.P
 	Elastodynamic2_args.Lock()
 	defer Elastodynamic2_args.Unlock()
 
-	if Elastodynamic2_code == 0 {
+	if Elastodynamic2_code == 0{
 		Elastodynamic2_code = fatbinLoad(Elastodynamic2_map, "Elastodynamic2")
 	}
 
-	Elastodynamic2_args.arg_dux = dux
-	Elastodynamic2_args.arg_duy = duy
-	Elastodynamic2_args.arg_duz = duz
-	Elastodynamic2_args.arg_ux = ux
-	Elastodynamic2_args.arg_uy = uy
-	Elastodynamic2_args.arg_uz = uz
-	Elastodynamic2_args.arg_Nx = Nx
-	Elastodynamic2_args.arg_Ny = Ny
-	Elastodynamic2_args.arg_Nz = Nz
-	Elastodynamic2_args.arg_wx = wx
-	Elastodynamic2_args.arg_wy = wy
-	Elastodynamic2_args.arg_wz = wz
-	Elastodynamic2_args.arg_C1_ = C1_
-	Elastodynamic2_args.arg_C1_mul = C1_mul
-	Elastodynamic2_args.arg_C2_ = C2_
-	Elastodynamic2_args.arg_C2_mul = C2_mul
-	Elastodynamic2_args.arg_C3_ = C3_
-	Elastodynamic2_args.arg_C3_mul = C3_mul
-	Elastodynamic2_args.arg_PBC = PBC
+	 Elastodynamic2_args.arg_dux = dux
+	 Elastodynamic2_args.arg_duy = duy
+	 Elastodynamic2_args.arg_duz = duz
+	 Elastodynamic2_args.arg_ux = ux
+	 Elastodynamic2_args.arg_uy = uy
+	 Elastodynamic2_args.arg_uz = uz
+	 Elastodynamic2_args.arg_Nx = Nx
+	 Elastodynamic2_args.arg_Ny = Ny
+	 Elastodynamic2_args.arg_Nz = Nz
+	 Elastodynamic2_args.arg_wx = wx
+	 Elastodynamic2_args.arg_wy = wy
+	 Elastodynamic2_args.arg_wz = wz
+	 Elastodynamic2_args.arg_C1_ = C1_
+	 Elastodynamic2_args.arg_C1_mul = C1_mul
+	 Elastodynamic2_args.arg_C2_ = C2_
+	 Elastodynamic2_args.arg_C2_mul = C2_mul
+	 Elastodynamic2_args.arg_C3_ = C3_
+	 Elastodynamic2_args.arg_C3_mul = C3_mul
+	 Elastodynamic2_args.arg_PBC = PBC
+	
 
 	args := Elastodynamic2_args.argptr[:]
 	cu.LaunchKernel(Elastodynamic2_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous { // debug
+	if Synchronous{ // debug
 		Sync()
 		timer.Stop("Elastodynamic2")
 	}
 }
 
 // maps compute capability on PTX code for Elastodynamic2 kernel.
-var Elastodynamic2_map = map[int]string{0: "",
-	30: Elastodynamic2_ptx_30,
-	35: Elastodynamic2_ptx_35,
-	37: Elastodynamic2_ptx_37,
-	50: Elastodynamic2_ptx_50,
-	52: Elastodynamic2_ptx_52,
-	53: Elastodynamic2_ptx_53,
-	60: Elastodynamic2_ptx_60,
-	61: Elastodynamic2_ptx_61,
-	70: Elastodynamic2_ptx_70,
-	75: Elastodynamic2_ptx_75}
+var Elastodynamic2_map = map[int]string{ 0: "" ,
+30: Elastodynamic2_ptx_30 ,
+35: Elastodynamic2_ptx_35 ,
+37: Elastodynamic2_ptx_37 ,
+50: Elastodynamic2_ptx_50 ,
+52: Elastodynamic2_ptx_52 ,
+53: Elastodynamic2_ptx_53 ,
+60: Elastodynamic2_ptx_60 ,
+61: Elastodynamic2_ptx_61 ,
+70: Elastodynamic2_ptx_70 ,
+75: Elastodynamic2_ptx_75  }
 
 // Elastodynamic2 PTX code for various compute capabilities.
-const (
-	Elastodynamic2_ptx_30 = `
+const(
+  Elastodynamic2_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -153,1358 +154,1335 @@ const (
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<107>;
-	.reg .f32 	%f<628>;
-	.reg .b32 	%r<867>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<625>;
+	.reg .b32 	%r<816>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<345>;
+	.reg .b64 	%rd<344>;
 
 
 	ld.param.u64 	%rd4, [Elastodynamic2_param_3];
 	ld.param.u64 	%rd5, [Elastodynamic2_param_4];
 	ld.param.u64 	%rd6, [Elastodynamic2_param_5];
-	ld.param.u32 	%r38, [Elastodynamic2_param_6];
-	ld.param.u32 	%r39, [Elastodynamic2_param_7];
-	ld.param.u32 	%r40, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
+	ld.param.u32 	%r37, [Elastodynamic2_param_6];
+	ld.param.u32 	%r38, [Elastodynamic2_param_7];
+	ld.param.u32 	%r39, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
 	ld.param.u64 	%rd7, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
 	ld.param.u64 	%rd8, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
 	ld.param.u64 	%rd9, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	mov.u32 	%r41, %ntid.x;
-	mov.u32 	%r42, %ctaid.x;
-	mov.u32 	%r43, %tid.x;
-	mad.lo.s32 	%r1, %r41, %r42, %r43;
-	mov.u32 	%r44, %ntid.y;
-	mov.u32 	%r45, %ctaid.y;
-	mov.u32 	%r46, %tid.y;
-	mad.lo.s32 	%r2, %r44, %r45, %r46;
-	mov.u32 	%r47, %ntid.z;
-	mov.u32 	%r48, %ctaid.z;
-	mov.u32 	%r49, %tid.z;
-	mad.lo.s32 	%r3, %r47, %r48, %r49;
-	setp.ge.s32	%p1, %r2, %r39;
-	setp.ge.s32	%p2, %r1, %r38;
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	mov.u32 	%r40, %ntid.x;
+	mov.u32 	%r41, %ctaid.x;
+	mov.u32 	%r42, %tid.x;
+	mad.lo.s32 	%r1, %r40, %r41, %r42;
+	mov.u32 	%r43, %ntid.y;
+	mov.u32 	%r44, %ctaid.y;
+	mov.u32 	%r45, %tid.y;
+	mad.lo.s32 	%r2, %r43, %r44, %r45;
+	mov.u32 	%r46, %ntid.z;
+	mov.u32 	%r47, %ctaid.z;
+	mov.u32 	%r48, %tid.z;
+	mad.lo.s32 	%r3, %r46, %r47, %r48;
+	setp.ge.s32	%p1, %r2, %r38;
+	setp.ge.s32	%p2, %r1, %r37;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r40;
+	setp.ge.s32	%p4, %r3, %r39;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_173;
+	@%p5 bra 	BB0_176;
 
 	cvta.to.global.u64 	%rd10, %rd6;
 	cvta.to.global.u64 	%rd11, %rd5;
 	cvta.to.global.u64 	%rd12, %rd4;
-	mad.lo.s32 	%r50, %r3, %r39, %r2;
-	mad.lo.s32 	%r51, %r50, %r38, %r1;
-	mul.wide.s32 	%rd13, %r51, 4;
+	mad.lo.s32 	%r49, %r3, %r38, %r2;
+	mad.lo.s32 	%r4, %r49, %r37, %r1;
+	mul.wide.s32 	%rd13, %r4, 4;
 	add.s64 	%rd14, %rd12, %rd13;
 	ld.global.f32 	%f1, [%rd14];
 	add.s64 	%rd15, %rd11, %rd13;
 	ld.global.f32 	%f2, [%rd15];
 	add.s64 	%rd16, %rd10, %rd13;
 	ld.global.f32 	%f3, [%rd16];
-	setp.eq.s64	%p6, %rd9, 0;
-	mov.f32 	%f5, %f80;
+	setp.eq.s64	%p6, %rd7, 0;
+	mov.f32 	%f528, %f206;
 	@%p6 bra 	BB0_3;
 
-	cvta.to.global.u64 	%rd17, %rd9;
+	cvta.to.global.u64 	%rd17, %rd7;
 	add.s64 	%rd19, %rd17, %rd13;
-	ld.global.f32 	%f207, [%rd19];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.f32 	%f209, [%rd19];
+	mul.f32 	%f528, %f209, %f206;
 
 BB0_3:
-	setp.eq.s64	%p7, %rd8, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f528, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	cvta.to.global.u64 	%rd20, %rd8;
-	add.s64 	%rd22, %rd20, %rd13;
-	ld.global.f32 	%f208, [%rd22];
-	mul.f32 	%f7, %f208, %f78;
-
-BB0_5:
-	add.s32 	%r84, %r38, -1;
-	mov.f32 	%f541, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r84;
+	setp.eq.s64	%p8, %rd9, 0;
+	mov.f32 	%f7, %f82;
 	@%p8 bra 	BB0_6;
 
-	setp.eq.s64	%p9, %rd7, 0;
-	mov.f32 	%f534, %f204;
-	@%p9 bra 	BB0_9;
-
-	add.s32 	%r99, %r51, 1;
-	cvta.to.global.u64 	%rd23, %rd7;
-	mul.wide.s32 	%rd24, %r99, 4;
-	add.s64 	%rd25, %rd23, %rd24;
-	ld.global.f32 	%f211, [%rd25];
-	mul.f32 	%f534, %f211, %f204;
-
-BB0_9:
-	setp.eq.f32	%p10, %f534, 0f00000000;
-	mov.f32 	%f548, %f541;
-	@%p10 bra 	BB0_32;
-
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_12;
-
-	cvta.to.global.u64 	%rd26, %rd9;
-	add.s64 	%rd28, %rd26, %rd13;
-	ld.global.f32 	%f214, [%rd28+4];
-	mul.f32 	%f11, %f214, %f80;
-
-BB0_12:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_14;
-
-	cvta.to.global.u64 	%rd29, %rd8;
-	add.s64 	%rd31, %rd29, %rd13;
-	ld.global.f32 	%f215, [%rd31+4];
-	mul.f32 	%f13, %f215, %f78;
-
-BB0_14:
-	add.s32 	%r132, %r39, -1;
-	mov.f32 	%f541, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r132;
-	mov.f32 	%f548, %f541;
-	@%p13 bra 	BB0_23;
-
-	mov.f32 	%f537, %f204;
-	@%p9 bra 	BB0_17;
-
-	add.s32 	%r142, %r50, 1;
-	mad.lo.s32 	%r147, %r142, %r38, %r1;
-	add.s32 	%r148, %r147, 1;
-	cvta.to.global.u64 	%rd32, %rd7;
-	mul.wide.s32 	%rd33, %r148, 4;
-	add.s64 	%rd34, %rd32, %rd33;
-	ld.global.f32 	%f218, [%rd34];
-	mul.f32 	%f537, %f218, %f204;
-
-BB0_17:
-	mov.f32 	%f541, 0f00000000;
-	setp.eq.f32	%p15, %f537, 0f00000000;
-	mov.f32 	%f548, %f541;
-	@%p15 bra 	BB0_19;
-
-	add.s64 	%rd336, %rd11, %rd13;
-	add.s32 	%r158, %r50, 1;
-	mad.lo.s32 	%r163, %r158, %r38, %r1;
-	add.s32 	%r164, %r163, 1;
-	mul.wide.s32 	%rd36, %r164, 4;
-	add.s64 	%rd37, %rd12, %rd36;
-	add.s64 	%rd39, %rd11, %rd36;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.f32 	%f222, [%rd14+4];
-	ld.global.f32 	%f223, [%rd37];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.f32 	%f225, [%rd336+4];
-	ld.global.f32 	%f226, [%rd39];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f548, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f541, %f221, %f229, 0f00000000;
-
-BB0_19:
-	setp.eq.s64	%p104, %rd7, 0;
-	mov.f32 	%f540, %f204;
-	@%p104 bra 	BB0_21;
-
-	add.s32 	%r175, %r50, 1;
-	mad.lo.s32 	%r180, %r175, %r38, %r1;
-	cvta.to.global.u64 	%rd43, %rd7;
-	mul.wide.s32 	%rd44, %r180, 4;
-	add.s64 	%rd45, %rd43, %rd44;
-	ld.global.f32 	%f230, [%rd45];
-	mul.f32 	%f540, %f230, %f204;
-
-BB0_21:
-	setp.eq.f32	%p17, %f540, 0f00000000;
-	@%p17 bra 	BB0_23;
-
-	add.s32 	%r190, %r50, 1;
-	mad.lo.s32 	%r195, %r190, %r38, %r1;
-	mul.wide.s32 	%rd47, %r195, 4;
-	add.s64 	%rd48, %rd12, %rd47;
-	add.s64 	%rd50, %rd11, %rd47;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.f32 	%f232, [%rd48];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.f32 	%f234, [%rd50];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f548, %f548, %f238;
-	sub.f32 	%f541, %f541, %f239;
-
-BB0_23:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_32;
-
-	setp.eq.s64	%p102, %rd7, 0;
-	add.s32 	%r209, %r50, -1;
-	mul.lo.s32 	%r4, %r209, %r38;
-	add.s32 	%r214, %r1, %r4;
-	add.s32 	%r5, %r214, 1;
-	mov.f32 	%f543, %f204;
-	@%p102 bra 	BB0_26;
-
-	cvta.to.global.u64 	%rd51, %rd7;
-	mul.wide.s32 	%rd52, %r5, 4;
-	add.s64 	%rd53, %rd51, %rd52;
-	ld.global.f32 	%f240, [%rd53];
-	mul.f32 	%f543, %f240, %f204;
-
-BB0_26:
-	setp.eq.f32	%p20, %f543, 0f00000000;
-	@%p20 bra 	BB0_28;
-
-	add.s64 	%rd335, %rd11, %rd13;
-	mul.wide.s32 	%rd55, %r5, 4;
-	add.s64 	%rd56, %rd12, %rd55;
-	add.s64 	%rd58, %rd11, %rd55;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.f32 	%f242, [%rd14+4];
-	ld.global.f32 	%f243, [%rd56];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.f32 	%f245, [%rd335+4];
-	ld.global.f32 	%f246, [%rd58];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f548, %f241, %f248, %f548;
-	fma.rn.f32 	%f541, %f241, %f249, %f541;
-
-BB0_28:
-	setp.eq.s64	%p103, %rd7, 0;
-	add.s32 	%r6, %r4, %r1;
-	mov.f32 	%f546, %f204;
-	@%p103 bra 	BB0_30;
-
-	cvta.to.global.u64 	%rd62, %rd7;
-	mul.wide.s32 	%rd63, %r6, 4;
-	add.s64 	%rd64, %rd62, %rd63;
-	ld.global.f32 	%f250, [%rd64];
-	mul.f32 	%f546, %f250, %f204;
-
-BB0_30:
-	setp.eq.f32	%p22, %f546, 0f00000000;
-	@%p22 bra 	BB0_32;
-
-	mul.wide.s32 	%rd66, %r6, 4;
-	add.s64 	%rd67, %rd12, %rd66;
-	add.s64 	%rd69, %rd11, %rd66;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.f32 	%f252, [%rd67];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.f32 	%f254, [%rd69];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f548, %f548, %f258;
-	sub.f32 	%f541, %f541, %f259;
-	bra.uni 	BB0_32;
+	cvta.to.global.u64 	%rd20, %rd9;
+	add.s64 	%rd22, %rd20, %rd13;
+	ld.global.f32 	%f210, [%rd22];
+	mul.f32 	%f7, %f210, %f82;
 
 BB0_6:
-	mov.f32 	%f548, %f541;
+	setp.eq.s64	%p9, %rd8, 0;
+	mov.f32 	%f9, %f80;
+	@%p9 bra 	BB0_8;
 
-BB0_32:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_58;
+	cvta.to.global.u64 	%rd23, %rd8;
+	add.s64 	%rd25, %rd23, %rd13;
+	ld.global.f32 	%f211, [%rd25];
+	mul.f32 	%f9, %f211, %f80;
 
-	add.s32 	%r7, %r1, -1;
-	setp.eq.s64	%p24, %rd7, 0;
-	mov.f32 	%f549, %f204;
+BB0_8:
+	add.s32 	%r54, %r37, -1;
+	mov.f32 	%f538, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r54;
+	@%p10 bra 	BB0_9;
+
+	mov.f32 	%f531, %f206;
+	@%p6 bra 	BB0_12;
+
+	cvta.to.global.u64 	%rd26, %rd7;
+	add.s64 	%rd28, %rd26, %rd13;
+	ld.global.f32 	%f214, [%rd28+4];
+	mul.f32 	%f531, %f214, %f206;
+
+BB0_12:
+	setp.eq.f32	%p12, %f531, 0f00000000;
+	mov.f32 	%f545, %f538;
+	@%p12 bra 	BB0_35;
+
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
+
+	cvta.to.global.u64 	%rd29, %rd9;
+	add.s64 	%rd31, %rd29, %rd13;
+	ld.global.f32 	%f217, [%rd31+4];
+	mul.f32 	%f13, %f217, %f82;
+
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
+
+	cvta.to.global.u64 	%rd32, %rd8;
+	add.s64 	%rd34, %rd32, %rd13;
+	ld.global.f32 	%f218, [%rd34+4];
+	mul.f32 	%f15, %f218, %f80;
+
+BB0_17:
+	add.s32 	%r59, %r38, -1;
+	mov.f32 	%f538, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r59;
+	mov.f32 	%f545, %f538;
+	@%p15 bra 	BB0_26;
+
+	mov.f32 	%f534, %f206;
+	@%p6 bra 	BB0_20;
+
+	add.s32 	%r69, %r49, 1;
+	mad.lo.s32 	%r74, %r69, %r37, %r1;
+	add.s32 	%r75, %r74, 1;
+	cvta.to.global.u64 	%rd35, %rd7;
+	mul.wide.s32 	%rd36, %r75, 4;
+	add.s64 	%rd37, %rd35, %rd36;
+	ld.global.f32 	%f221, [%rd37];
+	mul.f32 	%f534, %f221, %f206;
+
+BB0_20:
+	mov.f32 	%f538, 0f00000000;
+	setp.eq.f32	%p17, %f534, 0f00000000;
+	mov.f32 	%f545, %f538;
+	@%p17 bra 	BB0_22;
+
+	add.s64 	%rd339, %rd11, %rd13;
+	add.s32 	%r85, %r49, 1;
+	mad.lo.s32 	%r90, %r85, %r37, %r1;
+	add.s32 	%r91, %r90, 1;
+	mul.wide.s32 	%rd39, %r91, 4;
+	add.s64 	%rd40, %rd12, %rd39;
+	add.s64 	%rd42, %rd11, %rd39;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.f32 	%f225, [%rd14+4];
+	ld.global.f32 	%f226, [%rd40];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.f32 	%f228, [%rd339+4];
+	ld.global.f32 	%f229, [%rd42];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f545, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f538, %f224, %f232, 0f00000000;
+
+BB0_22:
+	mov.f32 	%f537, %f206;
+	@%p6 bra 	BB0_24;
+
+	add.s32 	%r101, %r49, 1;
+	mad.lo.s32 	%r106, %r101, %r37, %r1;
+	cvta.to.global.u64 	%rd46, %rd7;
+	mul.wide.s32 	%rd47, %r106, 4;
+	add.s64 	%rd48, %rd46, %rd47;
+	ld.global.f32 	%f233, [%rd48];
+	mul.f32 	%f537, %f233, %f206;
+
+BB0_24:
+	setp.eq.f32	%p19, %f537, 0f00000000;
+	@%p19 bra 	BB0_26;
+
+	add.s32 	%r116, %r49, 1;
+	mad.lo.s32 	%r121, %r116, %r37, %r1;
+	mul.wide.s32 	%rd50, %r121, 4;
+	add.s64 	%rd51, %rd12, %rd50;
+	add.s64 	%rd53, %rd11, %rd50;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.f32 	%f235, [%rd51];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.f32 	%f237, [%rd53];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f545, %f545, %f241;
+	sub.f32 	%f538, %f538, %f242;
+
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
+
+	add.s32 	%r135, %r49, -1;
+	mul.lo.s32 	%r5, %r135, %r37;
+	add.s32 	%r140, %r1, %r5;
+	add.s32 	%r6, %r140, 1;
+	mov.f32 	%f540, %f206;
+	@%p6 bra 	BB0_29;
+
+	cvta.to.global.u64 	%rd54, %rd7;
+	mul.wide.s32 	%rd55, %r6, 4;
+	add.s64 	%rd56, %rd54, %rd55;
+	ld.global.f32 	%f243, [%rd56];
+	mul.f32 	%f540, %f243, %f206;
+
+BB0_29:
+	setp.eq.f32	%p22, %f540, 0f00000000;
+	@%p22 bra 	BB0_31;
+
+	add.s64 	%rd338, %rd11, %rd13;
+	mul.wide.s32 	%rd58, %r6, 4;
+	add.s64 	%rd59, %rd12, %rd58;
+	add.s64 	%rd61, %rd11, %rd58;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.f32 	%f245, [%rd14+4];
+	ld.global.f32 	%f246, [%rd59];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.f32 	%f248, [%rd338+4];
+	ld.global.f32 	%f249, [%rd61];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f545, %f244, %f251, %f545;
+	fma.rn.f32 	%f538, %f244, %f252, %f538;
+
+BB0_31:
+	add.s32 	%r7, %r5, %r1;
+	mov.f32 	%f543, %f206;
+	@%p6 bra 	BB0_33;
+
+	cvta.to.global.u64 	%rd65, %rd7;
+	mul.wide.s32 	%rd66, %r7, 4;
+	add.s64 	%rd67, %rd65, %rd66;
+	ld.global.f32 	%f253, [%rd67];
+	mul.f32 	%f543, %f253, %f206;
+
+BB0_33:
+	setp.eq.f32	%p24, %f543, 0f00000000;
 	@%p24 bra 	BB0_35;
 
-	mad.lo.s32 	%r250, %r50, %r38, %r7;
-	cvta.to.global.u64 	%rd70, %rd7;
-	mul.wide.s32 	%rd71, %r250, 4;
-	add.s64 	%rd72, %rd70, %rd71;
-	ld.global.f32 	%f260, [%rd72];
-	mul.f32 	%f549, %f260, %f204;
+	mul.wide.s32 	%rd69, %r7, 4;
+	add.s64 	%rd70, %rd12, %rd69;
+	add.s64 	%rd72, %rd11, %rd69;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.f32 	%f255, [%rd70];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.f32 	%f257, [%rd72];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f545, %f545, %f261;
+	sub.f32 	%f538, %f538, %f262;
+	bra.uni 	BB0_35;
+
+BB0_9:
+	mov.f32 	%f545, %f538;
 
 BB0_35:
-	setp.eq.f32	%p25, %f549, 0f00000000;
-	@%p25 bra 	BB0_58;
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-	mov.f32 	%f41, %f80;
+	add.s32 	%r8, %r1, -1;
+	mov.f32 	%f546, %f206;
 	@%p6 bra 	BB0_38;
 
-	cvta.to.global.u64 	%rd73, %rd9;
+	cvta.to.global.u64 	%rd73, %rd7;
 	add.s64 	%rd75, %rd73, %rd13;
-	ld.global.f32 	%f261, [%rd75+-4];
-	mul.f32 	%f41, %f261, %f80;
+	ld.global.f32 	%f263, [%rd75+-4];
+	mul.f32 	%f546, %f263, %f206;
 
 BB0_38:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_40;
+	setp.eq.f32	%p27, %f546, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	cvta.to.global.u64 	%rd76, %rd8;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
+
+	cvta.to.global.u64 	%rd76, %rd9;
 	add.s64 	%rd78, %rd76, %rd13;
-	ld.global.f32 	%f262, [%rd78+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.f32 	%f264, [%rd78+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_40:
-	ld.param.u32 	%r862, [Elastodynamic2_param_7];
-	add.s32 	%r283, %r862, -1;
-	setp.ge.s32	%p28, %r2, %r283;
-	@%p28 bra 	BB0_49;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s32 	%r293, %r50, 1;
-	mul.lo.s32 	%r8, %r293, %r38;
-	add.s32 	%r9, %r8, %r7;
-	mov.f32 	%f552, %f204;
-	@%p24 bra 	BB0_43;
-
-	cvta.to.global.u64 	%rd79, %rd7;
-	mul.wide.s32 	%rd80, %r9, 4;
-	add.s64 	%rd81, %rd79, %rd80;
-	ld.global.f32 	%f263, [%rd81];
-	mul.f32 	%f552, %f263, %f204;
+	cvta.to.global.u64 	%rd79, %rd8;
+	add.s64 	%rd81, %rd79, %rd13;
+	ld.global.f32 	%f265, [%rd81+-4];
+	mul.f32 	%f45, %f265, %f80;
 
 BB0_43:
-	setp.eq.f32	%p30, %f552, 0f00000000;
-	@%p30 bra 	BB0_45;
+	ld.param.u32 	%r807, [Elastodynamic2_param_7];
+	add.s32 	%r213, %r807, -1;
+	setp.ge.s32	%p30, %r2, %r213;
+	@%p30 bra 	BB0_52;
 
-	add.s64 	%rd334, %rd11, %rd13;
-	mul.wide.s32 	%rd83, %r9, 4;
-	add.s64 	%rd84, %rd12, %rd83;
-	add.s64 	%rd86, %rd11, %rd83;
-	cvt.f64.f32	%fd21, %f201;
+	add.s32 	%r223, %r49, 1;
+	mul.lo.s32 	%r9, %r223, %r37;
+	add.s32 	%r10, %r9, %r8;
+	mov.f32 	%f549, %f206;
+	@%p6 bra 	BB0_46;
+
+	cvta.to.global.u64 	%rd82, %rd7;
+	mul.wide.s32 	%rd83, %r10, 4;
+	add.s64 	%rd84, %rd82, %rd83;
+	ld.global.f32 	%f266, [%rd84];
+	mul.f32 	%f549, %f266, %f206;
+
+BB0_46:
+	setp.eq.f32	%p32, %f549, 0f00000000;
+	@%p32 bra 	BB0_48;
+
+	add.s64 	%rd337, %rd11, %rd13;
+	mul.wide.s32 	%rd86, %r10, 4;
+	add.s64 	%rd87, %rd12, %rd86;
+	add.s64 	%rd89, %rd11, %rd86;
+	cvt.f64.f32	%fd21, %f203;
 	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
 	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
+	cvt.f64.f32	%fd24, %f204;
 	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.f32 	%f265, [%rd14+-4];
-	ld.global.f32 	%f266, [%rd84];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.f32 	%f268, [%rd334+-4];
-	ld.global.f32 	%f269, [%rd86];
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.f32 	%f268, [%rd14+-4];
+	ld.global.f32 	%f269, [%rd87];
 	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f548, %f548, %f273;
-	sub.f32 	%f541, %f541, %f274;
+	ld.global.f32 	%f271, [%rd337+-4];
+	ld.global.f32 	%f272, [%rd89];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f545, %f545, %f276;
+	sub.f32 	%f538, %f538, %f277;
 
-BB0_45:
-	add.s32 	%r864, %r50, 1;
-	mul.lo.s32 	%r863, %r864, %r38;
-	add.s32 	%r10, %r863, %r1;
-	mov.f32 	%f555, %f204;
-	@%p24 bra 	BB0_47;
+BB0_48:
+	add.s32 	%r11, %r9, %r1;
+	mov.f32 	%f552, %f206;
+	@%p6 bra 	BB0_50;
 
-	cvta.to.global.u64 	%rd90, %rd7;
-	mul.wide.s32 	%rd91, %r10, 4;
-	add.s64 	%rd92, %rd90, %rd91;
-	ld.global.f32 	%f275, [%rd92];
-	mul.f32 	%f555, %f275, %f204;
+	cvta.to.global.u64 	%rd93, %rd7;
+	mul.wide.s32 	%rd94, %r11, 4;
+	add.s64 	%rd95, %rd93, %rd94;
+	ld.global.f32 	%f278, [%rd95];
+	mul.f32 	%f552, %f278, %f206;
 
-BB0_47:
-	setp.eq.f32	%p32, %f555, 0f00000000;
-	@%p32 bra 	BB0_49;
+BB0_50:
+	setp.eq.f32	%p34, %f552, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-	mul.wide.s32 	%rd94, %r10, 4;
-	add.s64 	%rd95, %rd12, %rd94;
-	add.s64 	%rd97, %rd11, %rd94;
-	cvt.f64.f32	%fd26, %f201;
+	mul.wide.s32 	%rd97, %r11, 4;
+	add.s64 	%rd98, %rd12, %rd97;
+	add.s64 	%rd100, %rd11, %rd97;
+	cvt.f64.f32	%fd26, %f203;
 	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
 	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
+	cvt.f64.f32	%fd29, %f204;
 	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.f32 	%f277, [%rd95];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.f32 	%f279, [%rd97];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f548, %f276, %f281, %f548;
-	fma.rn.f32 	%f541, %f276, %f282, %f541;
-
-BB0_49:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_58;
-
-	setp.eq.s64	%p105, %rd7, 0;
-	add.s32 	%r865, %r1, -1;
-	add.s32 	%r325, %r50, -1;
-	mul.lo.s32 	%r11, %r325, %r38;
-	add.s32 	%r12, %r11, %r865;
-	mov.f32 	%f558, %f204;
-	@%p105 bra 	BB0_52;
-
-	cvta.to.global.u64 	%rd98, %rd7;
-	mul.wide.s32 	%rd99, %r12, 4;
-	add.s64 	%rd100, %rd98, %rd99;
-	ld.global.f32 	%f283, [%rd100];
-	mul.f32 	%f558, %f283, %f204;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.f32 	%f280, [%rd98];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.f32 	%f282, [%rd100];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f545, %f279, %f284, %f545;
+	fma.rn.f32 	%f538, %f279, %f285, %f538;
 
 BB0_52:
-	setp.eq.f32	%p35, %f558, 0f00000000;
-	@%p35 bra 	BB0_54;
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-	add.s64 	%rd333, %rd11, %rd13;
-	mul.wide.s32 	%rd102, %r12, 4;
-	add.s64 	%rd103, %rd12, %rd102;
-	add.s64 	%rd105, %rd11, %rd102;
-	cvt.f64.f32	%fd31, %f201;
+	add.s32 	%r808, %r1, -1;
+	add.s32 	%r255, %r49, -1;
+	mul.lo.s32 	%r12, %r255, %r37;
+	add.s32 	%r13, %r12, %r808;
+	mov.f32 	%f555, %f206;
+	@%p6 bra 	BB0_55;
+
+	cvta.to.global.u64 	%rd101, %rd7;
+	mul.wide.s32 	%rd102, %r13, 4;
+	add.s64 	%rd103, %rd101, %rd102;
+	ld.global.f32 	%f286, [%rd103];
+	mul.f32 	%f555, %f286, %f206;
+
+BB0_55:
+	setp.eq.f32	%p37, %f555, 0f00000000;
+	@%p37 bra 	BB0_57;
+
+	add.s64 	%rd336, %rd11, %rd13;
+	mul.wide.s32 	%rd105, %r13, 4;
+	add.s64 	%rd106, %rd12, %rd105;
+	add.s64 	%rd108, %rd11, %rd105;
+	cvt.f64.f32	%fd31, %f203;
 	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
 	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
+	cvt.f64.f32	%fd34, %f204;
 	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.f32 	%f285, [%rd14+-4];
-	ld.global.f32 	%f286, [%rd103];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.f32 	%f288, [%rd333+-4];
-	ld.global.f32 	%f289, [%rd105];
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.f32 	%f288, [%rd14+-4];
+	ld.global.f32 	%f289, [%rd106];
 	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f548, %f548, %f293;
-	sub.f32 	%f541, %f541, %f294;
+	ld.global.f32 	%f291, [%rd336+-4];
+	ld.global.f32 	%f292, [%rd108];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f545, %f545, %f296;
+	sub.f32 	%f538, %f538, %f297;
 
-BB0_54:
-	setp.eq.s64	%p106, %rd7, 0;
-	add.s32 	%r13, %r11, %r1;
-	mov.f32 	%f561, %f204;
-	@%p106 bra 	BB0_56;
+BB0_57:
+	add.s32 	%r14, %r12, %r1;
+	mov.f32 	%f558, %f206;
+	@%p6 bra 	BB0_59;
 
-	cvta.to.global.u64 	%rd109, %rd7;
-	mul.wide.s32 	%rd110, %r13, 4;
-	add.s64 	%rd111, %rd109, %rd110;
-	ld.global.f32 	%f295, [%rd111];
-	mul.f32 	%f561, %f295, %f204;
+	cvta.to.global.u64 	%rd112, %rd7;
+	mul.wide.s32 	%rd113, %r14, 4;
+	add.s64 	%rd114, %rd112, %rd113;
+	ld.global.f32 	%f298, [%rd114];
+	mul.f32 	%f558, %f298, %f206;
 
-BB0_56:
-	setp.eq.f32	%p37, %f561, 0f00000000;
-	@%p37 bra 	BB0_58;
+BB0_59:
+	setp.eq.f32	%p39, %f558, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	mul.wide.s32 	%rd113, %r13, 4;
-	add.s64 	%rd114, %rd12, %rd113;
-	add.s64 	%rd116, %rd11, %rd113;
-	cvt.f64.f32	%fd36, %f201;
+	mul.wide.s32 	%rd116, %r14, 4;
+	add.s64 	%rd117, %rd12, %rd116;
+	add.s64 	%rd119, %rd11, %rd116;
+	cvt.f64.f32	%fd36, %f203;
 	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
 	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
+	cvt.f64.f32	%fd39, %f204;
 	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.f32 	%f297, [%rd114];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.f32 	%f299, [%rd116];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f548, %f296, %f301, %f548;
-	fma.rn.f32 	%f541, %f296, %f302, %f541;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.f32 	%f300, [%rd117];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.f32 	%f302, [%rd119];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f545, %f299, %f304, %f545;
+	fma.rn.f32 	%f538, %f299, %f305, %f538;
 
-BB0_58:
-	ld.param.u64 	%rd328, [Elastodynamic2_param_2];
-	ld.param.u64 	%rd327, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd326, [Elastodynamic2_param_0];
-	cvta.to.global.u64 	%rd117, %rd326;
-	add.s64 	%rd119, %rd117, %rd13;
-	ld.global.f32 	%f303, [%rd119];
-	add.f32 	%f68, %f541, %f303;
-	st.global.f32 	[%rd119], %f68;
-	cvta.to.global.u64 	%rd120, %rd327;
-	add.s64 	%rd121, %rd120, %rd13;
-	ld.global.f32 	%f304, [%rd121];
-	add.f32 	%f69, %f548, %f304;
-	st.global.f32 	[%rd121], %f69;
-	cvta.to.global.u64 	%rd122, %rd328;
-	add.s64 	%rd123, %rd122, %rd13;
-	ld.global.f32 	%f305, [%rd123];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd123], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_60;
-
-	cvta.to.global.u64 	%rd124, %rd8;
-	add.s64 	%rd126, %rd124, %rd13;
-	ld.global.f32 	%f306, [%rd126];
-	mul.f32 	%f72, %f306, %f78;
-
-BB0_60:
+BB0_61:
+	ld.param.u64 	%rd331, [Elastodynamic2_param_2];
+	ld.param.u64 	%rd330, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd329, [Elastodynamic2_param_0];
+	cvta.to.global.u64 	%rd120, %rd329;
+	add.s64 	%rd122, %rd120, %rd13;
+	ld.global.f32 	%f306, [%rd122];
+	add.f32 	%f70, %f538, %f306;
+	st.global.f32 	[%rd122], %f70;
+	cvta.to.global.u64 	%rd123, %rd330;
+	add.s64 	%rd124, %rd123, %rd13;
+	ld.global.f32 	%f307, [%rd124];
+	add.f32 	%f71, %f545, %f307;
+	st.global.f32 	[%rd124], %f71;
+	cvta.to.global.u64 	%rd125, %rd331;
+	add.s64 	%rd126, %rd125, %rd13;
+	ld.global.f32 	%f308, [%rd126];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd126], %f72;
 	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_62;
+	@%p9 bra 	BB0_63;
 
-	cvta.to.global.u64 	%rd127, %rd9;
+	cvta.to.global.u64 	%rd127, %rd8;
 	add.s64 	%rd129, %rd127, %rd13;
-	ld.global.f32 	%f307, [%rd129];
-	mul.f32 	%f74, %f307, %f80;
-
-BB0_62:
-	ld.param.u32 	%r855, [Elastodynamic2_param_7];
-	add.s32 	%r390, %r855, -1;
-	mov.f32 	%f573, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r390;
-	@%p40 bra 	BB0_63;
-
-	add.s32 	%r400, %r50, 1;
-	mul.lo.s32 	%r14, %r400, %r38;
-	add.s32 	%r15, %r14, %r1;
-	setp.eq.s64	%p41, %rd7, 0;
-	mov.f32 	%f566, %f204;
-	@%p41 bra 	BB0_66;
-
-	cvta.to.global.u64 	%rd130, %rd7;
-	mul.wide.s32 	%rd131, %r15, 4;
-	add.s64 	%rd132, %rd130, %rd131;
-	ld.global.f32 	%f310, [%rd132];
-	mul.f32 	%f566, %f310, %f204;
-
-BB0_66:
-	setp.eq.f32	%p42, %f566, 0f00000000;
-	mov.f32 	%f580, %f573;
-	@%p42 bra 	BB0_89;
-
-	@%p7 bra 	BB0_69;
-
-	cvta.to.global.u64 	%rd133, %rd8;
-	mul.wide.s32 	%rd134, %r15, 4;
-	add.s64 	%rd135, %rd133, %rd134;
-	ld.global.f32 	%f313, [%rd135];
-	mul.f32 	%f78, %f313, %f78;
-
-BB0_69:
-	@%p6 bra 	BB0_71;
-
-	cvta.to.global.u64 	%rd136, %rd9;
-	mul.wide.s32 	%rd137, %r15, 4;
-	add.s64 	%rd138, %rd136, %rd137;
-	ld.global.f32 	%f314, [%rd138];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_71:
-	mov.f32 	%f573, 0f00000000;
-	mov.f32 	%f580, %f573;
-	@%p8 bra 	BB0_80;
-
-	mov.f32 	%f569, %f204;
-	@%p41 bra 	BB0_74;
-
-	add.s32 	%r414, %r1, %r14;
-	add.s32 	%r415, %r414, 1;
-	cvta.to.global.u64 	%rd139, %rd7;
-	mul.wide.s32 	%rd140, %r415, 4;
-	add.s64 	%rd141, %rd139, %rd140;
-	ld.global.f32 	%f317, [%rd141];
-	mul.f32 	%f569, %f317, %f204;
-
-BB0_74:
-	mov.f32 	%f573, 0f00000000;
-	setp.eq.f32	%p47, %f569, 0f00000000;
-	mov.f32 	%f580, %f573;
-	@%p47 bra 	BB0_76;
-
-	add.s32 	%r420, %r1, %r14;
-	add.s32 	%r421, %r420, 1;
-	mul.wide.s32 	%rd143, %r421, 4;
-	add.s64 	%rd144, %rd12, %rd143;
-	add.s64 	%rd146, %rd11, %rd143;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.f32 	%f321, [%rd144+-4];
-	ld.global.f32 	%f322, [%rd144];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.f32 	%f324, [%rd146+-4];
-	ld.global.f32 	%f325, [%rd146];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f580, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f573, %f320, %f328, 0f00000000;
-
-BB0_76:
-	mov.f32 	%f572, %f204;
-	@%p41 bra 	BB0_78;
-
-	add.s32 	%r436, %r51, 1;
-	cvta.to.global.u64 	%rd147, %rd7;
-	mul.wide.s32 	%rd148, %r436, 4;
-	add.s64 	%rd149, %rd147, %rd148;
-	ld.global.f32 	%f329, [%rd149];
-	mul.f32 	%f572, %f329, %f204;
-
-BB0_78:
-	setp.eq.f32	%p49, %f572, 0f00000000;
-	@%p49 bra 	BB0_80;
-
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	add.s64 	%rd332, %rd11, %rd13;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f531;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.f32 	%f331, [%rd14+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.f32 	%f333, [%rd332+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f580, %f580, %f337;
-	sub.f32 	%f573, %f573, %f338;
-
-BB0_80:
-	@%p23 bra 	BB0_89;
-
-	add.s32 	%r866, %r50, 1;
-	add.s32 	%r16, %r1, -1;
-	mad.lo.s32 	%r17, %r866, %r38, %r16;
-	mov.f32 	%f575, %f204;
-	@%p41 bra 	BB0_83;
-
-	cvta.to.global.u64 	%rd155, %rd7;
-	mul.wide.s32 	%rd156, %r17, 4;
-	add.s64 	%rd157, %rd155, %rd156;
-	ld.global.f32 	%f339, [%rd157];
-	mul.f32 	%f575, %f339, %f204;
-
-BB0_83:
-	setp.eq.f32	%p52, %f575, 0f00000000;
-	@%p52 bra 	BB0_85;
-
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd159, %r17, 4;
-	add.s64 	%rd160, %rd12, %rd159;
-	add.s64 	%rd162, %rd11, %rd159;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f530;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.f32 	%f341, [%rd160+4];
-	ld.global.f32 	%f342, [%rd160];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.f32 	%f344, [%rd162+4];
-	ld.global.f32 	%f345, [%rd162];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f580, %f340, %f347, %f580;
-	fma.rn.f32 	%f573, %f340, %f348, %f573;
-
-BB0_85:
-	mov.f32 	%f578, %f204;
-	@%p41 bra 	BB0_87;
-
-	mad.lo.s32 	%r478, %r50, %r38, %r16;
-	cvta.to.global.u64 	%rd163, %rd7;
-	mul.wide.s32 	%rd164, %r478, 4;
-	add.s64 	%rd165, %rd163, %rd164;
-	ld.global.f32 	%f349, [%rd165];
-	mul.f32 	%f578, %f349, %f204;
-
-BB0_87:
-	setp.eq.f32	%p54, %f578, 0f00000000;
-	@%p54 bra 	BB0_89;
-
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	add.s64 	%rd331, %rd11, %rd13;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f529;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.f32 	%f351, [%rd14+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.f32 	%f353, [%rd331+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f580, %f580, %f357;
-	sub.f32 	%f573, %f573, %f358;
-	bra.uni 	BB0_89;
+	ld.global.f32 	%f309, [%rd129];
+	mul.f32 	%f74, %f309, %f80;
 
 BB0_63:
-	mov.f32 	%f580, %f573;
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
 
-BB0_89:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_115;
+	cvta.to.global.u64 	%rd130, %rd9;
+	add.s64 	%rd132, %rd130, %rd13;
+	ld.global.f32 	%f310, [%rd132];
+	mul.f32 	%f76, %f310, %f82;
 
-	add.s32 	%r506, %r50, -1;
-	mul.lo.s32 	%r18, %r506, %r38;
-	add.s32 	%r19, %r18, %r1;
-	setp.eq.s64	%p56, %rd7, 0;
-	mov.f32 	%f581, %f204;
+BB0_65:
+	ld.param.u32 	%r800, [Elastodynamic2_param_7];
+	add.s32 	%r320, %r800, -1;
+	mov.f32 	%f570, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r320;
+	@%p42 bra 	BB0_66;
+
+	add.s32 	%r330, %r49, 1;
+	mul.lo.s32 	%r15, %r330, %r37;
+	add.s32 	%r16, %r15, %r1;
+	mov.f32 	%f563, %f206;
+	@%p6 bra 	BB0_69;
+
+	cvta.to.global.u64 	%rd133, %rd7;
+	mul.wide.s32 	%rd134, %r16, 4;
+	add.s64 	%rd135, %rd133, %rd134;
+	ld.global.f32 	%f313, [%rd135];
+	mul.f32 	%f563, %f313, %f206;
+
+BB0_69:
+	setp.eq.f32	%p44, %f563, 0f00000000;
+	mov.f32 	%f577, %f570;
+	@%p44 bra 	BB0_92;
+
+	@%p9 bra 	BB0_72;
+
+	cvta.to.global.u64 	%rd136, %rd8;
+	mul.wide.s32 	%rd137, %r16, 4;
+	add.s64 	%rd138, %rd136, %rd137;
+	ld.global.f32 	%f316, [%rd138];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	cvta.to.global.u64 	%rd139, %rd9;
+	mul.wide.s32 	%rd140, %r16, 4;
+	add.s64 	%rd141, %rd139, %rd140;
+	ld.global.f32 	%f317, [%rd141];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f570, 0f00000000;
+	mov.f32 	%f577, %f570;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r344, %r1, %r15;
+	add.s32 	%r17, %r344, 1;
+	mov.f32 	%f566, %f206;
+	@%p6 bra 	BB0_77;
+
+	cvta.to.global.u64 	%rd142, %rd7;
+	mul.wide.s32 	%rd143, %r17, 4;
+	add.s64 	%rd144, %rd142, %rd143;
+	ld.global.f32 	%f320, [%rd144];
+	mul.f32 	%f566, %f320, %f206;
+
+BB0_77:
+	mov.f32 	%f570, 0f00000000;
+	setp.eq.f32	%p49, %f566, 0f00000000;
+	mov.f32 	%f577, %f570;
+	@%p49 bra 	BB0_79;
+
+	mul.wide.s32 	%rd146, %r17, 4;
+	add.s64 	%rd147, %rd12, %rd146;
+	add.s64 	%rd149, %rd11, %rd146;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.f32 	%f324, [%rd147+-4];
+	ld.global.f32 	%f325, [%rd147];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.f32 	%f327, [%rd149+-4];
+	ld.global.f32 	%f328, [%rd149];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f577, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f570, %f323, %f331, 0f00000000;
+
+BB0_79:
+	mov.f32 	%f569, %f206;
+	@%p6 bra 	BB0_81;
+
+	cvta.to.global.u64 	%rd150, %rd7;
+	add.s64 	%rd152, %rd150, %rd13;
+	ld.global.f32 	%f332, [%rd152+4];
+	mul.f32 	%f569, %f332, %f206;
+
+BB0_81:
+	setp.eq.f32	%p51, %f569, 0f00000000;
+	@%p51 bra 	BB0_83;
+
+	add.s64 	%rd335, %rd11, %rd13;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f204;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.f32 	%f334, [%rd14+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.f32 	%f336, [%rd335+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f577, %f577, %f340;
+	sub.f32 	%f570, %f570, %f341;
+
+BB0_83:
+	@%p25 bra 	BB0_92;
+
+	add.s32 	%r815, %r49, 1;
+	ld.param.u32 	%r814, [Elastodynamic2_param_6];
+	mad.lo.s32 	%r391, %r815, %r814, %r1;
+	add.s32 	%r18, %r391, -1;
+	mov.f32 	%f572, %f206;
+	@%p6 bra 	BB0_86;
+
+	cvta.to.global.u64 	%rd158, %rd7;
+	mul.wide.s32 	%rd159, %r18, 4;
+	add.s64 	%rd160, %rd158, %rd159;
+	ld.global.f32 	%f342, [%rd160];
+	mul.f32 	%f572, %f342, %f206;
+
+BB0_86:
+	setp.eq.f32	%p54, %f572, 0f00000000;
+	@%p54 bra 	BB0_88;
+
+	mul.wide.s32 	%rd162, %r18, 4;
+	add.s64 	%rd163, %rd12, %rd162;
+	add.s64 	%rd165, %rd11, %rd162;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f204;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.f32 	%f344, [%rd163+4];
+	ld.global.f32 	%f345, [%rd163];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.f32 	%f347, [%rd165+4];
+	ld.global.f32 	%f348, [%rd165];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f577, %f343, %f350, %f577;
+	fma.rn.f32 	%f570, %f343, %f351, %f570;
+
+BB0_88:
+	mov.f32 	%f575, %f206;
+	@%p6 bra 	BB0_90;
+
+	cvta.to.global.u64 	%rd166, %rd7;
+	add.s64 	%rd168, %rd166, %rd13;
+	ld.global.f32 	%f352, [%rd168+-4];
+	mul.f32 	%f575, %f352, %f206;
+
+BB0_90:
+	setp.eq.f32	%p56, %f575, 0f00000000;
 	@%p56 bra 	BB0_92;
 
-	cvta.to.global.u64 	%rd171, %rd7;
-	mul.wide.s32 	%rd172, %r19, 4;
-	add.s64 	%rd173, %rd171, %rd172;
-	ld.global.f32 	%f359, [%rd173];
-	mul.f32 	%f581, %f359, %f204;
+	add.s64 	%rd334, %rd11, %rd13;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f204;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.f32 	%f354, [%rd14+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.f32 	%f356, [%rd334+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f577, %f577, %f360;
+	sub.f32 	%f570, %f570, %f361;
+	bra.uni 	BB0_92;
+
+BB0_66:
+	mov.f32 	%f577, %f570;
 
 BB0_92:
-	setp.eq.f32	%p57, %f581, 0f00000000;
-	@%p57 bra 	BB0_115;
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_95;
+	ld.param.u32 	%r813, [Elastodynamic2_param_6];
+	add.s32 	%r433, %r49, -1;
+	mul.lo.s32 	%r19, %r433, %r813;
+	add.s32 	%r20, %r19, %r1;
+	mov.f32 	%f578, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f522, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd344, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd174, %rd344;
-	mul.wide.s32 	%rd175, %r19, 4;
+	cvta.to.global.u64 	%rd174, %rd7;
+	mul.wide.s32 	%rd175, %r20, 4;
 	add.s64 	%rd176, %rd174, %rd175;
-	ld.global.f32 	%f360, [%rd176];
-	mul.f32 	%f108, %f360, %f522;
+	ld.global.f32 	%f362, [%rd176];
+	mul.f32 	%f578, %f362, %f206;
 
 BB0_95:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_97;
+	setp.eq.f32	%p59, %f578, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	ld.param.f32 	%f524, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd340, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd177, %rd340;
-	mul.wide.s32 	%rd178, %r19, 4;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
+
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd343, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd177, %rd343;
+	mul.wide.s32 	%rd178, %r20, 4;
 	add.s64 	%rd179, %rd177, %rd178;
-	ld.global.f32 	%f361, [%rd179];
-	mul.f32 	%f110, %f361, %f524;
+	ld.global.f32 	%f363, [%rd179];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_97:
-	@%p8 bra 	BB0_106;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	add.s32 	%r20, %r1, 1;
-	add.s32 	%r21, %r18, %r20;
-	mov.f32 	%f584, %f204;
-	@%p56 bra 	BB0_100;
-
-	cvta.to.global.u64 	%rd180, %rd7;
-	mul.wide.s32 	%rd181, %r21, 4;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd180, %rd9;
+	mul.wide.s32 	%rd181, %r20, 4;
 	add.s64 	%rd182, %rd180, %rd181;
-	ld.global.f32 	%f362, [%rd182];
-	mul.f32 	%f584, %f362, %f204;
+	ld.global.f32 	%f364, [%rd182];
+	mul.f32 	%f112, %f364, %f527;
 
 BB0_100:
-	setp.eq.f32	%p62, %f584, 0f00000000;
-	@%p62 bra 	BB0_102;
+	@%p10 bra 	BB0_109;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s32 	%r447, %r1, %r19;
+	add.s32 	%r21, %r447, 1;
+	mov.f32 	%f581, %f206;
+	@%p6 bra 	BB0_103;
+
+	cvta.to.global.u64 	%rd183, %rd7;
 	mul.wide.s32 	%rd184, %r21, 4;
-	add.s64 	%rd185, %rd12, %rd184;
-	add.s64 	%rd187, %rd11, %rd184;
-	cvt.f64.f32	%fd61, %f201;
+	add.s64 	%rd185, %rd183, %rd184;
+	ld.global.f32 	%f365, [%rd185];
+	mul.f32 	%f581, %f365, %f206;
+
+BB0_103:
+	setp.eq.f32	%p64, %f581, 0f00000000;
+	@%p64 bra 	BB0_105;
+
+	mul.wide.s32 	%rd187, %r21, 4;
+	add.s64 	%rd188, %rd12, %rd187;
+	add.s64 	%rd190, %rd11, %rd187;
+	cvt.f64.f32	%fd61, %f203;
 	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
 	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f528;
+	cvt.f64.f32	%fd64, %f204;
 	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.f32 	%f364, [%rd185+-4];
-	ld.global.f32 	%f365, [%rd185];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.f32 	%f367, [%rd187+-4];
-	ld.global.f32 	%f368, [%rd187];
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.f32 	%f367, [%rd188+-4];
+	ld.global.f32 	%f368, [%rd188];
 	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f580, %f580, %f372;
-	sub.f32 	%f573, %f573, %f373;
+	ld.global.f32 	%f370, [%rd190+-4];
+	ld.global.f32 	%f371, [%rd190];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f577, %f577, %f375;
+	sub.f32 	%f570, %f570, %f376;
 
-BB0_102:
-	mov.f32 	%f587, %f204;
-	@%p56 bra 	BB0_104;
+BB0_105:
+	mov.f32 	%f584, %f206;
+	@%p6 bra 	BB0_107;
 
-	mad.lo.s32 	%r529, %r50, %r38, %r20;
-	cvta.to.global.u64 	%rd188, %rd7;
-	mul.wide.s32 	%rd189, %r529, 4;
-	add.s64 	%rd190, %rd188, %rd189;
-	ld.global.f32 	%f374, [%rd190];
-	mul.f32 	%f587, %f374, %f204;
+	cvta.to.global.u64 	%rd191, %rd7;
+	add.s64 	%rd193, %rd191, %rd13;
+	ld.global.f32 	%f377, [%rd193+4];
+	mul.f32 	%f584, %f377, %f206;
 
-BB0_104:
-	setp.eq.f32	%p64, %f587, 0f00000000;
-	@%p64 bra 	BB0_106;
+BB0_107:
+	setp.eq.f32	%p66, %f584, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	add.s64 	%rd330, %rd11, %rd13;
-	cvt.f64.f32	%fd66, %f201;
+	add.s64 	%rd333, %rd11, %rd13;
+	cvt.f64.f32	%fd66, %f203;
 	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
 	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f527;
+	cvt.f64.f32	%fd69, %f204;
 	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.f32 	%f376, [%rd14+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.f32 	%f378, [%rd330+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f580, %f375, %f380, %f580;
-	fma.rn.f32 	%f573, %f375, %f381, %f573;
-
-BB0_106:
-	@%p23 bra 	BB0_115;
-
-	add.s32 	%r22, %r1, -1;
-	add.s32 	%r23, %r18, %r22;
-	mov.f32 	%f590, %f204;
-	@%p56 bra 	BB0_109;
-
-	cvta.to.global.u64 	%rd196, %rd7;
-	mul.wide.s32 	%rd197, %r23, 4;
-	add.s64 	%rd198, %rd196, %rd197;
-	ld.global.f32 	%f382, [%rd198];
-	mul.f32 	%f590, %f382, %f204;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.f32 	%f379, [%rd14+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.f32 	%f381, [%rd333+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f577, %f378, %f383, %f577;
+	fma.rn.f32 	%f570, %f378, %f384, %f570;
 
 BB0_109:
-	setp.eq.f32	%p67, %f590, 0f00000000;
-	@%p67 bra 	BB0_111;
+	@%p25 bra 	BB0_118;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd200, %r23, 4;
-	add.s64 	%rd201, %rd12, %rd200;
-	add.s64 	%rd203, %rd11, %rd200;
-	cvt.f64.f32	%fd71, %f201;
+	add.s32 	%r484, %r1, %r19;
+	add.s32 	%r22, %r484, -1;
+	mov.f32 	%f587, %f206;
+	@%p6 bra 	BB0_112;
+
+	cvta.to.global.u64 	%rd199, %rd7;
+	mul.wide.s32 	%rd200, %r22, 4;
+	add.s64 	%rd201, %rd199, %rd200;
+	ld.global.f32 	%f385, [%rd201];
+	mul.f32 	%f587, %f385, %f206;
+
+BB0_112:
+	setp.eq.f32	%p69, %f587, 0f00000000;
+	@%p69 bra 	BB0_114;
+
+	mul.wide.s32 	%rd203, %r22, 4;
+	add.s64 	%rd204, %rd12, %rd203;
+	add.s64 	%rd206, %rd11, %rd203;
+	cvt.f64.f32	%fd71, %f203;
 	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
 	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f526;
+	cvt.f64.f32	%fd74, %f204;
 	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.f32 	%f384, [%rd201+4];
-	ld.global.f32 	%f385, [%rd201];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.f32 	%f387, [%rd203+4];
-	ld.global.f32 	%f388, [%rd203];
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.f32 	%f387, [%rd204+4];
+	ld.global.f32 	%f388, [%rd204];
 	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f580, %f580, %f392;
-	sub.f32 	%f573, %f573, %f393;
+	ld.global.f32 	%f390, [%rd206+4];
+	ld.global.f32 	%f391, [%rd206];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f577, %f577, %f395;
+	sub.f32 	%f570, %f570, %f396;
 
-BB0_111:
-	mov.f32 	%f593, %f204;
-	@%p56 bra 	BB0_113;
+BB0_114:
+	mov.f32 	%f590, %f206;
+	@%p6 bra 	BB0_116;
 
-	mad.lo.s32 	%r561, %r50, %r38, %r22;
-	cvta.to.global.u64 	%rd204, %rd7;
-	mul.wide.s32 	%rd205, %r561, 4;
-	add.s64 	%rd206, %rd204, %rd205;
-	ld.global.f32 	%f394, [%rd206];
-	mul.f32 	%f593, %f394, %f204;
+	cvta.to.global.u64 	%rd207, %rd7;
+	add.s64 	%rd209, %rd207, %rd13;
+	ld.global.f32 	%f397, [%rd209+-4];
+	mul.f32 	%f590, %f397, %f206;
 
-BB0_113:
-	setp.eq.f32	%p69, %f593, 0f00000000;
-	@%p69 bra 	BB0_115;
+BB0_116:
+	setp.eq.f32	%p71, %f590, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_10];
-	add.s64 	%rd329, %rd11, %rd13;
-	cvt.f64.f32	%fd76, %f201;
+	add.s64 	%rd332, %rd11, %rd13;
+	cvt.f64.f32	%fd76, %f203;
 	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
 	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f525;
+	cvt.f64.f32	%fd79, %f204;
 	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.f32 	%f396, [%rd14+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.f32 	%f398, [%rd329+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f580, %f395, %f400, %f580;
-	fma.rn.f32 	%f573, %f395, %f401, %f573;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.f32 	%f399, [%rd14+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.f32 	%f401, [%rd332+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f577, %f398, %f403, %f577;
+	fma.rn.f32 	%f570, %f398, %f404, %f570;
 
-BB0_115:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f573, %f68;
-	st.global.f32 	[%rd119], %f135;
-	add.f32 	%f136, %f580, %f69;
-	st.global.f32 	[%rd121], %f136;
-	st.global.f32 	[%rd123], %f70;
-	@%p6 bra 	BB0_117;
-
-	ld.param.f32 	%f510, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd337, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd219, %rd337;
-	add.s64 	%rd221, %rd219, %rd13;
-	ld.global.f32 	%f402, [%rd221];
-	mul.f32 	%f138, %f402, %f510;
-
-BB0_117:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_119;
-
-	ld.param.f32 	%f512, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd341, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd222, %rd341;
-	add.s64 	%rd224, %rd222, %rd13;
-	ld.global.f32 	%f403, [%rd224];
-	mul.f32 	%f140, %f403, %f512;
-
-BB0_119:
-	mov.f32 	%f605, 0f00000000;
+BB0_118:
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f570, %f70;
+	st.global.f32 	[%rd122], %f137;
+	add.f32 	%f138, %f577, %f71;
+	st.global.f32 	[%rd124], %f138;
+	st.global.f32 	[%rd126], %f72;
 	@%p8 bra 	BB0_120;
 
-	add.s32 	%r24, %r1, 1;
-	setp.eq.s64	%p73, %rd7, 0;
-	mov.f32 	%f598, %f204;
-	@%p73 bra 	BB0_123;
-
-	mad.lo.s32 	%r636, %r50, %r38, %r24;
-	cvta.to.global.u64 	%rd225, %rd7;
-	mul.wide.s32 	%rd226, %r636, 4;
-	add.s64 	%rd227, %rd225, %rd226;
-	ld.global.f32 	%f406, [%rd227];
-	mul.f32 	%f598, %f406, %f204;
-
-BB0_123:
-	setp.eq.f32	%p74, %f598, 0f00000000;
-	mov.f32 	%f612, %f605;
-	@%p74 bra 	BB0_146;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_126;
-
-	ld.param.f32 	%f518, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd339, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd228, %rd339;
-	add.s64 	%rd230, %rd228, %rd13;
-	ld.global.f32 	%f409, [%rd230+4];
-	mul.f32 	%f144, %f409, %f518;
-
-BB0_126:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_128;
-
-	ld.param.f32 	%f520, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd343, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd231, %rd343;
-	add.s64 	%rd233, %rd231, %rd13;
-	ld.global.f32 	%f410, [%rd233+4];
-	mul.f32 	%f146, %f410, %f520;
-
-BB0_128:
-	ld.param.u32 	%r859, [Elastodynamic2_param_8];
-	add.s32 	%r669, %r859, -1;
-	mov.f32 	%f605, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r669;
-	mov.f32 	%f612, %f605;
-	@%p77 bra 	BB0_137;
-
-	ld.param.u32 	%r861, [Elastodynamic2_param_7];
-	add.s32 	%r674, %r3, 1;
-	mad.lo.s32 	%r679, %r674, %r861, %r2;
-	mul.lo.s32 	%r25, %r679, %r38;
-	add.s32 	%r26, %r25, %r24;
-	mov.f32 	%f601, %f204;
-	@%p73 bra 	BB0_131;
-
-	cvta.to.global.u64 	%rd234, %rd7;
-	mul.wide.s32 	%rd235, %r26, 4;
-	add.s64 	%rd236, %rd234, %rd235;
-	ld.global.f32 	%f413, [%rd236];
-	mul.f32 	%f601, %f413, %f204;
-
-BB0_131:
-	mov.f32 	%f605, 0f00000000;
-	setp.eq.f32	%p79, %f601, 0f00000000;
-	mov.f32 	%f612, %f605;
-	@%p79 bra 	BB0_133;
-
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd238, %r26, 4;
-	add.s64 	%rd239, %rd12, %rd238;
-	add.s64 	%rd241, %rd10, %rd238;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.f32 	%f417, [%rd14+4];
-	ld.global.f32 	%f418, [%rd239];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.f32 	%f420, [%rd16+4];
-	ld.global.f32 	%f421, [%rd241];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f612, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f605, %f416, %f424, 0f00000000;
-
-BB0_133:
-	add.s32 	%r27, %r25, %r1;
-	mov.f32 	%f604, %f204;
-	@%p73 bra 	BB0_135;
-
-	cvta.to.global.u64 	%rd245, %rd7;
-	mul.wide.s32 	%rd246, %r27, 4;
-	add.s64 	%rd247, %rd245, %rd246;
-	ld.global.f32 	%f425, [%rd247];
-	mul.f32 	%f604, %f425, %f204;
-
-BB0_135:
-	setp.eq.f32	%p81, %f604, 0f00000000;
-	@%p81 bra 	BB0_137;
-
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd249, %r27, 4;
-	add.s64 	%rd250, %rd12, %rd249;
-	add.s64 	%rd252, %rd10, %rd249;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.f32 	%f427, [%rd250];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.f32 	%f429, [%rd252];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f612, %f612, %f433;
-	sub.f32 	%f605, %f605, %f434;
-
-BB0_137:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_146;
-
-	ld.param.u32 	%r860, [Elastodynamic2_param_7];
-	add.s32 	%r706, %r3, -1;
-	mad.lo.s32 	%r711, %r706, %r860, %r2;
-	mul.lo.s32 	%r28, %r711, %r38;
-	add.s32 	%r29, %r28, %r24;
-	mov.f32 	%f607, %f204;
-	@%p73 bra 	BB0_140;
-
-	cvta.to.global.u64 	%rd253, %rd7;
-	mul.wide.s32 	%rd254, %r29, 4;
-	add.s64 	%rd255, %rd253, %rd254;
-	ld.global.f32 	%f435, [%rd255];
-	mul.f32 	%f607, %f435, %f204;
-
-BB0_140:
-	setp.eq.f32	%p84, %f607, 0f00000000;
-	@%p84 bra 	BB0_142;
-
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd257, %r29, 4;
-	add.s64 	%rd258, %rd12, %rd257;
-	add.s64 	%rd260, %rd10, %rd257;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.f32 	%f437, [%rd14+4];
-	ld.global.f32 	%f438, [%rd258];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.f32 	%f440, [%rd16+4];
-	ld.global.f32 	%f441, [%rd260];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f612, %f436, %f443, %f612;
-	fma.rn.f32 	%f605, %f436, %f444, %f605;
-
-BB0_142:
-	add.s32 	%r30, %r28, %r1;
-	mov.f32 	%f610, %f204;
-	@%p73 bra 	BB0_144;
-
-	cvta.to.global.u64 	%rd264, %rd7;
-	mul.wide.s32 	%rd265, %r30, 4;
-	add.s64 	%rd266, %rd264, %rd265;
-	ld.global.f32 	%f445, [%rd266];
-	mul.f32 	%f610, %f445, %f204;
-
-BB0_144:
-	setp.eq.f32	%p86, %f610, 0f00000000;
-	@%p86 bra 	BB0_146;
-
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd268, %r30, 4;
-	add.s64 	%rd269, %rd12, %rd268;
-	add.s64 	%rd271, %rd10, %rd268;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.f32 	%f447, [%rd269];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.f32 	%f449, [%rd271];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f612, %f612, %f453;
-	sub.f32 	%f605, %f605, %f454;
-	bra.uni 	BB0_146;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd222, %rd9;
+	add.s64 	%rd224, %rd222, %rd13;
+	ld.global.f32 	%f405, [%rd224];
+	mul.f32 	%f140, %f405, %f513;
 
 BB0_120:
-	mov.f32 	%f612, %f605;
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
-BB0_146:
-	@%p23 bra 	BB0_172;
+	ld.param.f32 	%f515, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd340, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd225, %rd340;
+	add.s64 	%rd227, %rd225, %rd13;
+	ld.global.f32 	%f406, [%rd227];
+	mul.f32 	%f142, %f406, %f515;
 
-	add.s32 	%r31, %r1, -1;
-	setp.eq.s64	%p88, %rd7, 0;
-	mov.f32 	%f613, %f204;
+BB0_122:
+	mov.f32 	%f602, 0f00000000;
+	@%p10 bra 	BB0_123;
+
+	add.s32 	%r23, %r1, 1;
+	mov.f32 	%f595, %f206;
+	@%p6 bra 	BB0_126;
+
+	cvta.to.global.u64 	%rd228, %rd7;
+	add.s64 	%rd230, %rd228, %rd13;
+	ld.global.f32 	%f409, [%rd230+4];
+	mul.f32 	%f595, %f409, %f206;
+
+BB0_126:
+	setp.eq.f32	%p76, %f595, 0f00000000;
+	mov.f32 	%f609, %f602;
+	@%p76 bra 	BB0_149;
+
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
+
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd231, %rd9;
+	add.s64 	%rd233, %rd231, %rd13;
+	ld.global.f32 	%f412, [%rd233+4];
+	mul.f32 	%f146, %f412, %f521;
+
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd342, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd234, %rd342;
+	add.s64 	%rd236, %rd234, %rd13;
+	ld.global.f32 	%f413, [%rd236+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r804, [Elastodynamic2_param_8];
+	add.s32 	%r610, %r804, -1;
+	mov.f32 	%f602, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r610;
+	mov.f32 	%f609, %f602;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r812, [Elastodynamic2_param_6];
+	ld.param.u32 	%r806, [Elastodynamic2_param_7];
+	add.s32 	%r615, %r3, 1;
+	mad.lo.s32 	%r620, %r615, %r806, %r2;
+	mul.lo.s32 	%r24, %r620, %r812;
+	add.s32 	%r25, %r24, %r23;
+	mov.f32 	%f598, %f206;
+	@%p6 bra 	BB0_134;
+
+	cvta.to.global.u64 	%rd237, %rd7;
+	mul.wide.s32 	%rd238, %r25, 4;
+	add.s64 	%rd239, %rd237, %rd238;
+	ld.global.f32 	%f416, [%rd239];
+	mul.f32 	%f598, %f416, %f206;
+
+BB0_134:
+	mov.f32 	%f602, 0f00000000;
+	setp.eq.f32	%p81, %f598, 0f00000000;
+	mov.f32 	%f609, %f602;
+	@%p81 bra 	BB0_136;
+
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd241, %r25, 4;
+	add.s64 	%rd242, %rd12, %rd241;
+	add.s64 	%rd244, %rd10, %rd241;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.f32 	%f420, [%rd14+4];
+	ld.global.f32 	%f421, [%rd242];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.f32 	%f423, [%rd16+4];
+	ld.global.f32 	%f424, [%rd244];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f609, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f602, %f419, %f427, 0f00000000;
+
+BB0_136:
+	add.s32 	%r26, %r24, %r1;
+	mov.f32 	%f601, %f206;
+	@%p6 bra 	BB0_138;
+
+	cvta.to.global.u64 	%rd248, %rd7;
+	mul.wide.s32 	%rd249, %r26, 4;
+	add.s64 	%rd250, %rd248, %rd249;
+	ld.global.f32 	%f428, [%rd250];
+	mul.f32 	%f601, %f428, %f206;
+
+BB0_138:
+	setp.eq.f32	%p83, %f601, 0f00000000;
+	@%p83 bra 	BB0_140;
+
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd252, %r26, 4;
+	add.s64 	%rd253, %rd12, %rd252;
+	add.s64 	%rd255, %rd10, %rd252;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.f32 	%f430, [%rd253];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.f32 	%f432, [%rd255];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f609, %f609, %f436;
+	sub.f32 	%f602, %f602, %f437;
+
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
+
+	ld.param.u32 	%r811, [Elastodynamic2_param_6];
+	ld.param.u32 	%r805, [Elastodynamic2_param_7];
+	add.s32 	%r647, %r3, -1;
+	mad.lo.s32 	%r652, %r647, %r805, %r2;
+	mul.lo.s32 	%r27, %r652, %r811;
+	add.s32 	%r28, %r27, %r23;
+	mov.f32 	%f604, %f206;
+	@%p6 bra 	BB0_143;
+
+	cvta.to.global.u64 	%rd256, %rd7;
+	mul.wide.s32 	%rd257, %r28, 4;
+	add.s64 	%rd258, %rd256, %rd257;
+	ld.global.f32 	%f438, [%rd258];
+	mul.f32 	%f604, %f438, %f206;
+
+BB0_143:
+	setp.eq.f32	%p86, %f604, 0f00000000;
+	@%p86 bra 	BB0_145;
+
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd260, %r28, 4;
+	add.s64 	%rd261, %rd12, %rd260;
+	add.s64 	%rd263, %rd10, %rd260;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.f32 	%f440, [%rd14+4];
+	ld.global.f32 	%f441, [%rd261];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.f32 	%f443, [%rd16+4];
+	ld.global.f32 	%f444, [%rd263];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f609, %f439, %f446, %f609;
+	fma.rn.f32 	%f602, %f439, %f447, %f602;
+
+BB0_145:
+	add.s32 	%r29, %r27, %r1;
+	mov.f32 	%f607, %f206;
+	@%p6 bra 	BB0_147;
+
+	cvta.to.global.u64 	%rd267, %rd7;
+	mul.wide.s32 	%rd268, %r29, 4;
+	add.s64 	%rd269, %rd267, %rd268;
+	ld.global.f32 	%f448, [%rd269];
+	mul.f32 	%f607, %f448, %f206;
+
+BB0_147:
+	setp.eq.f32	%p88, %f607, 0f00000000;
 	@%p88 bra 	BB0_149;
 
-	mad.lo.s32 	%r747, %r50, %r38, %r31;
-	cvta.to.global.u64 	%rd272, %rd7;
-	mul.wide.s32 	%rd273, %r747, 4;
-	add.s64 	%rd274, %rd272, %rd273;
-	ld.global.f32 	%f455, [%rd274];
-	mul.f32 	%f613, %f455, %f204;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd271, %r29, 4;
+	add.s64 	%rd272, %rd12, %rd271;
+	add.s64 	%rd274, %rd10, %rd271;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.f32 	%f450, [%rd272];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.f32 	%f452, [%rd274];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f609, %f609, %f456;
+	sub.f32 	%f602, %f602, %f457;
+	bra.uni 	BB0_149;
+
+BB0_123:
+	mov.f32 	%f609, %f602;
 
 BB0_149:
-	setp.eq.f32	%p89, %f613, 0f00000000;
-	@%p89 bra 	BB0_172;
+	@%p25 bra 	BB0_175;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
+	add.s32 	%r30, %r1, -1;
+	mov.f32 	%f610, %f206;
 	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f514, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd338, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd275, %rd338;
+	cvta.to.global.u64 	%rd275, %rd7;
 	add.s64 	%rd277, %rd275, %rd13;
-	ld.global.f32 	%f456, [%rd277+-4];
-	mul.f32 	%f174, %f456, %f514;
+	ld.global.f32 	%f458, [%rd277+-4];
+	mul.f32 	%f610, %f458, %f206;
 
 BB0_152:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_154;
+	setp.eq.f32	%p91, %f610, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.f32 	%f516, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd342, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd278, %rd342;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
+
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd278, %rd9;
 	add.s64 	%rd280, %rd278, %rd13;
-	ld.global.f32 	%f457, [%rd280+-4];
-	mul.f32 	%f176, %f457, %f516;
+	ld.global.f32 	%f459, [%rd280+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_154:
-	ld.param.u32 	%r856, [Elastodynamic2_param_8];
-	add.s32 	%r780, %r856, -1;
-	setp.ge.s32	%p92, %r3, %r780;
-	@%p92 bra 	BB0_163;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	ld.param.u32 	%r858, [Elastodynamic2_param_7];
-	add.s32 	%r785, %r3, 1;
-	mad.lo.s32 	%r790, %r785, %r858, %r2;
-	mul.lo.s32 	%r32, %r790, %r38;
-	add.s32 	%r33, %r32, %r31;
-	mov.f32 	%f616, %f204;
-	@%p88 bra 	BB0_157;
-
-	cvta.to.global.u64 	%rd281, %rd7;
-	mul.wide.s32 	%rd282, %r33, 4;
-	add.s64 	%rd283, %rd281, %rd282;
-	ld.global.f32 	%f458, [%rd283];
-	mul.f32 	%f616, %f458, %f204;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd341, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd281, %rd341;
+	add.s64 	%rd283, %rd281, %rd13;
+	ld.global.f32 	%f460, [%rd283+-4];
+	mul.f32 	%f178, %f460, %f519;
 
 BB0_157:
-	setp.eq.f32	%p94, %f616, 0f00000000;
-	@%p94 bra 	BB0_159;
+	ld.param.u32 	%r801, [Elastodynamic2_param_8];
+	add.s32 	%r725, %r801, -1;
+	setp.ge.s32	%p94, %r3, %r725;
+	@%p94 bra 	BB0_166;
 
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd285, %r33, 4;
-	add.s64 	%rd286, %rd12, %rd285;
-	add.s64 	%rd288, %rd10, %rd285;
-	cvt.f64.f32	%fd101, %f201;
+	ld.param.u32 	%r810, [Elastodynamic2_param_6];
+	ld.param.u32 	%r803, [Elastodynamic2_param_7];
+	add.s32 	%r730, %r3, 1;
+	mad.lo.s32 	%r735, %r730, %r803, %r2;
+	mul.lo.s32 	%r31, %r735, %r810;
+	add.s32 	%r32, %r31, %r30;
+	mov.f32 	%f613, %f206;
+	@%p6 bra 	BB0_160;
+
+	cvta.to.global.u64 	%rd284, %rd7;
+	mul.wide.s32 	%rd285, %r32, 4;
+	add.s64 	%rd286, %rd284, %rd285;
+	ld.global.f32 	%f461, [%rd286];
+	mul.f32 	%f613, %f461, %f206;
+
+BB0_160:
+	setp.eq.f32	%p96, %f613, 0f00000000;
+	@%p96 bra 	BB0_162;
+
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd288, %r32, 4;
+	add.s64 	%rd289, %rd12, %rd288;
+	add.s64 	%rd291, %rd10, %rd288;
+	cvt.f64.f32	%fd101, %f203;
 	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
 	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
+	cvt.f64.f32	%fd104, %f507;
 	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.f32 	%f460, [%rd14+-4];
-	ld.global.f32 	%f461, [%rd286];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.f32 	%f463, [%rd16+-4];
-	ld.global.f32 	%f464, [%rd288];
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.f32 	%f463, [%rd14+-4];
+	ld.global.f32 	%f464, [%rd289];
 	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f612, %f612, %f468;
-	sub.f32 	%f605, %f605, %f469;
+	ld.global.f32 	%f466, [%rd16+-4];
+	ld.global.f32 	%f467, [%rd291];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f609, %f609, %f471;
+	sub.f32 	%f602, %f602, %f472;
 
-BB0_159:
-	add.s32 	%r34, %r32, %r1;
-	mov.f32 	%f619, %f204;
-	@%p88 bra 	BB0_161;
+BB0_162:
+	add.s32 	%r33, %r31, %r1;
+	mov.f32 	%f616, %f206;
+	@%p6 bra 	BB0_164;
 
-	cvta.to.global.u64 	%rd292, %rd7;
-	mul.wide.s32 	%rd293, %r34, 4;
-	add.s64 	%rd294, %rd292, %rd293;
-	ld.global.f32 	%f470, [%rd294];
-	mul.f32 	%f619, %f470, %f204;
+	cvta.to.global.u64 	%rd295, %rd7;
+	mul.wide.s32 	%rd296, %r33, 4;
+	add.s64 	%rd297, %rd295, %rd296;
+	ld.global.f32 	%f473, [%rd297];
+	mul.f32 	%f616, %f473, %f206;
 
-BB0_161:
-	setp.eq.f32	%p96, %f619, 0f00000000;
-	@%p96 bra 	BB0_163;
+BB0_164:
+	setp.eq.f32	%p98, %f616, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd296, %r34, 4;
-	add.s64 	%rd297, %rd12, %rd296;
-	add.s64 	%rd299, %rd10, %rd296;
-	cvt.f64.f32	%fd106, %f201;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd299, %r33, 4;
+	add.s64 	%rd300, %rd12, %rd299;
+	add.s64 	%rd302, %rd10, %rd299;
+	cvt.f64.f32	%fd106, %f203;
 	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
 	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
+	cvt.f64.f32	%fd109, %f506;
 	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.f32 	%f472, [%rd297];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.f32 	%f474, [%rd299];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f612, %f471, %f476, %f612;
-	fma.rn.f32 	%f605, %f471, %f477, %f605;
-
-BB0_163:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_172;
-
-	ld.param.u32 	%r857, [Elastodynamic2_param_7];
-	add.s32 	%r817, %r3, -1;
-	mad.lo.s32 	%r822, %r817, %r857, %r2;
-	mul.lo.s32 	%r35, %r822, %r38;
-	add.s32 	%r36, %r35, %r31;
-	mov.f32 	%f622, %f204;
-	@%p88 bra 	BB0_166;
-
-	cvta.to.global.u64 	%rd300, %rd7;
-	mul.wide.s32 	%rd301, %r36, 4;
-	add.s64 	%rd302, %rd300, %rd301;
-	ld.global.f32 	%f478, [%rd302];
-	mul.f32 	%f622, %f478, %f204;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.f32 	%f475, [%rd300];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.f32 	%f477, [%rd302];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f609, %f474, %f479, %f609;
+	fma.rn.f32 	%f602, %f474, %f480, %f602;
 
 BB0_166:
-	setp.eq.f32	%p99, %f622, 0f00000000;
-	@%p99 bra 	BB0_168;
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd304, %r36, 4;
-	add.s64 	%rd305, %rd12, %rd304;
-	add.s64 	%rd307, %rd10, %rd304;
-	cvt.f64.f32	%fd111, %f201;
+	ld.param.u32 	%r809, [Elastodynamic2_param_6];
+	ld.param.u32 	%r802, [Elastodynamic2_param_7];
+	add.s32 	%r762, %r3, -1;
+	mad.lo.s32 	%r767, %r762, %r802, %r2;
+	mul.lo.s32 	%r34, %r767, %r809;
+	add.s32 	%r35, %r34, %r30;
+	mov.f32 	%f619, %f206;
+	@%p6 bra 	BB0_169;
+
+	cvta.to.global.u64 	%rd303, %rd7;
+	mul.wide.s32 	%rd304, %r35, 4;
+	add.s64 	%rd305, %rd303, %rd304;
+	ld.global.f32 	%f481, [%rd305];
+	mul.f32 	%f619, %f481, %f206;
+
+BB0_169:
+	setp.eq.f32	%p101, %f619, 0f00000000;
+	@%p101 bra 	BB0_171;
+
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd307, %r35, 4;
+	add.s64 	%rd308, %rd12, %rd307;
+	add.s64 	%rd310, %rd10, %rd307;
+	cvt.f64.f32	%fd111, %f203;
 	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
 	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
+	cvt.f64.f32	%fd114, %f505;
 	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.f32 	%f480, [%rd14+-4];
-	ld.global.f32 	%f481, [%rd305];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.f32 	%f483, [%rd16+-4];
-	ld.global.f32 	%f484, [%rd307];
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.f32 	%f483, [%rd14+-4];
+	ld.global.f32 	%f484, [%rd308];
 	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f612, %f612, %f488;
-	sub.f32 	%f605, %f605, %f489;
+	ld.global.f32 	%f486, [%rd16+-4];
+	ld.global.f32 	%f487, [%rd310];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f609, %f609, %f491;
+	sub.f32 	%f602, %f602, %f492;
 
-BB0_168:
-	add.s32 	%r37, %r35, %r1;
-	@%p88 bra 	BB0_170;
+BB0_171:
+	add.s32 	%r36, %r34, %r1;
+	@%p6 bra 	BB0_173;
 
-	cvta.to.global.u64 	%rd311, %rd7;
-	mul.wide.s32 	%rd312, %r37, 4;
-	add.s64 	%rd313, %rd311, %rd312;
-	ld.global.f32 	%f490, [%rd313];
-	mul.f32 	%f204, %f490, %f204;
-
-BB0_170:
-	setp.eq.f32	%p101, %f204, 0f00000000;
-	@%p101 bra 	BB0_172;
-
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd315, %r37, 4;
-	add.s64 	%rd316, %rd12, %rd315;
-	add.s64 	%rd318, %rd10, %rd315;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.f32 	%f492, [%rd316];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.f32 	%f494, [%rd318];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f612, %f491, %f496, %f612;
-	fma.rn.f32 	%f605, %f491, %f497, %f605;
-
-BB0_172:
-	add.f32 	%f498, %f605, %f135;
-	st.global.f32 	[%rd119], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd121], %f499;
-	add.f32 	%f500, %f612, %f70;
-	st.global.f32 	[%rd123], %f500;
+	cvta.to.global.u64 	%rd314, %rd7;
+	mul.wide.s32 	%rd315, %r36, 4;
+	add.s64 	%rd316, %rd314, %rd315;
+	ld.global.f32 	%f493, [%rd316];
+	mul.f32 	%f206, %f493, %f206;
 
 BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd318, %r36, 4;
+	add.s64 	%rd319, %rd12, %rd318;
+	add.s64 	%rd321, %rd10, %rd318;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.f32 	%f495, [%rd319];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.f32 	%f497, [%rd321];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f609, %f494, %f499, %f609;
+	fma.rn.f32 	%f602, %f494, %f500, %f602;
+
+BB0_175:
+	add.f32 	%f501, %f602, %f137;
+	st.global.f32 	[%rd122], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd124], %f502;
+	add.f32 	%f503, %f609, %f72;
+	st.global.f32 	[%rd126], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_35 = `
+   Elastodynamic2_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -1533,1333 +1511,1303 @@ BB0_173:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_37 = `
+   Elastodynamic2_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -2888,1333 +2836,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_50 = `
+   Elastodynamic2_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -4243,1333 +4161,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_52 = `
+   Elastodynamic2_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -5598,1333 +5486,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_53 = `
+   Elastodynamic2_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -6953,1333 +6811,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_60 = `
+   Elastodynamic2_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -8308,1333 +8136,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_61 = `
+   Elastodynamic2_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -9663,1333 +9461,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_70 = `
+   Elastodynamic2_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -11018,1333 +10786,1303 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-	Elastodynamic2_ptx_75 = `
+   Elastodynamic2_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -12373,1330 +12111,1300 @@ BB0_172:
 	.param .u8 Elastodynamic2_param_18
 )
 {
-	.reg .pred 	%p<103>;
-	.reg .f32 	%f<629>;
-	.reg .b32 	%r<126>;
+	.reg .pred 	%p<104>;
+	.reg .f32 	%f<632>;
+	.reg .b32 	%r<113>;
 	.reg .f64 	%fd<121>;
-	.reg .b64 	%rd<195>;
+	.reg .b64 	%rd<174>;
 
 
-	ld.param.u64 	%rd21, [Elastodynamic2_param_3];
-	ld.param.u64 	%rd22, [Elastodynamic2_param_4];
-	ld.param.u64 	%rd23, [Elastodynamic2_param_5];
-	ld.param.u32 	%r48, [Elastodynamic2_param_6];
-	ld.param.u32 	%r49, [Elastodynamic2_param_7];
-	ld.param.u32 	%r50, [Elastodynamic2_param_8];
-	ld.param.f32 	%f201, [Elastodynamic2_param_9];
-	ld.param.f32 	%f202, [Elastodynamic2_param_10];
-	ld.param.u64 	%rd18, [Elastodynamic2_param_12];
-	ld.param.f32 	%f204, [Elastodynamic2_param_13];
-	ld.param.u64 	%rd19, [Elastodynamic2_param_14];
-	ld.param.f32 	%f78, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd20, [Elastodynamic2_param_16];
-	ld.param.f32 	%f80, [Elastodynamic2_param_17];
-	cvta.to.global.u64 	%rd1, %rd18;
-	cvta.to.global.u64 	%rd2, %rd19;
-	cvta.to.global.u64 	%rd3, %rd20;
-	cvta.to.global.u64 	%rd4, %rd23;
-	cvta.to.global.u64 	%rd5, %rd22;
-	cvta.to.global.u64 	%rd6, %rd21;
-	mov.u32 	%r51, %ntid.x;
-	mov.u32 	%r52, %ctaid.x;
-	mov.u32 	%r53, %tid.x;
-	mad.lo.s32 	%r1, %r51, %r52, %r53;
-	mov.u32 	%r54, %ntid.y;
-	mov.u32 	%r55, %ctaid.y;
-	mov.u32 	%r56, %tid.y;
-	mad.lo.s32 	%r2, %r54, %r55, %r56;
-	mov.u32 	%r57, %ntid.z;
-	mov.u32 	%r58, %ctaid.z;
-	mov.u32 	%r59, %tid.z;
-	mad.lo.s32 	%r3, %r57, %r58, %r59;
-	setp.ge.s32	%p1, %r2, %r49;
-	setp.ge.s32	%p2, %r1, %r48;
+	ld.param.u64 	%rd22, [Elastodynamic2_param_3];
+	ld.param.u64 	%rd23, [Elastodynamic2_param_4];
+	ld.param.u64 	%rd24, [Elastodynamic2_param_5];
+	ld.param.u32 	%r43, [Elastodynamic2_param_6];
+	ld.param.u32 	%r44, [Elastodynamic2_param_7];
+	ld.param.u32 	%r45, [Elastodynamic2_param_8];
+	ld.param.f32 	%f203, [Elastodynamic2_param_9];
+	ld.param.f32 	%f204, [Elastodynamic2_param_10];
+	ld.param.u64 	%rd19, [Elastodynamic2_param_12];
+	ld.param.f32 	%f206, [Elastodynamic2_param_13];
+	ld.param.u64 	%rd20, [Elastodynamic2_param_14];
+	ld.param.f32 	%f80, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd21, [Elastodynamic2_param_16];
+	ld.param.f32 	%f82, [Elastodynamic2_param_17];
+	cvta.to.global.u64 	%rd1, %rd20;
+	cvta.to.global.u64 	%rd2, %rd21;
+	cvta.to.global.u64 	%rd3, %rd19;
+	cvta.to.global.u64 	%rd4, %rd24;
+	cvta.to.global.u64 	%rd5, %rd23;
+	cvta.to.global.u64 	%rd6, %rd22;
+	mov.u32 	%r46, %ntid.x;
+	mov.u32 	%r47, %ctaid.x;
+	mov.u32 	%r48, %tid.x;
+	mad.lo.s32 	%r1, %r46, %r47, %r48;
+	mov.u32 	%r49, %ntid.y;
+	mov.u32 	%r50, %ctaid.y;
+	mov.u32 	%r51, %tid.y;
+	mad.lo.s32 	%r2, %r49, %r50, %r51;
+	mov.u32 	%r52, %ntid.z;
+	mov.u32 	%r53, %ctaid.z;
+	mov.u32 	%r54, %tid.z;
+	mad.lo.s32 	%r3, %r52, %r53, %r54;
+	setp.ge.s32	%p1, %r2, %r44;
+	setp.ge.s32	%p2, %r1, %r43;
 	or.pred  	%p3, %p1, %p2;
-	setp.ge.s32	%p4, %r3, %r50;
+	setp.ge.s32	%p4, %r3, %r45;
 	or.pred  	%p5, %p3, %p4;
-	@%p5 bra 	BB0_172;
+	@%p5 bra 	BB0_176;
 
-	mad.lo.s32 	%r4, %r3, %r49, %r2;
-	mul.lo.s32 	%r5, %r4, %r48;
-	add.s32 	%r6, %r5, %r1;
-	mul.wide.s32 	%rd24, %r6, 4;
-	add.s64 	%rd7, %rd6, %rd24;
+	mad.lo.s32 	%r4, %r3, %r44, %r2;
+	mad.lo.s32 	%r5, %r4, %r43, %r1;
+	mul.wide.s32 	%rd25, %r5, 4;
+	add.s64 	%rd7, %rd6, %rd25;
 	ld.global.nc.f32 	%f1, [%rd7];
-	add.s64 	%rd8, %rd5, %rd24;
+	add.s64 	%rd8, %rd5, %rd25;
 	ld.global.nc.f32 	%f2, [%rd8];
-	add.s64 	%rd9, %rd4, %rd24;
+	add.s64 	%rd9, %rd4, %rd25;
 	ld.global.nc.f32 	%f3, [%rd9];
-	add.s64 	%rd10, %rd3, %rd24;
-	setp.eq.s64	%p6, %rd20, 0;
-	mov.f32 	%f5, %f80;
+	add.s64 	%rd10, %rd3, %rd25;
+	setp.eq.s64	%p6, %rd19, 0;
+	mov.f32 	%f535, %f206;
 	@%p6 bra 	BB0_3;
 
-	ld.global.nc.f32 	%f207, [%rd10];
-	mul.f32 	%f5, %f207, %f80;
+	ld.global.nc.f32 	%f209, [%rd10];
+	mul.f32 	%f535, %f209, %f206;
 
 BB0_3:
-	ld.param.u64 	%rd181, [Elastodynamic2_param_14];
-	add.s64 	%rd11, %rd2, %rd24;
-	setp.eq.s64	%p7, %rd181, 0;
-	mov.f32 	%f7, %f78;
-	@%p7 bra 	BB0_5;
+	setp.eq.f32	%p7, %f535, 0f00000000;
+	@%p7 bra 	BB0_176;
 
-	ld.global.nc.f32 	%f208, [%rd11];
-	mul.f32 	%f7, %f208, %f78;
+	ld.param.u64 	%rd162, [Elastodynamic2_param_16];
+	setp.eq.s64	%p8, %rd162, 0;
+	add.s64 	%rd11, %rd2, %rd25;
+	mov.f32 	%f7, %f82;
+	@%p8 bra 	BB0_6;
 
-BB0_5:
-	add.s32 	%r7, %r48, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p8, %r1, %r7;
-	mov.f32 	%f549, %f548;
-	@%p8 bra 	BB0_31;
+	ld.global.nc.f32 	%f210, [%rd11];
+	mul.f32 	%f7, %f210, %f82;
 
-	ld.param.u64 	%rd182, [Elastodynamic2_param_12];
-	add.s32 	%r8, %r1, 1;
-	setp.eq.s64	%p9, %rd182, 0;
-	mov.f32 	%f535, %f204;
+BB0_6:
+	add.s64 	%rd12, %rd1, %rd25;
+	setp.eq.s64	%p9, %rd20, 0;
+	mov.f32 	%f9, %f80;
 	@%p9 bra 	BB0_8;
 
-	add.s32 	%r60, %r5, %r8;
-	mul.wide.s32 	%rd26, %r60, 4;
-	add.s64 	%rd27, %rd1, %rd26;
-	ld.global.nc.f32 	%f211, [%rd27];
-	mul.f32 	%f535, %f211, %f204;
+	ld.global.nc.f32 	%f211, [%rd12];
+	mul.f32 	%f9, %f211, %f80;
 
 BB0_8:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p10, %f535, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p10 bra 	BB0_31;
+	ld.param.u32 	%r97, [Elastodynamic2_param_6];
+	add.s32 	%r6, %r97, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p10, %r1, %r6;
+	@%p10 bra 	BB0_9;
 
-	mov.f32 	%f11, %f80;
-	@%p6 bra 	BB0_11;
+	mov.f32 	%f538, %f206;
+	@%p6 bra 	BB0_12;
 
 	ld.global.nc.f32 	%f214, [%rd10+4];
-	mul.f32 	%f11, %f214, %f80;
+	mul.f32 	%f538, %f214, %f206;
 
-BB0_11:
-	mov.f32 	%f13, %f78;
-	@%p7 bra 	BB0_13;
+BB0_12:
+	setp.eq.f32	%p12, %f538, 0f00000000;
+	mov.f32 	%f552, %f545;
+	@%p12 bra 	BB0_35;
 
-	ld.global.nc.f32 	%f215, [%rd11+4];
-	mul.f32 	%f13, %f215, %f78;
+	mov.f32 	%f13, %f82;
+	@%p8 bra 	BB0_15;
 
-BB0_13:
-	ld.param.u32 	%r105, [Elastodynamic2_param_7];
-	add.s32 	%r61, %r105, -1;
-	mov.f32 	%f548, 0f00000000;
-	setp.ge.s32	%p13, %r2, %r61;
-	mov.f32 	%f549, %f548;
-	@%p13 bra 	BB0_22;
+	ld.global.nc.f32 	%f217, [%rd11+4];
+	mul.f32 	%f13, %f217, %f82;
 
-	add.s32 	%r107, %r1, 1;
-	ld.param.u32 	%r106, [Elastodynamic2_param_6];
-	add.s32 	%r62, %r4, 1;
-	mul.lo.s32 	%r9, %r62, %r106;
-	add.s32 	%r10, %r9, %r107;
-	mov.f32 	%f538, %f204;
-	@%p9 bra 	BB0_16;
+BB0_15:
+	mov.f32 	%f15, %f80;
+	@%p9 bra 	BB0_17;
 
-	mul.wide.s32 	%rd28, %r10, 4;
-	add.s64 	%rd29, %rd1, %rd28;
-	ld.global.nc.f32 	%f218, [%rd29];
-	mul.f32 	%f538, %f218, %f204;
+	ld.global.nc.f32 	%f218, [%rd12+4];
+	mul.f32 	%f15, %f218, %f80;
 
-BB0_16:
-	mov.f32 	%f548, 0f00000000;
-	setp.eq.f32	%p15, %f538, 0f00000000;
-	mov.f32 	%f549, %f548;
-	@%p15 bra 	BB0_18;
+BB0_17:
+	ld.param.u32 	%r96, [Elastodynamic2_param_7];
+	add.s32 	%r55, %r96, -1;
+	mov.f32 	%f545, 0f00000000;
+	setp.ge.s32	%p15, %r2, %r55;
+	mov.f32 	%f552, %f545;
+	@%p15 bra 	BB0_26;
 
-	add.s64 	%rd183, %rd5, %rd24;
-	mul.wide.s32 	%rd30, %r10, 4;
-	add.s64 	%rd31, %rd6, %rd30;
-	add.s64 	%rd32, %rd5, %rd30;
-	cvt.f64.f32	%fd1, %f201;
-	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
-	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
-	cvt.f64.f32	%fd4, %f202;
-	mul.f64 	%fd5, %fd4, %fd3;
-	cvt.rn.f32.f64	%f221, %fd5;
-	ld.global.nc.f32 	%f222, [%rd7+4];
-	ld.global.nc.f32 	%f223, [%rd31];
-	sub.f32 	%f224, %f223, %f222;
-	ld.global.nc.f32 	%f225, [%rd183+4];
-	ld.global.nc.f32 	%f226, [%rd32];
-	sub.f32 	%f227, %f226, %f225;
-	mul.f32 	%f228, %f11, %f224;
-	mul.f32 	%f229, %f13, %f227;
-	fma.rn.f32 	%f549, %f221, %f228, 0f00000000;
-	fma.rn.f32 	%f548, %f221, %f229, 0f00000000;
+	add.s32 	%r99, %r1, 1;
+	ld.param.u32 	%r98, [Elastodynamic2_param_6];
+	add.s32 	%r56, %r4, 1;
+	mul.lo.s32 	%r8, %r56, %r98;
+	add.s32 	%r9, %r8, %r99;
+	mov.f32 	%f541, %f206;
+	@%p6 bra 	BB0_20;
 
-BB0_18:
-	ld.param.u32 	%r110, [Elastodynamic2_param_6];
-	add.s32 	%r109, %r4, 1;
-	mul.lo.s32 	%r108, %r109, %r110;
-	add.s32 	%r11, %r108, %r1;
-	mov.f32 	%f541, %f204;
-	@%p9 bra 	BB0_20;
-
-	mul.wide.s32 	%rd33, %r11, 4;
-	add.s64 	%rd34, %rd1, %rd33;
-	ld.global.nc.f32 	%f230, [%rd34];
-	mul.f32 	%f541, %f230, %f204;
+	mul.wide.s32 	%rd28, %r9, 4;
+	add.s64 	%rd29, %rd3, %rd28;
+	ld.global.nc.f32 	%f221, [%rd29];
+	mul.f32 	%f541, %f221, %f206;
 
 BB0_20:
+	mov.f32 	%f545, 0f00000000;
 	setp.eq.f32	%p17, %f541, 0f00000000;
+	mov.f32 	%f552, %f545;
 	@%p17 bra 	BB0_22;
 
-	mul.wide.s32 	%rd35, %r11, 4;
-	add.s64 	%rd36, %rd6, %rd35;
-	add.s64 	%rd37, %rd5, %rd35;
-	cvt.f64.f32	%fd6, %f201;
-	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
-	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
-	cvt.f64.f32	%fd9, %f202;
-	mul.f64 	%fd10, %fd9, %fd8;
-	cvt.rn.f32.f64	%f231, %fd10;
-	ld.global.nc.f32 	%f232, [%rd36];
-	sub.f32 	%f233, %f232, %f1;
-	ld.global.nc.f32 	%f234, [%rd37];
-	sub.f32 	%f235, %f234, %f2;
-	mul.f32 	%f236, %f5, %f233;
-	mul.f32 	%f237, %f7, %f235;
-	mul.f32 	%f238, %f231, %f236;
-	mul.f32 	%f239, %f231, %f237;
-	sub.f32 	%f549, %f549, %f238;
-	sub.f32 	%f548, %f548, %f239;
+	add.s64 	%rd163, %rd5, %rd25;
+	mul.wide.s32 	%rd30, %r9, 4;
+	add.s64 	%rd31, %rd6, %rd30;
+	add.s64 	%rd32, %rd5, %rd30;
+	cvt.f64.f32	%fd1, %f203;
+	mul.f64 	%fd2, %fd1, 0d3FE0000000000000;
+	mul.f64 	%fd3, %fd2, 0d3FE0000000000000;
+	cvt.f64.f32	%fd4, %f204;
+	mul.f64 	%fd5, %fd4, %fd3;
+	cvt.rn.f32.f64	%f224, %fd5;
+	ld.global.nc.f32 	%f225, [%rd7+4];
+	ld.global.nc.f32 	%f226, [%rd31];
+	sub.f32 	%f227, %f226, %f225;
+	ld.global.nc.f32 	%f228, [%rd163+4];
+	ld.global.nc.f32 	%f229, [%rd32];
+	sub.f32 	%f230, %f229, %f228;
+	mul.f32 	%f231, %f13, %f227;
+	mul.f32 	%f232, %f15, %f230;
+	fma.rn.f32 	%f552, %f224, %f231, 0f00000000;
+	fma.rn.f32 	%f545, %f224, %f232, 0f00000000;
 
 BB0_22:
-	setp.lt.s32	%p18, %r2, 1;
-	@%p18 bra 	BB0_31;
+	ld.param.u32 	%r102, [Elastodynamic2_param_6];
+	add.s32 	%r101, %r4, 1;
+	mul.lo.s32 	%r100, %r101, %r102;
+	add.s32 	%r10, %r100, %r1;
+	mov.f32 	%f544, %f206;
+	@%p6 bra 	BB0_24;
 
-	add.s32 	%r104, %r1, 1;
-	ld.param.u32 	%r103, [Elastodynamic2_param_6];
-	add.s32 	%r63, %r4, -1;
-	mul.lo.s32 	%r12, %r63, %r103;
-	add.s32 	%r13, %r12, %r104;
-	mov.f32 	%f544, %f204;
-	@%p9 bra 	BB0_25;
+	mul.wide.s32 	%rd33, %r10, 4;
+	add.s64 	%rd34, %rd3, %rd33;
+	ld.global.nc.f32 	%f233, [%rd34];
+	mul.f32 	%f544, %f233, %f206;
 
-	mul.wide.s32 	%rd38, %r13, 4;
-	add.s64 	%rd39, %rd1, %rd38;
-	ld.global.nc.f32 	%f240, [%rd39];
-	mul.f32 	%f544, %f240, %f204;
+BB0_24:
+	setp.eq.f32	%p19, %f544, 0f00000000;
+	@%p19 bra 	BB0_26;
 
-BB0_25:
-	setp.eq.f32	%p20, %f544, 0f00000000;
-	@%p20 bra 	BB0_27;
+	mul.wide.s32 	%rd35, %r10, 4;
+	add.s64 	%rd36, %rd6, %rd35;
+	add.s64 	%rd37, %rd5, %rd35;
+	cvt.f64.f32	%fd6, %f203;
+	mul.f64 	%fd7, %fd6, 0d3FE0000000000000;
+	mul.f64 	%fd8, %fd7, 0d3FE0000000000000;
+	cvt.f64.f32	%fd9, %f204;
+	mul.f64 	%fd10, %fd9, %fd8;
+	cvt.rn.f32.f64	%f234, %fd10;
+	ld.global.nc.f32 	%f235, [%rd36];
+	sub.f32 	%f236, %f235, %f1;
+	ld.global.nc.f32 	%f237, [%rd37];
+	sub.f32 	%f238, %f237, %f2;
+	mul.f32 	%f239, %f7, %f236;
+	mul.f32 	%f240, %f9, %f238;
+	mul.f32 	%f241, %f234, %f239;
+	mul.f32 	%f242, %f234, %f240;
+	sub.f32 	%f552, %f552, %f241;
+	sub.f32 	%f545, %f545, %f242;
 
-	add.s64 	%rd180, %rd5, %rd24;
-	mul.wide.s32 	%rd40, %r13, 4;
-	add.s64 	%rd41, %rd6, %rd40;
-	add.s64 	%rd42, %rd5, %rd40;
-	cvt.f64.f32	%fd11, %f201;
-	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
-	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
-	cvt.f64.f32	%fd14, %f202;
-	mul.f64 	%fd15, %fd14, %fd13;
-	cvt.rn.f32.f64	%f241, %fd15;
-	ld.global.nc.f32 	%f242, [%rd7+4];
-	ld.global.nc.f32 	%f243, [%rd41];
-	sub.f32 	%f244, %f242, %f243;
-	ld.global.nc.f32 	%f245, [%rd180+4];
-	ld.global.nc.f32 	%f246, [%rd42];
-	sub.f32 	%f247, %f245, %f246;
-	mul.f32 	%f248, %f11, %f244;
-	mul.f32 	%f249, %f13, %f247;
-	fma.rn.f32 	%f549, %f241, %f248, %f549;
-	fma.rn.f32 	%f548, %f241, %f249, %f548;
+BB0_26:
+	setp.lt.s32	%p20, %r2, 1;
+	@%p20 bra 	BB0_35;
 
-BB0_27:
-	ld.param.u64 	%rd184, [Elastodynamic2_param_12];
-	setp.eq.s64	%p102, %rd184, 0;
-	ld.param.u32 	%r113, [Elastodynamic2_param_6];
-	add.s32 	%r112, %r4, -1;
-	mul.lo.s32 	%r111, %r112, %r113;
-	add.s32 	%r14, %r111, %r1;
-	mov.f32 	%f547, %f204;
-	@%p102 bra 	BB0_29;
+	add.s32 	%r95, %r1, 1;
+	ld.param.u32 	%r94, [Elastodynamic2_param_6];
+	add.s32 	%r57, %r4, -1;
+	mul.lo.s32 	%r11, %r57, %r94;
+	add.s32 	%r12, %r11, %r95;
+	mov.f32 	%f547, %f206;
+	@%p6 bra 	BB0_29;
 
-	mul.wide.s32 	%rd43, %r14, 4;
-	add.s64 	%rd44, %rd1, %rd43;
-	ld.global.nc.f32 	%f250, [%rd44];
-	mul.f32 	%f547, %f250, %f204;
+	mul.wide.s32 	%rd38, %r12, 4;
+	add.s64 	%rd39, %rd3, %rd38;
+	ld.global.nc.f32 	%f243, [%rd39];
+	mul.f32 	%f547, %f243, %f206;
 
 BB0_29:
 	setp.eq.f32	%p22, %f547, 0f00000000;
 	@%p22 bra 	BB0_31;
 
-	mul.wide.s32 	%rd45, %r14, 4;
-	add.s64 	%rd46, %rd6, %rd45;
-	add.s64 	%rd47, %rd5, %rd45;
-	cvt.f64.f32	%fd16, %f201;
-	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
-	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
-	cvt.f64.f32	%fd19, %f202;
-	mul.f64 	%fd20, %fd19, %fd18;
-	cvt.rn.f32.f64	%f251, %fd20;
-	ld.global.nc.f32 	%f252, [%rd46];
-	sub.f32 	%f253, %f1, %f252;
-	ld.global.nc.f32 	%f254, [%rd47];
-	sub.f32 	%f255, %f2, %f254;
-	mul.f32 	%f256, %f5, %f253;
-	mul.f32 	%f257, %f7, %f255;
-	mul.f32 	%f258, %f251, %f256;
-	mul.f32 	%f259, %f251, %f257;
-	sub.f32 	%f549, %f549, %f258;
-	sub.f32 	%f548, %f548, %f259;
+	add.s64 	%rd161, %rd5, %rd25;
+	mul.wide.s32 	%rd40, %r12, 4;
+	add.s64 	%rd41, %rd6, %rd40;
+	add.s64 	%rd42, %rd5, %rd40;
+	cvt.f64.f32	%fd11, %f203;
+	mul.f64 	%fd12, %fd11, 0d3FE0000000000000;
+	mul.f64 	%fd13, %fd12, 0d3FE0000000000000;
+	cvt.f64.f32	%fd14, %f204;
+	mul.f64 	%fd15, %fd14, %fd13;
+	cvt.rn.f32.f64	%f244, %fd15;
+	ld.global.nc.f32 	%f245, [%rd7+4];
+	ld.global.nc.f32 	%f246, [%rd41];
+	sub.f32 	%f247, %f245, %f246;
+	ld.global.nc.f32 	%f248, [%rd161+4];
+	ld.global.nc.f32 	%f249, [%rd42];
+	sub.f32 	%f250, %f248, %f249;
+	mul.f32 	%f251, %f13, %f247;
+	mul.f32 	%f252, %f15, %f250;
+	fma.rn.f32 	%f552, %f244, %f251, %f552;
+	fma.rn.f32 	%f545, %f244, %f252, %f545;
 
 BB0_31:
-	setp.lt.s32	%p23, %r1, 1;
-	@%p23 bra 	BB0_57;
+	ld.param.u32 	%r105, [Elastodynamic2_param_6];
+	add.s32 	%r104, %r4, -1;
+	mul.lo.s32 	%r103, %r104, %r105;
+	add.s32 	%r13, %r103, %r1;
+	mov.f32 	%f550, %f206;
+	@%p6 bra 	BB0_33;
 
-	ld.param.u64 	%rd177, [Elastodynamic2_param_12];
-	add.s32 	%r15, %r1, -1;
-	setp.eq.s64	%p24, %rd177, 0;
-	mov.f32 	%f550, %f204;
-	@%p24 bra 	BB0_34;
+	mul.wide.s32 	%rd43, %r13, 4;
+	add.s64 	%rd44, %rd3, %rd43;
+	ld.global.nc.f32 	%f253, [%rd44];
+	mul.f32 	%f550, %f253, %f206;
 
-	add.s32 	%r64, %r5, %r15;
-	mul.wide.s32 	%rd48, %r64, 4;
-	add.s64 	%rd49, %rd1, %rd48;
-	ld.global.nc.f32 	%f260, [%rd49];
-	mul.f32 	%f550, %f260, %f204;
+BB0_33:
+	setp.eq.f32	%p24, %f550, 0f00000000;
+	@%p24 bra 	BB0_35;
 
-BB0_34:
-	setp.eq.f32	%p25, %f550, 0f00000000;
-	@%p25 bra 	BB0_57;
+	mul.wide.s32 	%rd45, %r13, 4;
+	add.s64 	%rd46, %rd6, %rd45;
+	add.s64 	%rd47, %rd5, %rd45;
+	cvt.f64.f32	%fd16, %f203;
+	mul.f64 	%fd17, %fd16, 0d3FE0000000000000;
+	mul.f64 	%fd18, %fd17, 0d3FE0000000000000;
+	cvt.f64.f32	%fd19, %f204;
+	mul.f64 	%fd20, %fd19, %fd18;
+	cvt.rn.f32.f64	%f254, %fd20;
+	ld.global.nc.f32 	%f255, [%rd46];
+	sub.f32 	%f256, %f1, %f255;
+	ld.global.nc.f32 	%f257, [%rd47];
+	sub.f32 	%f258, %f2, %f257;
+	mul.f32 	%f259, %f7, %f256;
+	mul.f32 	%f260, %f9, %f258;
+	mul.f32 	%f261, %f254, %f259;
+	mul.f32 	%f262, %f254, %f260;
+	sub.f32 	%f552, %f552, %f261;
+	sub.f32 	%f545, %f545, %f262;
+	bra.uni 	BB0_35;
 
-	mov.f32 	%f41, %f80;
-	@%p6 bra 	BB0_37;
+BB0_9:
+	mov.f32 	%f552, %f545;
 
-	ld.global.nc.f32 	%f261, [%rd10+-4];
-	mul.f32 	%f41, %f261, %f80;
+BB0_35:
+	setp.lt.s32	%p25, %r1, 1;
+	@%p25 bra 	BB0_61;
 
-BB0_37:
-	mov.f32 	%f43, %f78;
-	@%p7 bra 	BB0_39;
+	add.s32 	%r14, %r1, -1;
+	mov.f32 	%f553, %f206;
+	@%p6 bra 	BB0_38;
 
-	ld.global.nc.f32 	%f262, [%rd11+-4];
-	mul.f32 	%f43, %f262, %f78;
+	ld.global.nc.f32 	%f263, [%rd10+-4];
+	mul.f32 	%f553, %f263, %f206;
 
-BB0_39:
-	ld.param.u32 	%r100, [Elastodynamic2_param_7];
-	add.s32 	%r65, %r100, -1;
-	setp.ge.s32	%p28, %r2, %r65;
-	@%p28 bra 	BB0_48;
+BB0_38:
+	setp.eq.f32	%p27, %f553, 0f00000000;
+	@%p27 bra 	BB0_61;
 
-	ld.param.u32 	%r102, [Elastodynamic2_param_6];
-	add.s32 	%r66, %r4, 1;
-	mul.lo.s32 	%r16, %r66, %r102;
-	add.s32 	%r17, %r16, %r15;
-	mov.f32 	%f553, %f204;
-	@%p24 bra 	BB0_42;
+	mov.f32 	%f43, %f82;
+	@%p8 bra 	BB0_41;
 
-	mul.wide.s32 	%rd50, %r17, 4;
-	add.s64 	%rd51, %rd1, %rd50;
-	ld.global.nc.f32 	%f263, [%rd51];
-	mul.f32 	%f553, %f263, %f204;
+	ld.global.nc.f32 	%f264, [%rd11+-4];
+	mul.f32 	%f43, %f264, %f82;
 
-BB0_42:
-	setp.eq.f32	%p30, %f553, 0f00000000;
-	@%p30 bra 	BB0_44;
+BB0_41:
+	mov.f32 	%f45, %f80;
+	@%p9 bra 	BB0_43;
 
-	add.s64 	%rd194, %rd6, %rd24;
-	add.s64 	%rd179, %rd5, %rd24;
-	mul.wide.s32 	%rd52, %r17, 4;
-	add.s64 	%rd53, %rd6, %rd52;
-	add.s64 	%rd54, %rd5, %rd52;
-	cvt.f64.f32	%fd21, %f201;
-	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
-	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
-	cvt.f64.f32	%fd24, %f202;
-	mul.f64 	%fd25, %fd24, %fd23;
-	cvt.rn.f32.f64	%f264, %fd25;
-	ld.global.nc.f32 	%f265, [%rd194+-4];
-	ld.global.nc.f32 	%f266, [%rd53];
-	sub.f32 	%f267, %f266, %f265;
-	ld.global.nc.f32 	%f268, [%rd179+-4];
-	ld.global.nc.f32 	%f269, [%rd54];
-	sub.f32 	%f270, %f269, %f268;
-	mul.f32 	%f271, %f41, %f267;
-	mul.f32 	%f272, %f43, %f270;
-	mul.f32 	%f273, %f264, %f271;
-	mul.f32 	%f274, %f264, %f272;
-	sub.f32 	%f549, %f549, %f273;
-	sub.f32 	%f548, %f548, %f274;
+	ld.global.nc.f32 	%f265, [%rd12+-4];
+	mul.f32 	%f45, %f265, %f80;
 
-BB0_44:
-	ld.param.u32 	%r116, [Elastodynamic2_param_6];
-	add.s32 	%r115, %r4, 1;
-	mul.lo.s32 	%r114, %r115, %r116;
-	add.s32 	%r18, %r114, %r1;
-	mov.f32 	%f556, %f204;
-	@%p24 bra 	BB0_46;
+BB0_43:
+	ld.param.u32 	%r91, [Elastodynamic2_param_7];
+	add.s32 	%r58, %r91, -1;
+	setp.ge.s32	%p30, %r2, %r58;
+	@%p30 bra 	BB0_52;
 
-	mul.wide.s32 	%rd55, %r18, 4;
-	add.s64 	%rd56, %rd1, %rd55;
-	ld.global.nc.f32 	%f275, [%rd56];
-	mul.f32 	%f556, %f275, %f204;
+	ld.param.u32 	%r93, [Elastodynamic2_param_6];
+	add.s32 	%r59, %r4, 1;
+	mul.lo.s32 	%r15, %r59, %r93;
+	add.s32 	%r16, %r15, %r14;
+	mov.f32 	%f556, %f206;
+	@%p6 bra 	BB0_46;
+
+	mul.wide.s32 	%rd48, %r16, 4;
+	add.s64 	%rd49, %rd3, %rd48;
+	ld.global.nc.f32 	%f266, [%rd49];
+	mul.f32 	%f556, %f266, %f206;
 
 BB0_46:
 	setp.eq.f32	%p32, %f556, 0f00000000;
 	@%p32 bra 	BB0_48;
 
-	mul.wide.s32 	%rd57, %r18, 4;
-	add.s64 	%rd58, %rd6, %rd57;
-	add.s64 	%rd59, %rd5, %rd57;
-	cvt.f64.f32	%fd26, %f201;
-	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
-	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
-	cvt.f64.f32	%fd29, %f202;
-	mul.f64 	%fd30, %fd29, %fd28;
-	cvt.rn.f32.f64	%f276, %fd30;
-	ld.global.nc.f32 	%f277, [%rd58];
-	sub.f32 	%f278, %f277, %f1;
-	ld.global.nc.f32 	%f279, [%rd59];
-	sub.f32 	%f280, %f279, %f2;
-	mul.f32 	%f281, %f5, %f278;
-	mul.f32 	%f282, %f7, %f280;
-	fma.rn.f32 	%f549, %f276, %f281, %f549;
-	fma.rn.f32 	%f548, %f276, %f282, %f548;
+	add.s64 	%rd173, %rd6, %rd25;
+	add.s64 	%rd160, %rd5, %rd25;
+	mul.wide.s32 	%rd50, %r16, 4;
+	add.s64 	%rd51, %rd6, %rd50;
+	add.s64 	%rd52, %rd5, %rd50;
+	cvt.f64.f32	%fd21, %f203;
+	mul.f64 	%fd22, %fd21, 0d3FE0000000000000;
+	mul.f64 	%fd23, %fd22, 0d3FE0000000000000;
+	cvt.f64.f32	%fd24, %f204;
+	mul.f64 	%fd25, %fd24, %fd23;
+	cvt.rn.f32.f64	%f267, %fd25;
+	ld.global.nc.f32 	%f268, [%rd173+-4];
+	ld.global.nc.f32 	%f269, [%rd51];
+	sub.f32 	%f270, %f269, %f268;
+	ld.global.nc.f32 	%f271, [%rd160+-4];
+	ld.global.nc.f32 	%f272, [%rd52];
+	sub.f32 	%f273, %f272, %f271;
+	mul.f32 	%f274, %f43, %f270;
+	mul.f32 	%f275, %f45, %f273;
+	mul.f32 	%f276, %f267, %f274;
+	mul.f32 	%f277, %f267, %f275;
+	sub.f32 	%f552, %f552, %f276;
+	sub.f32 	%f545, %f545, %f277;
 
 BB0_48:
-	setp.lt.s32	%p33, %r2, 1;
-	@%p33 bra 	BB0_57;
+	ld.param.u32 	%r108, [Elastodynamic2_param_6];
+	add.s32 	%r107, %r4, 1;
+	mul.lo.s32 	%r106, %r107, %r108;
+	add.s32 	%r17, %r106, %r1;
+	mov.f32 	%f559, %f206;
+	@%p6 bra 	BB0_50;
 
-	add.s32 	%r117, %r1, -1;
-	ld.param.u32 	%r101, [Elastodynamic2_param_6];
-	add.s32 	%r67, %r4, -1;
-	mul.lo.s32 	%r19, %r67, %r101;
-	add.s32 	%r20, %r19, %r117;
-	mov.f32 	%f559, %f204;
-	@%p24 bra 	BB0_51;
+	mul.wide.s32 	%rd53, %r17, 4;
+	add.s64 	%rd54, %rd3, %rd53;
+	ld.global.nc.f32 	%f278, [%rd54];
+	mul.f32 	%f559, %f278, %f206;
 
-	mul.wide.s32 	%rd60, %r20, 4;
-	add.s64 	%rd61, %rd1, %rd60;
-	ld.global.nc.f32 	%f283, [%rd61];
-	mul.f32 	%f559, %f283, %f204;
+BB0_50:
+	setp.eq.f32	%p34, %f559, 0f00000000;
+	@%p34 bra 	BB0_52;
 
-BB0_51:
-	setp.eq.f32	%p35, %f559, 0f00000000;
-	@%p35 bra 	BB0_53;
+	mul.wide.s32 	%rd55, %r17, 4;
+	add.s64 	%rd56, %rd6, %rd55;
+	add.s64 	%rd57, %rd5, %rd55;
+	cvt.f64.f32	%fd26, %f203;
+	mul.f64 	%fd27, %fd26, 0d3FE0000000000000;
+	mul.f64 	%fd28, %fd27, 0d3FE0000000000000;
+	cvt.f64.f32	%fd29, %f204;
+	mul.f64 	%fd30, %fd29, %fd28;
+	cvt.rn.f32.f64	%f279, %fd30;
+	ld.global.nc.f32 	%f280, [%rd56];
+	sub.f32 	%f281, %f280, %f1;
+	ld.global.nc.f32 	%f282, [%rd57];
+	sub.f32 	%f283, %f282, %f2;
+	mul.f32 	%f284, %f7, %f281;
+	mul.f32 	%f285, %f9, %f283;
+	fma.rn.f32 	%f552, %f279, %f284, %f552;
+	fma.rn.f32 	%f545, %f279, %f285, %f545;
 
-	add.s64 	%rd193, %rd6, %rd24;
-	add.s64 	%rd178, %rd5, %rd24;
-	mul.wide.s32 	%rd62, %r20, 4;
-	add.s64 	%rd63, %rd6, %rd62;
-	add.s64 	%rd64, %rd5, %rd62;
-	cvt.f64.f32	%fd31, %f201;
-	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
-	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
-	cvt.f64.f32	%fd34, %f202;
-	mul.f64 	%fd35, %fd34, %fd33;
-	cvt.rn.f32.f64	%f284, %fd35;
-	ld.global.nc.f32 	%f285, [%rd193+-4];
-	ld.global.nc.f32 	%f286, [%rd63];
-	sub.f32 	%f287, %f285, %f286;
-	ld.global.nc.f32 	%f288, [%rd178+-4];
-	ld.global.nc.f32 	%f289, [%rd64];
-	sub.f32 	%f290, %f288, %f289;
-	mul.f32 	%f291, %f41, %f287;
-	mul.f32 	%f292, %f43, %f290;
-	mul.f32 	%f293, %f284, %f291;
-	mul.f32 	%f294, %f284, %f292;
-	sub.f32 	%f549, %f549, %f293;
-	sub.f32 	%f548, %f548, %f294;
+BB0_52:
+	setp.lt.s32	%p35, %r2, 1;
+	@%p35 bra 	BB0_61;
 
-BB0_53:
-	add.s32 	%r21, %r19, %r1;
-	mov.f32 	%f562, %f204;
-	@%p24 bra 	BB0_55;
+	add.s32 	%r109, %r1, -1;
+	ld.param.u32 	%r92, [Elastodynamic2_param_6];
+	add.s32 	%r60, %r4, -1;
+	mul.lo.s32 	%r18, %r60, %r92;
+	add.s32 	%r19, %r18, %r109;
+	mov.f32 	%f562, %f206;
+	@%p6 bra 	BB0_55;
 
-	mul.wide.s32 	%rd65, %r21, 4;
-	add.s64 	%rd66, %rd1, %rd65;
-	ld.global.nc.f32 	%f295, [%rd66];
-	mul.f32 	%f562, %f295, %f204;
+	mul.wide.s32 	%rd58, %r19, 4;
+	add.s64 	%rd59, %rd3, %rd58;
+	ld.global.nc.f32 	%f286, [%rd59];
+	mul.f32 	%f562, %f286, %f206;
 
 BB0_55:
 	setp.eq.f32	%p37, %f562, 0f00000000;
 	@%p37 bra 	BB0_57;
 
-	mul.wide.s32 	%rd67, %r21, 4;
-	add.s64 	%rd68, %rd6, %rd67;
-	add.s64 	%rd69, %rd5, %rd67;
-	cvt.f64.f32	%fd36, %f201;
-	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
-	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
-	cvt.f64.f32	%fd39, %f202;
-	mul.f64 	%fd40, %fd39, %fd38;
-	cvt.rn.f32.f64	%f296, %fd40;
-	ld.global.nc.f32 	%f297, [%rd68];
-	sub.f32 	%f298, %f1, %f297;
-	ld.global.nc.f32 	%f299, [%rd69];
-	sub.f32 	%f300, %f2, %f299;
-	mul.f32 	%f301, %f5, %f298;
-	mul.f32 	%f302, %f7, %f300;
-	fma.rn.f32 	%f549, %f296, %f301, %f549;
-	fma.rn.f32 	%f548, %f296, %f302, %f548;
+	add.s64 	%rd172, %rd6, %rd25;
+	add.s64 	%rd159, %rd5, %rd25;
+	mul.wide.s32 	%rd60, %r19, 4;
+	add.s64 	%rd61, %rd6, %rd60;
+	add.s64 	%rd62, %rd5, %rd60;
+	cvt.f64.f32	%fd31, %f203;
+	mul.f64 	%fd32, %fd31, 0d3FE0000000000000;
+	mul.f64 	%fd33, %fd32, 0d3FE0000000000000;
+	cvt.f64.f32	%fd34, %f204;
+	mul.f64 	%fd35, %fd34, %fd33;
+	cvt.rn.f32.f64	%f287, %fd35;
+	ld.global.nc.f32 	%f288, [%rd172+-4];
+	ld.global.nc.f32 	%f289, [%rd61];
+	sub.f32 	%f290, %f288, %f289;
+	ld.global.nc.f32 	%f291, [%rd159+-4];
+	ld.global.nc.f32 	%f292, [%rd62];
+	sub.f32 	%f293, %f291, %f292;
+	mul.f32 	%f294, %f43, %f290;
+	mul.f32 	%f295, %f45, %f293;
+	mul.f32 	%f296, %f287, %f294;
+	mul.f32 	%f297, %f287, %f295;
+	sub.f32 	%f552, %f552, %f296;
+	sub.f32 	%f545, %f545, %f297;
 
 BB0_57:
-	ld.param.u64 	%rd160, [Elastodynamic2_param_0];
-	ld.param.u64 	%rd159, [Elastodynamic2_param_1];
-	ld.param.u64 	%rd158, [Elastodynamic2_param_2];
-	cvta.to.global.u64 	%rd70, %rd158;
-	cvta.to.global.u64 	%rd71, %rd159;
-	cvta.to.global.u64 	%rd72, %rd160;
-	add.s64 	%rd12, %rd72, %rd24;
-	ld.global.f32 	%f303, [%rd12];
-	add.f32 	%f68, %f548, %f303;
-	st.global.f32 	[%rd12], %f68;
-	add.s64 	%rd13, %rd71, %rd24;
-	ld.global.f32 	%f304, [%rd13];
-	add.f32 	%f69, %f549, %f304;
-	st.global.f32 	[%rd13], %f69;
-	add.s64 	%rd14, %rd70, %rd24;
-	ld.global.f32 	%f305, [%rd14];
-	add.f32 	%f70, %f305, 0f00000000;
-	st.global.f32 	[%rd14], %f70;
-	mov.f32 	%f72, %f78;
-	@%p7 bra 	BB0_59;
+	add.s32 	%r20, %r18, %r1;
+	mov.f32 	%f565, %f206;
+	@%p6 bra 	BB0_59;
 
-	ld.global.nc.f32 	%f306, [%rd11];
-	mul.f32 	%f72, %f306, %f78;
+	mul.wide.s32 	%rd63, %r20, 4;
+	add.s64 	%rd64, %rd3, %rd63;
+	ld.global.nc.f32 	%f298, [%rd64];
+	mul.f32 	%f565, %f298, %f206;
 
 BB0_59:
-	mov.f32 	%f74, %f80;
-	@%p6 bra 	BB0_61;
+	setp.eq.f32	%p39, %f565, 0f00000000;
+	@%p39 bra 	BB0_61;
 
-	ld.global.nc.f32 	%f307, [%rd10];
-	mul.f32 	%f74, %f307, %f80;
+	mul.wide.s32 	%rd65, %r20, 4;
+	add.s64 	%rd66, %rd6, %rd65;
+	add.s64 	%rd67, %rd5, %rd65;
+	cvt.f64.f32	%fd36, %f203;
+	mul.f64 	%fd37, %fd36, 0d3FE0000000000000;
+	mul.f64 	%fd38, %fd37, 0d3FE0000000000000;
+	cvt.f64.f32	%fd39, %f204;
+	mul.f64 	%fd40, %fd39, %fd38;
+	cvt.rn.f32.f64	%f299, %fd40;
+	ld.global.nc.f32 	%f300, [%rd66];
+	sub.f32 	%f301, %f1, %f300;
+	ld.global.nc.f32 	%f302, [%rd67];
+	sub.f32 	%f303, %f2, %f302;
+	mul.f32 	%f304, %f7, %f301;
+	mul.f32 	%f305, %f9, %f303;
+	fma.rn.f32 	%f552, %f299, %f304, %f552;
+	fma.rn.f32 	%f545, %f299, %f305, %f545;
 
 BB0_61:
-	ld.param.u32 	%r87, [Elastodynamic2_param_7];
-	add.s32 	%r68, %r87, -1;
-	mov.f32 	%f574, 0f00000000;
-	setp.ge.s32	%p40, %r2, %r68;
-	@%p40 bra 	BB0_62;
+	ld.param.u64 	%rd146, [Elastodynamic2_param_0];
+	ld.param.u64 	%rd145, [Elastodynamic2_param_1];
+	ld.param.u64 	%rd144, [Elastodynamic2_param_2];
+	cvta.to.global.u64 	%rd68, %rd144;
+	cvta.to.global.u64 	%rd69, %rd145;
+	cvta.to.global.u64 	%rd70, %rd146;
+	add.s64 	%rd13, %rd70, %rd25;
+	ld.global.f32 	%f306, [%rd13];
+	add.f32 	%f70, %f545, %f306;
+	st.global.f32 	[%rd13], %f70;
+	add.s64 	%rd14, %rd69, %rd25;
+	ld.global.f32 	%f307, [%rd14];
+	add.f32 	%f71, %f552, %f307;
+	st.global.f32 	[%rd14], %f71;
+	add.s64 	%rd15, %rd68, %rd25;
+	ld.global.f32 	%f308, [%rd15];
+	add.f32 	%f72, %f308, 0f00000000;
+	st.global.f32 	[%rd15], %f72;
+	mov.f32 	%f74, %f80;
+	@%p9 bra 	BB0_63;
 
-	ld.param.u64 	%rd170, [Elastodynamic2_param_12];
-	ld.param.u32 	%r99, [Elastodynamic2_param_6];
-	add.s32 	%r69, %r4, 1;
-	mul.lo.s32 	%r22, %r69, %r99;
-	add.s32 	%r23, %r22, %r1;
-	setp.eq.s64	%p41, %rd170, 0;
-	mov.f32 	%f567, %f204;
-	@%p41 bra 	BB0_65;
+	ld.global.nc.f32 	%f309, [%rd12];
+	mul.f32 	%f74, %f309, %f80;
 
-	mul.wide.s32 	%rd74, %r23, 4;
-	add.s64 	%rd75, %rd1, %rd74;
-	ld.global.nc.f32 	%f310, [%rd75];
-	mul.f32 	%f567, %f310, %f204;
+BB0_63:
+	mov.f32 	%f76, %f82;
+	@%p8 bra 	BB0_65;
+
+	ld.global.nc.f32 	%f310, [%rd11];
+	mul.f32 	%f76, %f310, %f82;
 
 BB0_65:
-	setp.eq.f32	%p42, %f567, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p42 bra 	BB0_88;
+	ld.param.u32 	%r78, [Elastodynamic2_param_7];
+	add.s32 	%r61, %r78, -1;
+	mov.f32 	%f577, 0f00000000;
+	setp.ge.s32	%p42, %r2, %r61;
+	@%p42 bra 	BB0_66;
 
-	@%p7 bra 	BB0_68;
+	ld.param.u32 	%r90, [Elastodynamic2_param_6];
+	add.s32 	%r62, %r4, 1;
+	mul.lo.s32 	%r21, %r62, %r90;
+	add.s32 	%r22, %r21, %r1;
+	mov.f32 	%f570, %f206;
+	@%p6 bra 	BB0_69;
 
-	ld.param.u64 	%rd172, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd171, %rd172;
-	mul.wide.s32 	%rd76, %r23, 4;
-	add.s64 	%rd77, %rd171, %rd76;
-	ld.global.nc.f32 	%f313, [%rd77];
-	mul.f32 	%f78, %f313, %f78;
+	mul.wide.s32 	%rd72, %r22, 4;
+	add.s64 	%rd73, %rd3, %rd72;
+	ld.global.nc.f32 	%f313, [%rd73];
+	mul.f32 	%f570, %f313, %f206;
 
-BB0_68:
-	@%p6 bra 	BB0_70;
+BB0_69:
+	setp.eq.f32	%p44, %f570, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p44 bra 	BB0_92;
 
-	ld.param.u64 	%rd174, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd173, %rd174;
+	@%p9 bra 	BB0_72;
+
+	ld.param.u64 	%rd154, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd153, %rd154;
+	mul.wide.s32 	%rd74, %r22, 4;
+	add.s64 	%rd75, %rd153, %rd74;
+	ld.global.nc.f32 	%f316, [%rd75];
+	mul.f32 	%f80, %f316, %f80;
+
+BB0_72:
+	@%p8 bra 	BB0_74;
+
+	ld.param.u64 	%rd156, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd155, %rd156;
+	mul.wide.s32 	%rd76, %r22, 4;
+	add.s64 	%rd77, %rd155, %rd76;
+	ld.global.nc.f32 	%f317, [%rd77];
+	mul.f32 	%f82, %f317, %f82;
+
+BB0_74:
+	mov.f32 	%f577, 0f00000000;
+	mov.f32 	%f584, %f577;
+	@%p10 bra 	BB0_83;
+
+	add.s32 	%r63, %r1, %r21;
+	add.s32 	%r23, %r63, 1;
+	mov.f32 	%f573, %f206;
+	@%p6 bra 	BB0_77;
+
 	mul.wide.s32 	%rd78, %r23, 4;
-	add.s64 	%rd79, %rd173, %rd78;
-	ld.global.nc.f32 	%f314, [%rd79];
-	mul.f32 	%f80, %f314, %f80;
-
-BB0_70:
-	mov.f32 	%f574, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p8 bra 	BB0_79;
-
-	add.s32 	%r24, %r1, 1;
-	add.s32 	%r25, %r22, %r24;
-	mov.f32 	%f570, %f204;
-	@%p41 bra 	BB0_73;
-
-	mul.wide.s32 	%rd80, %r25, 4;
-	add.s64 	%rd81, %rd1, %rd80;
-	ld.global.nc.f32 	%f317, [%rd81];
-	mul.f32 	%f570, %f317, %f204;
-
-BB0_73:
-	mov.f32 	%f574, 0f00000000;
-	setp.eq.f32	%p47, %f570, 0f00000000;
-	mov.f32 	%f581, %f574;
-	@%p47 bra 	BB0_75;
-
-	mul.wide.s32 	%rd82, %r25, 4;
-	add.s64 	%rd83, %rd6, %rd82;
-	add.s64 	%rd84, %rd5, %rd82;
-	cvt.f64.f32	%fd41, %f201;
-	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
-	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
-	cvt.f64.f32	%fd44, %f202;
-	mul.f64 	%fd45, %fd44, %fd43;
-	cvt.rn.f32.f64	%f320, %fd45;
-	ld.global.nc.f32 	%f321, [%rd83+-4];
-	ld.global.nc.f32 	%f322, [%rd83];
-	sub.f32 	%f323, %f322, %f321;
-	ld.global.nc.f32 	%f324, [%rd84+-4];
-	ld.global.nc.f32 	%f325, [%rd84];
-	sub.f32 	%f326, %f325, %f324;
-	mul.f32 	%f327, %f78, %f323;
-	mul.f32 	%f328, %f80, %f326;
-	fma.rn.f32 	%f581, %f320, %f327, 0f00000000;
-	fma.rn.f32 	%f574, %f320, %f328, 0f00000000;
-
-BB0_75:
-	mov.f32 	%f573, %f204;
-	@%p41 bra 	BB0_77;
-
-	mov.u32 	%r125, %tid.x;
-	mov.u32 	%r124, %ctaid.x;
-	mov.u32 	%r123, %ntid.x;
-	mad.lo.s32 	%r122, %r123, %r124, %r125;
-	add.s32 	%r121, %r122, 1;
-	add.s32 	%r70, %r5, %r121;
-	mul.wide.s32 	%rd85, %r70, 4;
-	add.s64 	%rd86, %rd1, %rd85;
-	ld.global.nc.f32 	%f329, [%rd86];
-	mul.f32 	%f573, %f329, %f204;
+	add.s64 	%rd79, %rd3, %rd78;
+	ld.global.nc.f32 	%f320, [%rd79];
+	mul.f32 	%f573, %f320, %f206;
 
 BB0_77:
+	mov.f32 	%f577, 0f00000000;
 	setp.eq.f32	%p49, %f573, 0f00000000;
+	mov.f32 	%f584, %f577;
 	@%p49 bra 	BB0_79;
 
-	ld.param.f32 	%f532, [Elastodynamic2_param_10];
-	add.s64 	%rd192, %rd6, %rd24;
-	add.s64 	%rd176, %rd5, %rd24;
-	cvt.f64.f32	%fd46, %f201;
-	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
-	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
-	cvt.f64.f32	%fd49, %f532;
-	mul.f64 	%fd50, %fd49, %fd48;
-	cvt.rn.f32.f64	%f330, %fd50;
-	ld.global.nc.f32 	%f331, [%rd192+4];
-	sub.f32 	%f332, %f331, %f1;
-	ld.global.nc.f32 	%f333, [%rd176+4];
-	sub.f32 	%f334, %f333, %f2;
-	mul.f32 	%f335, %f72, %f332;
-	mul.f32 	%f336, %f74, %f334;
-	mul.f32 	%f337, %f330, %f335;
-	mul.f32 	%f338, %f330, %f336;
-	sub.f32 	%f581, %f581, %f337;
-	sub.f32 	%f574, %f574, %f338;
+	mul.wide.s32 	%rd80, %r23, 4;
+	add.s64 	%rd81, %rd6, %rd80;
+	add.s64 	%rd82, %rd5, %rd80;
+	cvt.f64.f32	%fd41, %f203;
+	mul.f64 	%fd42, %fd41, 0d3FE0000000000000;
+	mul.f64 	%fd43, %fd42, 0d3FE0000000000000;
+	cvt.f64.f32	%fd44, %f204;
+	mul.f64 	%fd45, %fd44, %fd43;
+	cvt.rn.f32.f64	%f323, %fd45;
+	ld.global.nc.f32 	%f324, [%rd81+-4];
+	ld.global.nc.f32 	%f325, [%rd81];
+	sub.f32 	%f326, %f325, %f324;
+	ld.global.nc.f32 	%f327, [%rd82+-4];
+	ld.global.nc.f32 	%f328, [%rd82];
+	sub.f32 	%f329, %f328, %f327;
+	mul.f32 	%f330, %f80, %f326;
+	mul.f32 	%f331, %f82, %f329;
+	fma.rn.f32 	%f584, %f323, %f330, 0f00000000;
+	fma.rn.f32 	%f577, %f323, %f331, 0f00000000;
 
 BB0_79:
-	@%p23 bra 	BB0_88;
+	mov.f32 	%f576, %f206;
+	@%p6 bra 	BB0_81;
 
-	ld.param.u32 	%r120, [Elastodynamic2_param_6];
-	add.s32 	%r119, %r4, 1;
-	mul.lo.s32 	%r118, %r119, %r120;
-	add.s32 	%r26, %r1, -1;
-	add.s32 	%r27, %r118, %r26;
-	mov.f32 	%f576, %f204;
-	@%p41 bra 	BB0_82;
+	ld.global.nc.f32 	%f332, [%rd10+4];
+	mul.f32 	%f576, %f332, %f206;
 
-	mul.wide.s32 	%rd87, %r27, 4;
-	add.s64 	%rd88, %rd1, %rd87;
-	ld.global.nc.f32 	%f339, [%rd88];
-	mul.f32 	%f576, %f339, %f204;
+BB0_81:
+	setp.eq.f32	%p51, %f576, 0f00000000;
+	@%p51 bra 	BB0_83;
 
-BB0_82:
-	setp.eq.f32	%p52, %f576, 0f00000000;
-	@%p52 bra 	BB0_84;
+	ld.param.f32 	%f534, [Elastodynamic2_param_10];
+	add.s64 	%rd171, %rd6, %rd25;
+	add.s64 	%rd158, %rd5, %rd25;
+	cvt.f64.f32	%fd46, %f203;
+	mul.f64 	%fd47, %fd46, 0d3FE0000000000000;
+	mul.f64 	%fd48, %fd47, 0d3FE0000000000000;
+	cvt.f64.f32	%fd49, %f534;
+	mul.f64 	%fd50, %fd49, %fd48;
+	cvt.rn.f32.f64	%f333, %fd50;
+	ld.global.nc.f32 	%f334, [%rd171+4];
+	sub.f32 	%f335, %f334, %f1;
+	ld.global.nc.f32 	%f336, [%rd158+4];
+	sub.f32 	%f337, %f336, %f2;
+	mul.f32 	%f338, %f74, %f335;
+	mul.f32 	%f339, %f76, %f337;
+	mul.f32 	%f340, %f333, %f338;
+	mul.f32 	%f341, %f333, %f339;
+	sub.f32 	%f584, %f584, %f340;
+	sub.f32 	%f577, %f577, %f341;
 
-	ld.param.f32 	%f531, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd89, %r27, 4;
-	add.s64 	%rd90, %rd6, %rd89;
-	add.s64 	%rd91, %rd5, %rd89;
-	cvt.f64.f32	%fd51, %f201;
-	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
-	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
-	cvt.f64.f32	%fd54, %f531;
-	mul.f64 	%fd55, %fd54, %fd53;
-	cvt.rn.f32.f64	%f340, %fd55;
-	ld.global.nc.f32 	%f341, [%rd90+4];
-	ld.global.nc.f32 	%f342, [%rd90];
-	sub.f32 	%f343, %f341, %f342;
-	ld.global.nc.f32 	%f344, [%rd91+4];
-	ld.global.nc.f32 	%f345, [%rd91];
-	sub.f32 	%f346, %f344, %f345;
-	mul.f32 	%f347, %f78, %f343;
-	mul.f32 	%f348, %f80, %f346;
-	fma.rn.f32 	%f581, %f340, %f347, %f581;
-	fma.rn.f32 	%f574, %f340, %f348, %f574;
+BB0_83:
+	@%p25 bra 	BB0_92;
 
-BB0_84:
-	mov.f32 	%f579, %f204;
-	@%p41 bra 	BB0_86;
+	ld.param.u32 	%r112, [Elastodynamic2_param_6];
+	add.s32 	%r111, %r4, 1;
+	mul.lo.s32 	%r110, %r111, %r112;
+	add.s32 	%r64, %r1, %r110;
+	add.s32 	%r24, %r64, -1;
+	mov.f32 	%f579, %f206;
+	@%p6 bra 	BB0_86;
 
-	add.s32 	%r71, %r5, %r26;
-	mul.wide.s32 	%rd92, %r71, 4;
-	add.s64 	%rd93, %rd1, %rd92;
-	ld.global.nc.f32 	%f349, [%rd93];
-	mul.f32 	%f579, %f349, %f204;
+	mul.wide.s32 	%rd83, %r24, 4;
+	add.s64 	%rd84, %rd3, %rd83;
+	ld.global.nc.f32 	%f342, [%rd84];
+	mul.f32 	%f579, %f342, %f206;
 
 BB0_86:
 	setp.eq.f32	%p54, %f579, 0f00000000;
 	@%p54 bra 	BB0_88;
 
-	ld.param.f32 	%f530, [Elastodynamic2_param_10];
-	add.s64 	%rd191, %rd6, %rd24;
-	add.s64 	%rd175, %rd5, %rd24;
-	cvt.f64.f32	%fd56, %f201;
-	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
-	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
-	cvt.f64.f32	%fd59, %f530;
-	mul.f64 	%fd60, %fd59, %fd58;
-	cvt.rn.f32.f64	%f350, %fd60;
-	ld.global.nc.f32 	%f351, [%rd191+-4];
-	sub.f32 	%f352, %f1, %f351;
-	ld.global.nc.f32 	%f353, [%rd175+-4];
-	sub.f32 	%f354, %f2, %f353;
-	mul.f32 	%f355, %f72, %f352;
-	mul.f32 	%f356, %f74, %f354;
-	mul.f32 	%f357, %f350, %f355;
-	mul.f32 	%f358, %f350, %f356;
-	sub.f32 	%f581, %f581, %f357;
-	sub.f32 	%f574, %f574, %f358;
-	bra.uni 	BB0_88;
-
-BB0_62:
-	mov.f32 	%f581, %f574;
+	ld.param.f32 	%f533, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd85, %r24, 4;
+	add.s64 	%rd86, %rd6, %rd85;
+	add.s64 	%rd87, %rd5, %rd85;
+	cvt.f64.f32	%fd51, %f203;
+	mul.f64 	%fd52, %fd51, 0d3FE0000000000000;
+	mul.f64 	%fd53, %fd52, 0d3FE0000000000000;
+	cvt.f64.f32	%fd54, %f533;
+	mul.f64 	%fd55, %fd54, %fd53;
+	cvt.rn.f32.f64	%f343, %fd55;
+	ld.global.nc.f32 	%f344, [%rd86+4];
+	ld.global.nc.f32 	%f345, [%rd86];
+	sub.f32 	%f346, %f344, %f345;
+	ld.global.nc.f32 	%f347, [%rd87+4];
+	ld.global.nc.f32 	%f348, [%rd87];
+	sub.f32 	%f349, %f347, %f348;
+	mul.f32 	%f350, %f80, %f346;
+	mul.f32 	%f351, %f82, %f349;
+	fma.rn.f32 	%f584, %f343, %f350, %f584;
+	fma.rn.f32 	%f577, %f343, %f351, %f577;
 
 BB0_88:
-	setp.lt.s32	%p55, %r2, 1;
-	@%p55 bra 	BB0_114;
+	mov.f32 	%f582, %f206;
+	@%p6 bra 	BB0_90;
 
-	ld.param.u64 	%rd163, [Elastodynamic2_param_12];
-	ld.param.u32 	%r98, [Elastodynamic2_param_6];
-	add.s32 	%r72, %r4, -1;
-	mul.lo.s32 	%r28, %r72, %r98;
-	add.s32 	%r29, %r28, %r1;
-	setp.eq.s64	%p56, %rd163, 0;
-	mov.f32 	%f582, %f204;
-	@%p56 bra 	BB0_91;
+	ld.global.nc.f32 	%f352, [%rd10+-4];
+	mul.f32 	%f582, %f352, %f206;
 
-	mul.wide.s32 	%rd94, %r29, 4;
-	add.s64 	%rd95, %rd1, %rd94;
-	ld.global.nc.f32 	%f359, [%rd95];
-	mul.f32 	%f582, %f359, %f204;
+BB0_90:
+	setp.eq.f32	%p56, %f582, 0f00000000;
+	@%p56 bra 	BB0_92;
 
-BB0_91:
-	setp.eq.f32	%p57, %f582, 0f00000000;
-	@%p57 bra 	BB0_114;
+	ld.param.f32 	%f532, [Elastodynamic2_param_10];
+	add.s64 	%rd170, %rd6, %rd25;
+	add.s64 	%rd157, %rd5, %rd25;
+	cvt.f64.f32	%fd56, %f203;
+	mul.f64 	%fd57, %fd56, 0d3FE0000000000000;
+	mul.f64 	%fd58, %fd57, 0d3FE0000000000000;
+	cvt.f64.f32	%fd59, %f532;
+	mul.f64 	%fd60, %fd59, %fd58;
+	cvt.rn.f32.f64	%f353, %fd60;
+	ld.global.nc.f32 	%f354, [%rd170+-4];
+	sub.f32 	%f355, %f1, %f354;
+	ld.global.nc.f32 	%f356, [%rd157+-4];
+	sub.f32 	%f357, %f2, %f356;
+	mul.f32 	%f358, %f74, %f355;
+	mul.f32 	%f359, %f76, %f357;
+	mul.f32 	%f360, %f353, %f358;
+	mul.f32 	%f361, %f353, %f359;
+	sub.f32 	%f584, %f584, %f360;
+	sub.f32 	%f577, %f577, %f361;
+	bra.uni 	BB0_92;
 
-	ld.param.f32 	%f108, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_94;
+BB0_66:
+	mov.f32 	%f584, %f577;
 
-	ld.param.f32 	%f517, [Elastodynamic2_param_15];
-	ld.param.u64 	%rd165, [Elastodynamic2_param_14];
-	cvta.to.global.u64 	%rd164, %rd165;
-	mul.wide.s32 	%rd96, %r29, 4;
-	add.s64 	%rd97, %rd164, %rd96;
-	ld.global.nc.f32 	%f360, [%rd97];
-	mul.f32 	%f108, %f360, %f517;
+BB0_92:
+	setp.lt.s32	%p57, %r2, 1;
+	@%p57 bra 	BB0_118;
 
-BB0_94:
-	ld.param.f32 	%f110, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_96;
+	ld.param.u32 	%r89, [Elastodynamic2_param_6];
+	add.s32 	%r65, %r4, -1;
+	mul.lo.s32 	%r25, %r65, %r89;
+	add.s32 	%r26, %r25, %r1;
+	mov.f32 	%f585, %f206;
+	@%p6 bra 	BB0_95;
 
-	ld.param.f32 	%f525, [Elastodynamic2_param_17];
-	ld.param.u64 	%rd167, [Elastodynamic2_param_16];
-	cvta.to.global.u64 	%rd166, %rd167;
-	mul.wide.s32 	%rd98, %r29, 4;
-	add.s64 	%rd99, %rd166, %rd98;
-	ld.global.nc.f32 	%f361, [%rd99];
-	mul.f32 	%f110, %f361, %f525;
+	mul.wide.s32 	%rd88, %r26, 4;
+	add.s64 	%rd89, %rd3, %rd88;
+	ld.global.nc.f32 	%f362, [%rd89];
+	mul.f32 	%f585, %f362, %f206;
 
-BB0_96:
-	@%p8 bra 	BB0_105;
+BB0_95:
+	setp.eq.f32	%p59, %f585, 0f00000000;
+	@%p59 bra 	BB0_118;
 
-	add.s32 	%r30, %r1, 1;
-	add.s32 	%r31, %r28, %r30;
-	mov.f32 	%f585, %f204;
-	@%p56 bra 	BB0_99;
+	ld.param.f32 	%f110, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_98;
 
-	mul.wide.s32 	%rd100, %r31, 4;
-	add.s64 	%rd101, %rd1, %rd100;
-	ld.global.nc.f32 	%f362, [%rd101];
-	mul.f32 	%f585, %f362, %f204;
+	ld.param.f32 	%f525, [Elastodynamic2_param_15];
+	ld.param.u64 	%rd148, [Elastodynamic2_param_14];
+	cvta.to.global.u64 	%rd147, %rd148;
+	mul.wide.s32 	%rd90, %r26, 4;
+	add.s64 	%rd91, %rd147, %rd90;
+	ld.global.nc.f32 	%f363, [%rd91];
+	mul.f32 	%f110, %f363, %f525;
 
-BB0_99:
-	setp.eq.f32	%p62, %f585, 0f00000000;
-	@%p62 bra 	BB0_101;
+BB0_98:
+	ld.param.f32 	%f112, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_100;
 
-	ld.param.f32 	%f529, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd102, %r31, 4;
-	add.s64 	%rd103, %rd6, %rd102;
-	add.s64 	%rd104, %rd5, %rd102;
-	cvt.f64.f32	%fd61, %f201;
-	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
-	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
-	cvt.f64.f32	%fd64, %f529;
-	mul.f64 	%fd65, %fd64, %fd63;
-	cvt.rn.f32.f64	%f363, %fd65;
-	ld.global.nc.f32 	%f364, [%rd103+-4];
-	ld.global.nc.f32 	%f365, [%rd103];
-	sub.f32 	%f366, %f365, %f364;
-	ld.global.nc.f32 	%f367, [%rd104+-4];
-	ld.global.nc.f32 	%f368, [%rd104];
-	sub.f32 	%f369, %f368, %f367;
-	mul.f32 	%f370, %f108, %f366;
-	mul.f32 	%f371, %f110, %f369;
-	mul.f32 	%f372, %f363, %f370;
-	mul.f32 	%f373, %f363, %f371;
-	sub.f32 	%f581, %f581, %f372;
-	sub.f32 	%f574, %f574, %f373;
+	ld.param.f32 	%f527, [Elastodynamic2_param_17];
+	ld.param.u64 	%rd150, [Elastodynamic2_param_16];
+	cvta.to.global.u64 	%rd149, %rd150;
+	mul.wide.s32 	%rd92, %r26, 4;
+	add.s64 	%rd93, %rd149, %rd92;
+	ld.global.nc.f32 	%f364, [%rd93];
+	mul.f32 	%f112, %f364, %f527;
 
-BB0_101:
-	mov.f32 	%f588, %f204;
-	@%p56 bra 	BB0_103;
+BB0_100:
+	@%p10 bra 	BB0_109;
 
-	add.s32 	%r73, %r5, %r30;
-	mul.wide.s32 	%rd105, %r73, 4;
-	add.s64 	%rd106, %rd1, %rd105;
-	ld.global.nc.f32 	%f374, [%rd106];
-	mul.f32 	%f588, %f374, %f204;
+	add.s32 	%r66, %r1, %r25;
+	add.s32 	%r27, %r66, 1;
+	mov.f32 	%f588, %f206;
+	@%p6 bra 	BB0_103;
+
+	mul.wide.s32 	%rd94, %r27, 4;
+	add.s64 	%rd95, %rd3, %rd94;
+	ld.global.nc.f32 	%f365, [%rd95];
+	mul.f32 	%f588, %f365, %f206;
 
 BB0_103:
 	setp.eq.f32	%p64, %f588, 0f00000000;
 	@%p64 bra 	BB0_105;
 
-	ld.param.f32 	%f528, [Elastodynamic2_param_10];
-	add.s64 	%rd190, %rd6, %rd24;
-	add.s64 	%rd169, %rd5, %rd24;
-	cvt.f64.f32	%fd66, %f201;
-	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
-	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
-	cvt.f64.f32	%fd69, %f528;
-	mul.f64 	%fd70, %fd69, %fd68;
-	cvt.rn.f32.f64	%f375, %fd70;
-	ld.global.nc.f32 	%f376, [%rd190+4];
-	sub.f32 	%f377, %f376, %f1;
-	ld.global.nc.f32 	%f378, [%rd169+4];
-	sub.f32 	%f379, %f378, %f2;
-	mul.f32 	%f380, %f72, %f377;
-	mul.f32 	%f381, %f74, %f379;
-	fma.rn.f32 	%f581, %f375, %f380, %f581;
-	fma.rn.f32 	%f574, %f375, %f381, %f574;
+	ld.param.f32 	%f531, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd96, %r27, 4;
+	add.s64 	%rd97, %rd6, %rd96;
+	add.s64 	%rd98, %rd5, %rd96;
+	cvt.f64.f32	%fd61, %f203;
+	mul.f64 	%fd62, %fd61, 0d3FE0000000000000;
+	mul.f64 	%fd63, %fd62, 0d3FE0000000000000;
+	cvt.f64.f32	%fd64, %f531;
+	mul.f64 	%fd65, %fd64, %fd63;
+	cvt.rn.f32.f64	%f366, %fd65;
+	ld.global.nc.f32 	%f367, [%rd97+-4];
+	ld.global.nc.f32 	%f368, [%rd97];
+	sub.f32 	%f369, %f368, %f367;
+	ld.global.nc.f32 	%f370, [%rd98+-4];
+	ld.global.nc.f32 	%f371, [%rd98];
+	sub.f32 	%f372, %f371, %f370;
+	mul.f32 	%f373, %f110, %f369;
+	mul.f32 	%f374, %f112, %f372;
+	mul.f32 	%f375, %f366, %f373;
+	mul.f32 	%f376, %f366, %f374;
+	sub.f32 	%f584, %f584, %f375;
+	sub.f32 	%f577, %f577, %f376;
 
 BB0_105:
-	@%p23 bra 	BB0_114;
+	mov.f32 	%f591, %f206;
+	@%p6 bra 	BB0_107;
 
-	add.s32 	%r32, %r1, -1;
-	add.s32 	%r33, %r28, %r32;
-	mov.f32 	%f591, %f204;
-	@%p56 bra 	BB0_108;
+	ld.global.nc.f32 	%f377, [%rd10+4];
+	mul.f32 	%f591, %f377, %f206;
 
-	mul.wide.s32 	%rd107, %r33, 4;
-	add.s64 	%rd108, %rd1, %rd107;
-	ld.global.nc.f32 	%f382, [%rd108];
-	mul.f32 	%f591, %f382, %f204;
+BB0_107:
+	setp.eq.f32	%p66, %f591, 0f00000000;
+	@%p66 bra 	BB0_109;
 
-BB0_108:
-	setp.eq.f32	%p67, %f591, 0f00000000;
-	@%p67 bra 	BB0_110;
+	ld.param.f32 	%f530, [Elastodynamic2_param_10];
+	add.s64 	%rd169, %rd6, %rd25;
+	add.s64 	%rd152, %rd5, %rd25;
+	cvt.f64.f32	%fd66, %f203;
+	mul.f64 	%fd67, %fd66, 0d3FE0000000000000;
+	mul.f64 	%fd68, %fd67, 0d3FE0000000000000;
+	cvt.f64.f32	%fd69, %f530;
+	mul.f64 	%fd70, %fd69, %fd68;
+	cvt.rn.f32.f64	%f378, %fd70;
+	ld.global.nc.f32 	%f379, [%rd169+4];
+	sub.f32 	%f380, %f379, %f1;
+	ld.global.nc.f32 	%f381, [%rd152+4];
+	sub.f32 	%f382, %f381, %f2;
+	mul.f32 	%f383, %f74, %f380;
+	mul.f32 	%f384, %f76, %f382;
+	fma.rn.f32 	%f584, %f378, %f383, %f584;
+	fma.rn.f32 	%f577, %f378, %f384, %f577;
 
-	ld.param.f32 	%f527, [Elastodynamic2_param_10];
-	mul.wide.s32 	%rd109, %r33, 4;
-	add.s64 	%rd110, %rd6, %rd109;
-	add.s64 	%rd111, %rd5, %rd109;
-	cvt.f64.f32	%fd71, %f201;
-	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
-	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
-	cvt.f64.f32	%fd74, %f527;
-	mul.f64 	%fd75, %fd74, %fd73;
-	cvt.rn.f32.f64	%f383, %fd75;
-	ld.global.nc.f32 	%f384, [%rd110+4];
-	ld.global.nc.f32 	%f385, [%rd110];
-	sub.f32 	%f386, %f384, %f385;
-	ld.global.nc.f32 	%f387, [%rd111+4];
-	ld.global.nc.f32 	%f388, [%rd111];
-	sub.f32 	%f389, %f387, %f388;
-	mul.f32 	%f390, %f108, %f386;
-	mul.f32 	%f391, %f110, %f389;
-	mul.f32 	%f392, %f383, %f390;
-	mul.f32 	%f393, %f383, %f391;
-	sub.f32 	%f581, %f581, %f392;
-	sub.f32 	%f574, %f574, %f393;
+BB0_109:
+	@%p25 bra 	BB0_118;
 
-BB0_110:
-	mov.f32 	%f594, %f204;
-	@%p56 bra 	BB0_112;
+	add.s32 	%r67, %r1, %r25;
+	add.s32 	%r28, %r67, -1;
+	mov.f32 	%f594, %f206;
+	@%p6 bra 	BB0_112;
 
-	add.s32 	%r74, %r5, %r32;
-	mul.wide.s32 	%rd112, %r74, 4;
-	add.s64 	%rd113, %rd1, %rd112;
-	ld.global.nc.f32 	%f394, [%rd113];
-	mul.f32 	%f594, %f394, %f204;
+	mul.wide.s32 	%rd99, %r28, 4;
+	add.s64 	%rd100, %rd3, %rd99;
+	ld.global.nc.f32 	%f385, [%rd100];
+	mul.f32 	%f594, %f385, %f206;
 
 BB0_112:
 	setp.eq.f32	%p69, %f594, 0f00000000;
 	@%p69 bra 	BB0_114;
 
-	ld.param.f32 	%f526, [Elastodynamic2_param_10];
-	add.s64 	%rd189, %rd6, %rd24;
-	add.s64 	%rd168, %rd5, %rd24;
-	cvt.f64.f32	%fd76, %f201;
-	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
-	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
-	cvt.f64.f32	%fd79, %f526;
-	mul.f64 	%fd80, %fd79, %fd78;
-	cvt.rn.f32.f64	%f395, %fd80;
-	ld.global.nc.f32 	%f396, [%rd189+-4];
-	sub.f32 	%f397, %f1, %f396;
-	ld.global.nc.f32 	%f398, [%rd168+-4];
-	sub.f32 	%f399, %f2, %f398;
-	mul.f32 	%f400, %f72, %f397;
-	mul.f32 	%f401, %f74, %f399;
-	fma.rn.f32 	%f581, %f395, %f400, %f581;
-	fma.rn.f32 	%f574, %f395, %f401, %f574;
+	ld.param.f32 	%f529, [Elastodynamic2_param_10];
+	mul.wide.s32 	%rd101, %r28, 4;
+	add.s64 	%rd102, %rd6, %rd101;
+	add.s64 	%rd103, %rd5, %rd101;
+	cvt.f64.f32	%fd71, %f203;
+	mul.f64 	%fd72, %fd71, 0d3FE0000000000000;
+	mul.f64 	%fd73, %fd72, 0d3FE0000000000000;
+	cvt.f64.f32	%fd74, %f529;
+	mul.f64 	%fd75, %fd74, %fd73;
+	cvt.rn.f32.f64	%f386, %fd75;
+	ld.global.nc.f32 	%f387, [%rd102+4];
+	ld.global.nc.f32 	%f388, [%rd102];
+	sub.f32 	%f389, %f387, %f388;
+	ld.global.nc.f32 	%f390, [%rd103+4];
+	ld.global.nc.f32 	%f391, [%rd103];
+	sub.f32 	%f392, %f390, %f391;
+	mul.f32 	%f393, %f110, %f389;
+	mul.f32 	%f394, %f112, %f392;
+	mul.f32 	%f395, %f386, %f393;
+	mul.f32 	%f396, %f386, %f394;
+	sub.f32 	%f584, %f584, %f395;
+	sub.f32 	%f577, %f577, %f396;
 
 BB0_114:
-	ld.param.f32 	%f138, [Elastodynamic2_param_17];
-	add.f32 	%f135, %f574, %f68;
-	st.global.f32 	[%rd12], %f135;
-	add.f32 	%f136, %f581, %f69;
-	st.global.f32 	[%rd13], %f136;
-	st.global.f32 	[%rd14], %f70;
+	mov.f32 	%f597, %f206;
 	@%p6 bra 	BB0_116;
 
-	ld.param.f32 	%f519, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f402, [%rd10];
-	mul.f32 	%f138, %f402, %f519;
+	ld.global.nc.f32 	%f397, [%rd10+-4];
+	mul.f32 	%f597, %f397, %f206;
 
 BB0_116:
-	ld.param.f32 	%f140, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_118;
+	setp.eq.f32	%p71, %f597, 0f00000000;
+	@%p71 bra 	BB0_118;
 
-	ld.param.f32 	%f511, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f403, [%rd11];
-	mul.f32 	%f140, %f403, %f511;
+	ld.param.f32 	%f528, [Elastodynamic2_param_10];
+	add.s64 	%rd168, %rd6, %rd25;
+	add.s64 	%rd151, %rd5, %rd25;
+	cvt.f64.f32	%fd76, %f203;
+	mul.f64 	%fd77, %fd76, 0d3FE0000000000000;
+	mul.f64 	%fd78, %fd77, 0d3FE0000000000000;
+	cvt.f64.f32	%fd79, %f528;
+	mul.f64 	%fd80, %fd79, %fd78;
+	cvt.rn.f32.f64	%f398, %fd80;
+	ld.global.nc.f32 	%f399, [%rd168+-4];
+	sub.f32 	%f400, %f1, %f399;
+	ld.global.nc.f32 	%f401, [%rd151+-4];
+	sub.f32 	%f402, %f2, %f401;
+	mul.f32 	%f403, %f74, %f400;
+	mul.f32 	%f404, %f76, %f402;
+	fma.rn.f32 	%f584, %f398, %f403, %f584;
+	fma.rn.f32 	%f577, %f398, %f404, %f577;
 
 BB0_118:
-	mov.f32 	%f606, 0f00000000;
-	@%p8 bra 	BB0_119;
+	ld.param.f32 	%f140, [Elastodynamic2_param_17];
+	add.f32 	%f137, %f577, %f70;
+	st.global.f32 	[%rd13], %f137;
+	add.f32 	%f138, %f584, %f71;
+	st.global.f32 	[%rd14], %f138;
+	st.global.f32 	[%rd15], %f72;
+	@%p8 bra 	BB0_120;
 
-	ld.param.u64 	%rd162, [Elastodynamic2_param_12];
-	add.s32 	%r34, %r1, 1;
-	setp.eq.s64	%p73, %rd162, 0;
-	mov.f32 	%f599, %f204;
-	@%p73 bra 	BB0_122;
+	ld.param.f32 	%f513, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f405, [%rd11];
+	mul.f32 	%f140, %f405, %f513;
 
-	add.s32 	%r75, %r5, %r34;
-	mul.wide.s32 	%rd114, %r75, 4;
-	add.s64 	%rd115, %rd1, %rd114;
-	ld.global.nc.f32 	%f406, [%rd115];
-	mul.f32 	%f599, %f406, %f204;
-
-BB0_122:
-	setp.eq.f32	%p74, %f599, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p74 bra 	BB0_145;
-
-	ld.param.f32 	%f144, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_125;
-
-	ld.param.f32 	%f523, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f409, [%rd10+4];
-	mul.f32 	%f144, %f409, %f523;
-
-BB0_125:
-	ld.param.f32 	%f146, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_127;
+BB0_120:
+	ld.param.f32 	%f142, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_122;
 
 	ld.param.f32 	%f515, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f410, [%rd11+4];
-	mul.f32 	%f146, %f410, %f515;
+	ld.global.nc.f32 	%f406, [%rd12];
+	mul.f32 	%f142, %f406, %f515;
 
-BB0_127:
-	ld.param.u32 	%r93, [Elastodynamic2_param_8];
-	add.s32 	%r76, %r93, -1;
-	mov.f32 	%f606, 0f00000000;
-	setp.ge.s32	%p77, %r3, %r76;
-	mov.f32 	%f613, %f606;
-	@%p77 bra 	BB0_136;
+BB0_122:
+	mov.f32 	%f609, 0f00000000;
+	@%p10 bra 	BB0_123;
 
-	ld.param.u32 	%r97, [Elastodynamic2_param_6];
-	ld.param.u32 	%r96, [Elastodynamic2_param_7];
-	add.s32 	%r77, %r3, 1;
-	mad.lo.s32 	%r78, %r77, %r96, %r2;
-	mul.lo.s32 	%r35, %r78, %r97;
-	add.s32 	%r36, %r35, %r34;
-	mov.f32 	%f602, %f204;
-	@%p73 bra 	BB0_130;
+	add.s32 	%r29, %r1, 1;
+	mov.f32 	%f602, %f206;
+	@%p6 bra 	BB0_126;
 
-	mul.wide.s32 	%rd116, %r36, 4;
-	add.s64 	%rd117, %rd1, %rd116;
-	ld.global.nc.f32 	%f413, [%rd117];
-	mul.f32 	%f602, %f413, %f204;
+	ld.global.nc.f32 	%f409, [%rd10+4];
+	mul.f32 	%f602, %f409, %f206;
 
-BB0_130:
-	mov.f32 	%f606, 0f00000000;
-	setp.eq.f32	%p79, %f602, 0f00000000;
-	mov.f32 	%f613, %f606;
-	@%p79 bra 	BB0_132;
+BB0_126:
+	setp.eq.f32	%p76, %f602, 0f00000000;
+	mov.f32 	%f616, %f609;
+	@%p76 bra 	BB0_149;
 
-	add.s64 	%rd188, %rd6, %rd24;
-	ld.param.f32 	%f508, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd118, %r36, 4;
-	add.s64 	%rd119, %rd6, %rd118;
-	add.s64 	%rd120, %rd4, %rd118;
-	cvt.f64.f32	%fd81, %f201;
-	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
-	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
-	cvt.f64.f32	%fd84, %f508;
-	mul.f64 	%fd85, %fd83, %fd84;
-	cvt.rn.f32.f64	%f416, %fd85;
-	ld.global.nc.f32 	%f417, [%rd188+4];
-	ld.global.nc.f32 	%f418, [%rd119];
-	sub.f32 	%f419, %f418, %f417;
-	ld.global.nc.f32 	%f420, [%rd9+4];
-	ld.global.nc.f32 	%f421, [%rd120];
-	sub.f32 	%f422, %f421, %f420;
-	mul.f32 	%f423, %f144, %f419;
-	mul.f32 	%f424, %f146, %f422;
-	fma.rn.f32 	%f613, %f416, %f423, 0f00000000;
-	fma.rn.f32 	%f606, %f416, %f424, 0f00000000;
+	ld.param.f32 	%f146, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_129;
 
-BB0_132:
-	add.s32 	%r37, %r35, %r1;
-	mov.f32 	%f605, %f204;
-	@%p73 bra 	BB0_134;
+	ld.param.f32 	%f521, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f412, [%rd11+4];
+	mul.f32 	%f146, %f412, %f521;
 
-	mul.wide.s32 	%rd121, %r37, 4;
-	add.s64 	%rd122, %rd1, %rd121;
-	ld.global.nc.f32 	%f425, [%rd122];
-	mul.f32 	%f605, %f425, %f204;
+BB0_129:
+	ld.param.f32 	%f148, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_131;
+
+	ld.param.f32 	%f523, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f413, [%rd12+4];
+	mul.f32 	%f148, %f413, %f523;
+
+BB0_131:
+	ld.param.u32 	%r84, [Elastodynamic2_param_8];
+	add.s32 	%r68, %r84, -1;
+	mov.f32 	%f609, 0f00000000;
+	setp.ge.s32	%p79, %r3, %r68;
+	mov.f32 	%f616, %f609;
+	@%p79 bra 	BB0_140;
+
+	ld.param.u32 	%r88, [Elastodynamic2_param_6];
+	ld.param.u32 	%r87, [Elastodynamic2_param_7];
+	add.s32 	%r69, %r3, 1;
+	mad.lo.s32 	%r70, %r69, %r87, %r2;
+	mul.lo.s32 	%r30, %r70, %r88;
+	add.s32 	%r31, %r30, %r29;
+	mov.f32 	%f605, %f206;
+	@%p6 bra 	BB0_134;
+
+	mul.wide.s32 	%rd104, %r31, 4;
+	add.s64 	%rd105, %rd3, %rd104;
+	ld.global.nc.f32 	%f416, [%rd105];
+	mul.f32 	%f605, %f416, %f206;
 
 BB0_134:
+	mov.f32 	%f609, 0f00000000;
 	setp.eq.f32	%p81, %f605, 0f00000000;
+	mov.f32 	%f616, %f609;
 	@%p81 bra 	BB0_136;
 
-	ld.param.f32 	%f507, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd123, %r37, 4;
-	add.s64 	%rd124, %rd6, %rd123;
-	add.s64 	%rd125, %rd4, %rd123;
-	cvt.f64.f32	%fd86, %f201;
-	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
-	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
-	cvt.f64.f32	%fd89, %f507;
-	mul.f64 	%fd90, %fd88, %fd89;
-	cvt.rn.f32.f64	%f426, %fd90;
-	ld.global.nc.f32 	%f427, [%rd124];
-	sub.f32 	%f428, %f427, %f1;
-	ld.global.nc.f32 	%f429, [%rd125];
-	sub.f32 	%f430, %f429, %f3;
-	mul.f32 	%f431, %f138, %f428;
-	mul.f32 	%f432, %f140, %f430;
-	mul.f32 	%f433, %f426, %f431;
-	mul.f32 	%f434, %f426, %f432;
-	sub.f32 	%f613, %f613, %f433;
-	sub.f32 	%f606, %f606, %f434;
+	add.s64 	%rd167, %rd6, %rd25;
+	ld.param.f32 	%f511, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd106, %r31, 4;
+	add.s64 	%rd107, %rd6, %rd106;
+	add.s64 	%rd108, %rd4, %rd106;
+	cvt.f64.f32	%fd81, %f203;
+	mul.f64 	%fd82, %fd81, 0d3FE0000000000000;
+	mul.f64 	%fd83, %fd82, 0d3FE0000000000000;
+	cvt.f64.f32	%fd84, %f511;
+	mul.f64 	%fd85, %fd83, %fd84;
+	cvt.rn.f32.f64	%f419, %fd85;
+	ld.global.nc.f32 	%f420, [%rd167+4];
+	ld.global.nc.f32 	%f421, [%rd107];
+	sub.f32 	%f422, %f421, %f420;
+	ld.global.nc.f32 	%f423, [%rd9+4];
+	ld.global.nc.f32 	%f424, [%rd108];
+	sub.f32 	%f425, %f424, %f423;
+	mul.f32 	%f426, %f146, %f422;
+	mul.f32 	%f427, %f148, %f425;
+	fma.rn.f32 	%f616, %f419, %f426, 0f00000000;
+	fma.rn.f32 	%f609, %f419, %f427, 0f00000000;
 
 BB0_136:
-	setp.lt.s32	%p82, %r3, 1;
-	@%p82 bra 	BB0_145;
+	add.s32 	%r32, %r30, %r1;
+	mov.f32 	%f608, %f206;
+	@%p6 bra 	BB0_138;
 
-	ld.param.u32 	%r95, [Elastodynamic2_param_6];
-	ld.param.u32 	%r94, [Elastodynamic2_param_7];
-	add.s32 	%r79, %r3, -1;
-	mad.lo.s32 	%r80, %r79, %r94, %r2;
-	mul.lo.s32 	%r38, %r80, %r95;
-	add.s32 	%r39, %r38, %r34;
-	mov.f32 	%f608, %f204;
-	@%p73 bra 	BB0_139;
+	mul.wide.s32 	%rd109, %r32, 4;
+	add.s64 	%rd110, %rd3, %rd109;
+	ld.global.nc.f32 	%f428, [%rd110];
+	mul.f32 	%f608, %f428, %f206;
 
-	mul.wide.s32 	%rd126, %r39, 4;
-	add.s64 	%rd127, %rd1, %rd126;
-	ld.global.nc.f32 	%f435, [%rd127];
-	mul.f32 	%f608, %f435, %f204;
+BB0_138:
+	setp.eq.f32	%p83, %f608, 0f00000000;
+	@%p83 bra 	BB0_140;
 
-BB0_139:
-	setp.eq.f32	%p84, %f608, 0f00000000;
-	@%p84 bra 	BB0_141;
+	ld.param.f32 	%f510, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd111, %r32, 4;
+	add.s64 	%rd112, %rd6, %rd111;
+	add.s64 	%rd113, %rd4, %rd111;
+	cvt.f64.f32	%fd86, %f203;
+	mul.f64 	%fd87, %fd86, 0d3FE0000000000000;
+	mul.f64 	%fd88, %fd87, 0d3FE0000000000000;
+	cvt.f64.f32	%fd89, %f510;
+	mul.f64 	%fd90, %fd88, %fd89;
+	cvt.rn.f32.f64	%f429, %fd90;
+	ld.global.nc.f32 	%f430, [%rd112];
+	sub.f32 	%f431, %f430, %f1;
+	ld.global.nc.f32 	%f432, [%rd113];
+	sub.f32 	%f433, %f432, %f3;
+	mul.f32 	%f434, %f140, %f431;
+	mul.f32 	%f435, %f142, %f433;
+	mul.f32 	%f436, %f429, %f434;
+	mul.f32 	%f437, %f429, %f435;
+	sub.f32 	%f616, %f616, %f436;
+	sub.f32 	%f609, %f609, %f437;
 
-	add.s64 	%rd187, %rd6, %rd24;
-	ld.param.f32 	%f506, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd128, %r39, 4;
-	add.s64 	%rd129, %rd6, %rd128;
-	add.s64 	%rd130, %rd4, %rd128;
-	cvt.f64.f32	%fd91, %f201;
-	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
-	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
-	cvt.f64.f32	%fd94, %f506;
-	mul.f64 	%fd95, %fd93, %fd94;
-	cvt.rn.f32.f64	%f436, %fd95;
-	ld.global.nc.f32 	%f437, [%rd187+4];
-	ld.global.nc.f32 	%f438, [%rd129];
-	sub.f32 	%f439, %f437, %f438;
-	ld.global.nc.f32 	%f440, [%rd9+4];
-	ld.global.nc.f32 	%f441, [%rd130];
-	sub.f32 	%f442, %f440, %f441;
-	mul.f32 	%f443, %f144, %f439;
-	mul.f32 	%f444, %f146, %f442;
-	fma.rn.f32 	%f613, %f436, %f443, %f613;
-	fma.rn.f32 	%f606, %f436, %f444, %f606;
+BB0_140:
+	setp.lt.s32	%p84, %r3, 1;
+	@%p84 bra 	BB0_149;
 
-BB0_141:
-	add.s32 	%r40, %r38, %r1;
-	mov.f32 	%f611, %f204;
-	@%p73 bra 	BB0_143;
+	ld.param.u32 	%r86, [Elastodynamic2_param_6];
+	ld.param.u32 	%r85, [Elastodynamic2_param_7];
+	add.s32 	%r71, %r3, -1;
+	mad.lo.s32 	%r72, %r71, %r85, %r2;
+	mul.lo.s32 	%r33, %r72, %r86;
+	add.s32 	%r34, %r33, %r29;
+	mov.f32 	%f611, %f206;
+	@%p6 bra 	BB0_143;
 
-	mul.wide.s32 	%rd131, %r40, 4;
-	add.s64 	%rd132, %rd1, %rd131;
-	ld.global.nc.f32 	%f445, [%rd132];
-	mul.f32 	%f611, %f445, %f204;
+	mul.wide.s32 	%rd114, %r34, 4;
+	add.s64 	%rd115, %rd3, %rd114;
+	ld.global.nc.f32 	%f438, [%rd115];
+	mul.f32 	%f611, %f438, %f206;
 
 BB0_143:
 	setp.eq.f32	%p86, %f611, 0f00000000;
 	@%p86 bra 	BB0_145;
 
-	ld.param.f32 	%f505, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd133, %r40, 4;
-	add.s64 	%rd134, %rd6, %rd133;
-	add.s64 	%rd135, %rd4, %rd133;
-	cvt.f64.f32	%fd96, %f201;
-	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
-	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
-	cvt.f64.f32	%fd99, %f505;
-	mul.f64 	%fd100, %fd98, %fd99;
-	cvt.rn.f32.f64	%f446, %fd100;
-	ld.global.nc.f32 	%f447, [%rd134];
-	sub.f32 	%f448, %f1, %f447;
-	ld.global.nc.f32 	%f449, [%rd135];
-	sub.f32 	%f450, %f3, %f449;
-	mul.f32 	%f451, %f138, %f448;
-	mul.f32 	%f452, %f140, %f450;
-	mul.f32 	%f453, %f446, %f451;
-	mul.f32 	%f454, %f446, %f452;
-	sub.f32 	%f613, %f613, %f453;
-	sub.f32 	%f606, %f606, %f454;
-	bra.uni 	BB0_145;
-
-BB0_119:
-	mov.f32 	%f613, %f606;
+	add.s64 	%rd166, %rd6, %rd25;
+	ld.param.f32 	%f509, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd116, %r34, 4;
+	add.s64 	%rd117, %rd6, %rd116;
+	add.s64 	%rd118, %rd4, %rd116;
+	cvt.f64.f32	%fd91, %f203;
+	mul.f64 	%fd92, %fd91, 0d3FE0000000000000;
+	mul.f64 	%fd93, %fd92, 0d3FE0000000000000;
+	cvt.f64.f32	%fd94, %f509;
+	mul.f64 	%fd95, %fd93, %fd94;
+	cvt.rn.f32.f64	%f439, %fd95;
+	ld.global.nc.f32 	%f440, [%rd166+4];
+	ld.global.nc.f32 	%f441, [%rd117];
+	sub.f32 	%f442, %f440, %f441;
+	ld.global.nc.f32 	%f443, [%rd9+4];
+	ld.global.nc.f32 	%f444, [%rd118];
+	sub.f32 	%f445, %f443, %f444;
+	mul.f32 	%f446, %f146, %f442;
+	mul.f32 	%f447, %f148, %f445;
+	fma.rn.f32 	%f616, %f439, %f446, %f616;
+	fma.rn.f32 	%f609, %f439, %f447, %f609;
 
 BB0_145:
-	@%p23 bra 	BB0_171;
+	add.s32 	%r35, %r33, %r1;
+	mov.f32 	%f614, %f206;
+	@%p6 bra 	BB0_147;
 
-	ld.param.u64 	%rd161, [Elastodynamic2_param_12];
-	add.s32 	%r41, %r1, -1;
-	setp.eq.s64	%p88, %rd161, 0;
-	mov.f32 	%f614, %f204;
-	@%p88 bra 	BB0_148;
+	mul.wide.s32 	%rd119, %r35, 4;
+	add.s64 	%rd120, %rd3, %rd119;
+	ld.global.nc.f32 	%f448, [%rd120];
+	mul.f32 	%f614, %f448, %f206;
 
-	add.s32 	%r81, %r5, %r41;
-	mul.wide.s32 	%rd136, %r81, 4;
-	add.s64 	%rd137, %rd1, %rd136;
-	ld.global.nc.f32 	%f455, [%rd137];
-	mul.f32 	%f614, %f455, %f204;
+BB0_147:
+	setp.eq.f32	%p88, %f614, 0f00000000;
+	@%p88 bra 	BB0_149;
 
-BB0_148:
-	setp.eq.f32	%p89, %f614, 0f00000000;
-	@%p89 bra 	BB0_171;
+	ld.param.f32 	%f508, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd121, %r35, 4;
+	add.s64 	%rd122, %rd6, %rd121;
+	add.s64 	%rd123, %rd4, %rd121;
+	cvt.f64.f32	%fd96, %f203;
+	mul.f64 	%fd97, %fd96, 0d3FE0000000000000;
+	mul.f64 	%fd98, %fd97, 0d3FE0000000000000;
+	cvt.f64.f32	%fd99, %f508;
+	mul.f64 	%fd100, %fd98, %fd99;
+	cvt.rn.f32.f64	%f449, %fd100;
+	ld.global.nc.f32 	%f450, [%rd122];
+	sub.f32 	%f451, %f1, %f450;
+	ld.global.nc.f32 	%f452, [%rd123];
+	sub.f32 	%f453, %f3, %f452;
+	mul.f32 	%f454, %f140, %f451;
+	mul.f32 	%f455, %f142, %f453;
+	mul.f32 	%f456, %f449, %f454;
+	mul.f32 	%f457, %f449, %f455;
+	sub.f32 	%f616, %f616, %f456;
+	sub.f32 	%f609, %f609, %f457;
+	bra.uni 	BB0_149;
 
-	ld.param.f32 	%f174, [Elastodynamic2_param_17];
-	@%p6 bra 	BB0_151;
+BB0_123:
+	mov.f32 	%f616, %f609;
 
-	ld.param.f32 	%f521, [Elastodynamic2_param_17];
-	ld.global.nc.f32 	%f456, [%rd10+-4];
-	mul.f32 	%f174, %f456, %f521;
+BB0_149:
+	@%p25 bra 	BB0_175;
 
-BB0_151:
-	ld.param.f32 	%f176, [Elastodynamic2_param_15];
-	@%p7 bra 	BB0_153;
+	add.s32 	%r36, %r1, -1;
+	mov.f32 	%f617, %f206;
+	@%p6 bra 	BB0_152;
 
-	ld.param.f32 	%f513, [Elastodynamic2_param_15];
-	ld.global.nc.f32 	%f457, [%rd11+-4];
-	mul.f32 	%f176, %f457, %f513;
+	ld.global.nc.f32 	%f458, [%rd10+-4];
+	mul.f32 	%f617, %f458, %f206;
 
-BB0_153:
-	ld.param.u32 	%r88, [Elastodynamic2_param_8];
-	add.s32 	%r82, %r88, -1;
-	setp.ge.s32	%p92, %r3, %r82;
-	@%p92 bra 	BB0_162;
+BB0_152:
+	setp.eq.f32	%p91, %f617, 0f00000000;
+	@%p91 bra 	BB0_175;
 
-	ld.param.u32 	%r92, [Elastodynamic2_param_6];
-	ld.param.u32 	%r91, [Elastodynamic2_param_7];
-	add.s32 	%r83, %r3, 1;
-	mad.lo.s32 	%r84, %r83, %r91, %r2;
-	mul.lo.s32 	%r42, %r84, %r92;
-	add.s32 	%r43, %r42, %r41;
-	mov.f32 	%f617, %f204;
-	@%p88 bra 	BB0_156;
+	ld.param.f32 	%f176, [Elastodynamic2_param_17];
+	@%p8 bra 	BB0_155;
 
-	mul.wide.s32 	%rd138, %r43, 4;
-	add.s64 	%rd139, %rd1, %rd138;
-	ld.global.nc.f32 	%f458, [%rd139];
-	mul.f32 	%f617, %f458, %f204;
+	ld.param.f32 	%f517, [Elastodynamic2_param_17];
+	ld.global.nc.f32 	%f459, [%rd11+-4];
+	mul.f32 	%f176, %f459, %f517;
 
-BB0_156:
-	setp.eq.f32	%p94, %f617, 0f00000000;
-	@%p94 bra 	BB0_158;
+BB0_155:
+	ld.param.f32 	%f178, [Elastodynamic2_param_15];
+	@%p9 bra 	BB0_157;
 
-	add.s64 	%rd186, %rd6, %rd24;
-	ld.param.f32 	%f504, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd140, %r43, 4;
-	add.s64 	%rd141, %rd6, %rd140;
-	add.s64 	%rd142, %rd4, %rd140;
-	cvt.f64.f32	%fd101, %f201;
-	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
-	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
-	cvt.f64.f32	%fd104, %f504;
-	mul.f64 	%fd105, %fd103, %fd104;
-	cvt.rn.f32.f64	%f459, %fd105;
-	ld.global.nc.f32 	%f460, [%rd186+-4];
-	ld.global.nc.f32 	%f461, [%rd141];
-	sub.f32 	%f462, %f461, %f460;
-	ld.global.nc.f32 	%f463, [%rd9+-4];
-	ld.global.nc.f32 	%f464, [%rd142];
-	sub.f32 	%f465, %f464, %f463;
-	mul.f32 	%f466, %f174, %f462;
-	mul.f32 	%f467, %f176, %f465;
-	mul.f32 	%f468, %f459, %f466;
-	mul.f32 	%f469, %f459, %f467;
-	sub.f32 	%f613, %f613, %f468;
-	sub.f32 	%f606, %f606, %f469;
+	ld.param.f32 	%f519, [Elastodynamic2_param_15];
+	ld.global.nc.f32 	%f460, [%rd12+-4];
+	mul.f32 	%f178, %f460, %f519;
 
-BB0_158:
-	add.s32 	%r44, %r42, %r1;
-	mov.f32 	%f620, %f204;
-	@%p88 bra 	BB0_160;
+BB0_157:
+	ld.param.u32 	%r79, [Elastodynamic2_param_8];
+	add.s32 	%r73, %r79, -1;
+	setp.ge.s32	%p94, %r3, %r73;
+	@%p94 bra 	BB0_166;
 
-	mul.wide.s32 	%rd143, %r44, 4;
-	add.s64 	%rd144, %rd1, %rd143;
-	ld.global.nc.f32 	%f470, [%rd144];
-	mul.f32 	%f620, %f470, %f204;
+	ld.param.u32 	%r83, [Elastodynamic2_param_6];
+	ld.param.u32 	%r82, [Elastodynamic2_param_7];
+	add.s32 	%r74, %r3, 1;
+	mad.lo.s32 	%r75, %r74, %r82, %r2;
+	mul.lo.s32 	%r37, %r75, %r83;
+	add.s32 	%r38, %r37, %r36;
+	mov.f32 	%f620, %f206;
+	@%p6 bra 	BB0_160;
+
+	mul.wide.s32 	%rd124, %r38, 4;
+	add.s64 	%rd125, %rd3, %rd124;
+	ld.global.nc.f32 	%f461, [%rd125];
+	mul.f32 	%f620, %f461, %f206;
 
 BB0_160:
 	setp.eq.f32	%p96, %f620, 0f00000000;
 	@%p96 bra 	BB0_162;
 
-	ld.param.f32 	%f503, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd145, %r44, 4;
-	add.s64 	%rd146, %rd6, %rd145;
-	add.s64 	%rd147, %rd4, %rd145;
-	cvt.f64.f32	%fd106, %f201;
-	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
-	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
-	cvt.f64.f32	%fd109, %f503;
-	mul.f64 	%fd110, %fd108, %fd109;
-	cvt.rn.f32.f64	%f471, %fd110;
-	ld.global.nc.f32 	%f472, [%rd146];
-	sub.f32 	%f473, %f472, %f1;
-	ld.global.nc.f32 	%f474, [%rd147];
-	sub.f32 	%f475, %f474, %f3;
-	mul.f32 	%f476, %f138, %f473;
-	mul.f32 	%f477, %f140, %f475;
-	fma.rn.f32 	%f613, %f471, %f476, %f613;
-	fma.rn.f32 	%f606, %f471, %f477, %f606;
+	add.s64 	%rd165, %rd6, %rd25;
+	ld.param.f32 	%f507, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd126, %r38, 4;
+	add.s64 	%rd127, %rd6, %rd126;
+	add.s64 	%rd128, %rd4, %rd126;
+	cvt.f64.f32	%fd101, %f203;
+	mul.f64 	%fd102, %fd101, 0d3FE0000000000000;
+	mul.f64 	%fd103, %fd102, 0d3FE0000000000000;
+	cvt.f64.f32	%fd104, %f507;
+	mul.f64 	%fd105, %fd103, %fd104;
+	cvt.rn.f32.f64	%f462, %fd105;
+	ld.global.nc.f32 	%f463, [%rd165+-4];
+	ld.global.nc.f32 	%f464, [%rd127];
+	sub.f32 	%f465, %f464, %f463;
+	ld.global.nc.f32 	%f466, [%rd9+-4];
+	ld.global.nc.f32 	%f467, [%rd128];
+	sub.f32 	%f468, %f467, %f466;
+	mul.f32 	%f469, %f176, %f465;
+	mul.f32 	%f470, %f178, %f468;
+	mul.f32 	%f471, %f462, %f469;
+	mul.f32 	%f472, %f462, %f470;
+	sub.f32 	%f616, %f616, %f471;
+	sub.f32 	%f609, %f609, %f472;
 
 BB0_162:
-	setp.lt.s32	%p97, %r3, 1;
-	@%p97 bra 	BB0_171;
+	add.s32 	%r39, %r37, %r1;
+	mov.f32 	%f623, %f206;
+	@%p6 bra 	BB0_164;
 
-	ld.param.u32 	%r90, [Elastodynamic2_param_6];
-	ld.param.u32 	%r89, [Elastodynamic2_param_7];
-	add.s32 	%r85, %r3, -1;
-	mad.lo.s32 	%r86, %r85, %r89, %r2;
-	mul.lo.s32 	%r45, %r86, %r90;
-	add.s32 	%r46, %r45, %r41;
-	mov.f32 	%f623, %f204;
-	@%p88 bra 	BB0_165;
+	mul.wide.s32 	%rd129, %r39, 4;
+	add.s64 	%rd130, %rd3, %rd129;
+	ld.global.nc.f32 	%f473, [%rd130];
+	mul.f32 	%f623, %f473, %f206;
 
-	mul.wide.s32 	%rd148, %r46, 4;
-	add.s64 	%rd149, %rd1, %rd148;
-	ld.global.nc.f32 	%f478, [%rd149];
-	mul.f32 	%f623, %f478, %f204;
+BB0_164:
+	setp.eq.f32	%p98, %f623, 0f00000000;
+	@%p98 bra 	BB0_166;
 
-BB0_165:
-	setp.eq.f32	%p99, %f623, 0f00000000;
-	@%p99 bra 	BB0_167;
+	ld.param.f32 	%f506, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd131, %r39, 4;
+	add.s64 	%rd132, %rd6, %rd131;
+	add.s64 	%rd133, %rd4, %rd131;
+	cvt.f64.f32	%fd106, %f203;
+	mul.f64 	%fd107, %fd106, 0d3FE0000000000000;
+	mul.f64 	%fd108, %fd107, 0d3FE0000000000000;
+	cvt.f64.f32	%fd109, %f506;
+	mul.f64 	%fd110, %fd108, %fd109;
+	cvt.rn.f32.f64	%f474, %fd110;
+	ld.global.nc.f32 	%f475, [%rd132];
+	sub.f32 	%f476, %f475, %f1;
+	ld.global.nc.f32 	%f477, [%rd133];
+	sub.f32 	%f478, %f477, %f3;
+	mul.f32 	%f479, %f140, %f476;
+	mul.f32 	%f480, %f142, %f478;
+	fma.rn.f32 	%f616, %f474, %f479, %f616;
+	fma.rn.f32 	%f609, %f474, %f480, %f609;
 
-	add.s64 	%rd185, %rd6, %rd24;
-	ld.param.f32 	%f502, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd150, %r46, 4;
-	add.s64 	%rd151, %rd6, %rd150;
-	add.s64 	%rd152, %rd4, %rd150;
-	cvt.f64.f32	%fd111, %f201;
-	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
-	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
-	cvt.f64.f32	%fd114, %f502;
-	mul.f64 	%fd115, %fd113, %fd114;
-	cvt.rn.f32.f64	%f479, %fd115;
-	ld.global.nc.f32 	%f480, [%rd185+-4];
-	ld.global.nc.f32 	%f481, [%rd151];
-	sub.f32 	%f482, %f480, %f481;
-	ld.global.nc.f32 	%f483, [%rd9+-4];
-	ld.global.nc.f32 	%f484, [%rd152];
-	sub.f32 	%f485, %f483, %f484;
-	mul.f32 	%f486, %f174, %f482;
-	mul.f32 	%f487, %f176, %f485;
-	mul.f32 	%f488, %f479, %f486;
-	mul.f32 	%f489, %f479, %f487;
-	sub.f32 	%f613, %f613, %f488;
-	sub.f32 	%f606, %f606, %f489;
+BB0_166:
+	setp.lt.s32	%p99, %r3, 1;
+	@%p99 bra 	BB0_175;
 
-BB0_167:
-	add.s32 	%r47, %r45, %r1;
-	@%p88 bra 	BB0_169;
+	ld.param.u32 	%r81, [Elastodynamic2_param_6];
+	ld.param.u32 	%r80, [Elastodynamic2_param_7];
+	add.s32 	%r76, %r3, -1;
+	mad.lo.s32 	%r77, %r76, %r80, %r2;
+	mul.lo.s32 	%r40, %r77, %r81;
+	add.s32 	%r41, %r40, %r36;
+	mov.f32 	%f626, %f206;
+	@%p6 bra 	BB0_169;
 
-	mul.wide.s32 	%rd153, %r47, 4;
-	add.s64 	%rd154, %rd1, %rd153;
-	ld.global.nc.f32 	%f490, [%rd154];
-	mul.f32 	%f204, %f490, %f204;
+	mul.wide.s32 	%rd134, %r41, 4;
+	add.s64 	%rd135, %rd3, %rd134;
+	ld.global.nc.f32 	%f481, [%rd135];
+	mul.f32 	%f626, %f481, %f206;
 
 BB0_169:
-	setp.eq.f32	%p101, %f204, 0f00000000;
+	setp.eq.f32	%p101, %f626, 0f00000000;
 	@%p101 bra 	BB0_171;
 
-	ld.param.f32 	%f501, [Elastodynamic2_param_11];
-	mul.wide.s32 	%rd155, %r47, 4;
-	add.s64 	%rd156, %rd6, %rd155;
-	add.s64 	%rd157, %rd4, %rd155;
-	cvt.f64.f32	%fd116, %f201;
-	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
-	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
-	cvt.f64.f32	%fd119, %f501;
-	mul.f64 	%fd120, %fd118, %fd119;
-	cvt.rn.f32.f64	%f491, %fd120;
-	ld.global.nc.f32 	%f492, [%rd156];
-	sub.f32 	%f493, %f1, %f492;
-	ld.global.nc.f32 	%f494, [%rd157];
-	sub.f32 	%f495, %f3, %f494;
-	mul.f32 	%f496, %f138, %f493;
-	mul.f32 	%f497, %f140, %f495;
-	fma.rn.f32 	%f613, %f491, %f496, %f613;
-	fma.rn.f32 	%f606, %f491, %f497, %f606;
+	add.s64 	%rd164, %rd6, %rd25;
+	ld.param.f32 	%f505, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd136, %r41, 4;
+	add.s64 	%rd137, %rd6, %rd136;
+	add.s64 	%rd138, %rd4, %rd136;
+	cvt.f64.f32	%fd111, %f203;
+	mul.f64 	%fd112, %fd111, 0d3FE0000000000000;
+	mul.f64 	%fd113, %fd112, 0d3FE0000000000000;
+	cvt.f64.f32	%fd114, %f505;
+	mul.f64 	%fd115, %fd113, %fd114;
+	cvt.rn.f32.f64	%f482, %fd115;
+	ld.global.nc.f32 	%f483, [%rd164+-4];
+	ld.global.nc.f32 	%f484, [%rd137];
+	sub.f32 	%f485, %f483, %f484;
+	ld.global.nc.f32 	%f486, [%rd9+-4];
+	ld.global.nc.f32 	%f487, [%rd138];
+	sub.f32 	%f488, %f486, %f487;
+	mul.f32 	%f489, %f176, %f485;
+	mul.f32 	%f490, %f178, %f488;
+	mul.f32 	%f491, %f482, %f489;
+	mul.f32 	%f492, %f482, %f490;
+	sub.f32 	%f616, %f616, %f491;
+	sub.f32 	%f609, %f609, %f492;
 
 BB0_171:
-	add.f32 	%f498, %f606, %f135;
-	st.global.f32 	[%rd12], %f498;
-	add.f32 	%f499, %f136, 0f00000000;
-	st.global.f32 	[%rd13], %f499;
-	add.f32 	%f500, %f613, %f70;
-	st.global.f32 	[%rd14], %f500;
+	add.s32 	%r42, %r40, %r1;
+	@%p6 bra 	BB0_173;
 
-BB0_172:
+	mul.wide.s32 	%rd139, %r42, 4;
+	add.s64 	%rd140, %rd3, %rd139;
+	ld.global.nc.f32 	%f493, [%rd140];
+	mul.f32 	%f206, %f493, %f206;
+
+BB0_173:
+	setp.eq.f32	%p103, %f206, 0f00000000;
+	@%p103 bra 	BB0_175;
+
+	ld.param.f32 	%f504, [Elastodynamic2_param_11];
+	mul.wide.s32 	%rd141, %r42, 4;
+	add.s64 	%rd142, %rd6, %rd141;
+	add.s64 	%rd143, %rd4, %rd141;
+	cvt.f64.f32	%fd116, %f203;
+	mul.f64 	%fd117, %fd116, 0d3FE0000000000000;
+	mul.f64 	%fd118, %fd117, 0d3FE0000000000000;
+	cvt.f64.f32	%fd119, %f504;
+	mul.f64 	%fd120, %fd118, %fd119;
+	cvt.rn.f32.f64	%f494, %fd120;
+	ld.global.nc.f32 	%f495, [%rd142];
+	sub.f32 	%f496, %f1, %f495;
+	ld.global.nc.f32 	%f497, [%rd143];
+	sub.f32 	%f498, %f3, %f497;
+	mul.f32 	%f499, %f140, %f496;
+	mul.f32 	%f500, %f142, %f498;
+	fma.rn.f32 	%f616, %f494, %f499, %f616;
+	fma.rn.f32 	%f609, %f494, %f500, %f609;
+
+BB0_175:
+	add.f32 	%f501, %f609, %f137;
+	st.global.f32 	[%rd13], %f501;
+	add.f32 	%f502, %f138, 0f00000000;
+	st.global.f32 	[%rd14], %f502;
+	add.f32 	%f503, %f616, %f72;
+	st.global.f32 	[%rd15], %f503;
+
+BB0_176:
 	ret;
 }
 
 
 `
-)
+ )

@@ -24,6 +24,11 @@ Elastodynamic3(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     int I = idx(ix, iy, iz);
     float3 u0 = make_float3(ux[I], uy[I], uz[I]);
     float3 cc = make_float3(0.0,0.0,0.0);
+
+    //Check if you are in a free disp region
+    if (amul(C1_, C1_mul, I)==0) {
+        return;
+    }
     
     //Neighbor cell
     int I_ = idx(ix, iy, iz);

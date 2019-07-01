@@ -50,7 +50,7 @@ func (_ *secondHeun) Step() {
 
 	right := cuda.Buffer(VECTOR, y.Size())
 	defer cuda.Recycle(right)
-	calcRightPart(right, dudot0, udot)
+	calcRhs(right, dudot0, udot)
 
 	right2 := cuda.Buffer(VECTOR, y.Size())
 	defer cuda.Recycle(right2)
@@ -78,7 +78,7 @@ func (_ *secondHeun) Step() {
 	//With damping: g1(t+dt) = g(t) + dt*[f(t)-n*g(t)]/rho
 	//With damping: g1(t+dt) = g(t) + dt*right
 	cuda.Madd2(udot2, udot, right, 1, dt)
-	calcRightPart(right2, dudot0, udot2)
+	calcRhs(right2, dudot0, udot2)
 
 	//###############################
 	//Error calculation

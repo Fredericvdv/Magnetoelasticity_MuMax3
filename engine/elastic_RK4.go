@@ -2,10 +2,11 @@ package engine
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/mumax/3/cuda"
 	"github.com/mumax/3/data"
 	"github.com/mumax/3/util"
-	"math"
 )
 
 // Classical 4th order RK solver.
@@ -35,7 +36,11 @@ func (_ *elasRK4) Step() {
 	fmt.Println("Max vector norm u0:", cuda.MaxVecNorm(u0))
 
 	v := DU.Buffer()
-	fmt.Println("Max vector norm v:", cuda.MaxVecNorm(v))
+
+	v0 := cuda.Buffer(3, size)
+	defer cuda.Recycle(v0)
+	data.Copy(v0, v)
+	fmt.Println("Max vector norm v:", cuda.MaxVecNorm(v0))
 
 	ku1, ku2, ku3, ku4 := cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size)
 	kv1, kv2, kv3, kv4 := cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size)
@@ -71,39 +76,40 @@ func (_ *elasRK4) Step() {
 	// du/dt = v(t) ~ ku
 	// dv/dt = right(t) ~ kv
 	//Stage 1:
-	calcSecondDerivDisp(f)
+	calcRhs(kv1, f, v)
 	fmt.Println("Max vector norm f1:", cuda.MaxVecNorm(f))
-	calcRightPart(kv1, f, v)
 
-	ku1 = v
+	ku1 = v0
 
 	//Stage 2:
 	//u = u0*1 + k1*dt/2
 	Time = t0 + (1./2.)*Dt_si
 	cuda.Madd2(u, u0, ku1, 1, (1./2.)*dt)
-	calcSecondDerivDisp(f)
-	fmt.Println("Max vector norm f2:", cuda.MaxVecNorm(f))
-	//calcRightPart(kv2, f, ku2) is better but this result in internal loop
-	calcRightPart(kv2, f, ku1)
+	cuda.Madd2(v, v0, kv1, 1, (1./2.)*dt)
 
-	cuda.Madd2(ku2, v, kv2, 1, (1./2.)*dt)
+	calcRhs(kv2, f, v)
+	fmt.Println("Max vector norm f2:", cuda.MaxVecNorm(f))
+
+	cuda.Madd2(ku2, v0, kv1, 1, (1./2.)*dt)
 
 	//Stage 3:
 	//u = u0*1 + k2*dt/2
 	cuda.Madd2(u, u0, ku2, 1, (1./2.)*dt)
-	calcSecondDerivDisp(f)
-	calcRightPart(kv3, f, ku2)
+	cuda.Madd2(v, v0, kv2, 1, (1./2.)*dt)
 
-	cuda.Madd2(ku3, v, kv3, 1, (1./2.)*dt)
+	calcRhs(kv3, f, v)
+
+	cuda.Madd2(ku3, v0, kv2, 1, (1./2.)*dt)
 
 	//Stage 4:
 	//u = u0*1 + k3*dt
 	Time = t0 + Dt_si
 	cuda.Madd2(u, u0, ku3, 1, 1.*dt)
-	calcSecondDerivDisp(f)
-	calcRightPart(kv4, f, ku3)
+	cuda.Madd2(v, v0, kv3, 1, 1.*dt)
 
-	cuda.Madd2(ku4, v, kv3, 1, 1.*dt)
+	calcRhs(kv4, f, v)
+
+	cuda.Madd2(ku4, v0, kv3, 1, 1.*dt)
 
 	//###############################
 	//Error calculation
@@ -136,7 +142,7 @@ func (_ *elasRK4) Step() {
 		// step OK
 		// 4th order solution
 		madd5(u, u0, ku1, ku2, ku3, ku4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
-		madd5(v, v, kv1, kv2, kv3, kv4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
+		madd5(v, v0, kv1, kv2, kv3, kv4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
 
 		//If you run second derivative together with LLG, then remove NSteps++
 		NSteps++
@@ -154,6 +160,7 @@ func (_ *elasRK4) Step() {
 		util.Assert(FixDt == 0)
 		Time = t0
 		data.Copy(u, u0)
+		data.Copy(v, v0)
 		NUndone++
 		if err > err2 {
 			adaptDt(math.Pow(MaxErr/err, 1./3.))
