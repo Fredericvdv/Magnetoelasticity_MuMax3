@@ -9,6 +9,8 @@ copymask(float* __restrict__  dst, float* maskLUT, float* valuesLUT, uint8_t* re
     if (i < N) {
         if (maskLUT[regions[i]] != 0) {
             dst[i] = valuesLUT[regions[i]];
+            //printf("sf %f \n", valuesLUT[regions[i]]);
+            //printf(valuesLUT[regions[i]]);
         }
     }
 }

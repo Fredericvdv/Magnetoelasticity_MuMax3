@@ -14,12 +14,14 @@ func GetKineticEnergy(dst *data.Slice) {
 	KineticEnergyDens(dst, DU, Rho)
 }
 
-func KineticEnergyDens(dst *data.Slice, du firstDerivative, Rho *RegionwiseScalar) {
+func KineticEnergyDens(dst *data.Slice, DU firstDerivative, Rho *RegionwiseScalar) {
 	rho, _ := Rho.Slice()
 	defer cuda.Recycle(rho)
-	cuda.KineticEnergy(dst, du.Buffer(), rho, U.Mesh())
+	cuda.KineticEnergy(dst, DU.Buffer(), rho, U.Mesh())
 }
 
 func GetTotKineticEnergy() float64 {
-	return cellVolume() * float64(cuda.Sum(ValueOf(Edens_kin.Quantity)))
+	kinetic_energy := ValueOf(Edens_kin.Quantity)
+	defer cuda.Recycle(kinetic_energy)
+	return cellVolume() * float64(cuda.Sum(kinetic_energy))
 }

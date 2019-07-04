@@ -1,7 +1,6 @@
 package engine
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/mumax/3/cuda"
@@ -13,10 +12,6 @@ import (
 type elasRK4 struct{}
 
 func (_ *elasRK4) Step() {
-	fmt.Println("#########################")
-	fmt.Println("Start of solver")
-	fmt.Println("Number of steps:", NSteps+NUndone)
-	fmt.Println("#########################")
 
 	//################
 	// Differential equation:
@@ -33,14 +28,12 @@ func (_ *elasRK4) Step() {
 	u0 := cuda.Buffer(3, size)
 	defer cuda.Recycle(u0)
 	data.Copy(u0, u)
-	fmt.Println("Max vector norm u0:", cuda.MaxVecNorm(u0))
 
 	v := DU.Buffer()
 
 	v0 := cuda.Buffer(3, size)
 	defer cuda.Recycle(v0)
 	data.Copy(v0, v)
-	fmt.Println("Max vector norm v:", cuda.MaxVecNorm(v0))
 
 	ku1, ku2, ku3, ku4 := cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size)
 	kv1, kv2, kv3, kv4 := cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size), cuda.Buffer(3, size)
@@ -70,14 +63,12 @@ func (_ *elasRK4) Step() {
 	dt := float32(Dt_si)
 	util.Assert(dt > 0)
 	Time += Dt_si
-	fmt.Println("dt = ", Dt_si)
 
 	//#####################
 	// du/dt = v(t) ~ ku
 	// dv/dt = right(t) ~ kv
 	//Stage 1:
 	calcRhs(kv1, f, v)
-	fmt.Println("Max vector norm f1:", cuda.MaxVecNorm(f))
 
 	ku1 = v0
 
@@ -88,7 +79,6 @@ func (_ *elasRK4) Step() {
 	cuda.Madd2(v, v0, kv1, 1, (1./2.)*dt)
 
 	calcRhs(kv2, f, v)
-	fmt.Println("Max vector norm f2:", cuda.MaxVecNorm(f))
 
 	cuda.Madd2(ku2, v0, kv1, 1, (1./2.)*dt)
 
@@ -123,18 +113,18 @@ func (_ *elasRK4) Step() {
 		err2 = err2 * float64(dt) / cuda.MaxVecNorm(kv4)
 	}
 
-	//################################
-	//Prints
-	fmt.Println("Max vector norm ku1:", cuda.MaxVecNorm(ku1))
-	fmt.Println("Max vector norm ku2:", cuda.MaxVecNorm(ku2))
-	fmt.Println("Max vector norm ku3:", cuda.MaxVecNorm(ku3))
-	fmt.Println("Max vector norm ku4:", cuda.MaxVecNorm(ku4))
+	// //################################
+	// //Prints
+	// fmt.Println("Max vector norm ku1:", cuda.MaxVecNorm(ku1))
+	// fmt.Println("Max vector norm ku2:", cuda.MaxVecNorm(ku2))
+	// fmt.Println("Max vector norm ku3:", cuda.MaxVecNorm(ku3))
+	// fmt.Println("Max vector norm ku4:", cuda.MaxVecNorm(ku4))
 
-	//fmt.Println("Max vector norm kv1:", cuda.MaxVecNorm(kv1))
-	//fmt.Println("Max vector norm kv4:", cuda.MaxVecNorm(kv4))
+	// //fmt.Println("Max vector norm kv1:", cuda.MaxVecNorm(kv1))
+	// //fmt.Println("Max vector norm kv4:", cuda.MaxVecNorm(kv4))
 
-	fmt.Println("err = maxVecDiff * dt /MaxVexNorm", err)
-	fmt.Println("err2 = maxVecDiff * dt /MaxVexNorm", err2)
+	// fmt.Println("err = maxVecDiff * dt /MaxVexNorm", err)
+	// fmt.Println("err2 = maxVecDiff * dt /MaxVexNorm", err2)
 
 	//##########################
 	// adjust next time step

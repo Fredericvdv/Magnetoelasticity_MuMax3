@@ -15,9 +15,11 @@ func FreezeDisp(dst *data.Slice) {
 	if !FrozenDispLoc.isZero() {
 		Us, _ := U.Slice()
 		//defer cuda.Recycle(Us)
+
 		//Set rhs to zero
 		cuda.ZeroMask(dst, FrozenDispLoc.gpuLUT1(), regions.Gpu())
 		//Set displacment to the given value
 		cuda.CopyMask(Us, FrozenDispLoc.gpuLUT1(), FrozenDispVal.gpuLUT(), regions.Gpu())
+		//Put du also to zero?
 	}
 }

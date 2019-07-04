@@ -5,42 +5,42 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import (
+import(
+	"unsafe"
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
-	"unsafe"
 )
 
 // CUDA handle for copymask kernel
 var copymask_code cu.Function
 
 // Stores the arguments for copymask kernel invocation
-type copymask_args_t struct {
-	arg_dst       unsafe.Pointer
-	arg_maskLUT   unsafe.Pointer
-	arg_valuesLUT unsafe.Pointer
-	arg_regions   unsafe.Pointer
-	arg_N         int
-	argptr        [5]unsafe.Pointer
+type copymask_args_t struct{
+	 arg_dst unsafe.Pointer
+	 arg_maskLUT unsafe.Pointer
+	 arg_valuesLUT unsafe.Pointer
+	 arg_regions unsafe.Pointer
+	 arg_N int
+	 argptr [5]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for copymask kernel invocation
 var copymask_args copymask_args_t
 
-func init() {
+func init(){
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	copymask_args.argptr[0] = unsafe.Pointer(&copymask_args.arg_dst)
-	copymask_args.argptr[1] = unsafe.Pointer(&copymask_args.arg_maskLUT)
-	copymask_args.argptr[2] = unsafe.Pointer(&copymask_args.arg_valuesLUT)
-	copymask_args.argptr[3] = unsafe.Pointer(&copymask_args.arg_regions)
-	copymask_args.argptr[4] = unsafe.Pointer(&copymask_args.arg_N)
-}
+	 copymask_args.argptr[0] = unsafe.Pointer(&copymask_args.arg_dst)
+	 copymask_args.argptr[1] = unsafe.Pointer(&copymask_args.arg_maskLUT)
+	 copymask_args.argptr[2] = unsafe.Pointer(&copymask_args.arg_valuesLUT)
+	 copymask_args.argptr[3] = unsafe.Pointer(&copymask_args.arg_regions)
+	 copymask_args.argptr[4] = unsafe.Pointer(&copymask_args.arg_N)
+	 }
 
 // Wrapper for copymask CUDA kernel, asynchronous.
-func k_copymask_async(dst unsafe.Pointer, maskLUT unsafe.Pointer, valuesLUT unsafe.Pointer, regions unsafe.Pointer, N int, cfg *config) {
-	if Synchronous { // debug
+func k_copymask_async ( dst unsafe.Pointer, maskLUT unsafe.Pointer, valuesLUT unsafe.Pointer, regions unsafe.Pointer, N int,  cfg *config) {
+	if Synchronous{ // debug
 		Sync()
 		timer.Start("copymask")
 	}
@@ -48,41 +48,42 @@ func k_copymask_async(dst unsafe.Pointer, maskLUT unsafe.Pointer, valuesLUT unsa
 	copymask_args.Lock()
 	defer copymask_args.Unlock()
 
-	if copymask_code == 0 {
+	if copymask_code == 0{
 		copymask_code = fatbinLoad(copymask_map, "copymask")
 	}
 
-	copymask_args.arg_dst = dst
-	copymask_args.arg_maskLUT = maskLUT
-	copymask_args.arg_valuesLUT = valuesLUT
-	copymask_args.arg_regions = regions
-	copymask_args.arg_N = N
+	 copymask_args.arg_dst = dst
+	 copymask_args.arg_maskLUT = maskLUT
+	 copymask_args.arg_valuesLUT = valuesLUT
+	 copymask_args.arg_regions = regions
+	 copymask_args.arg_N = N
+	
 
 	args := copymask_args.argptr[:]
 	cu.LaunchKernel(copymask_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous { // debug
+	if Synchronous{ // debug
 		Sync()
 		timer.Stop("copymask")
 	}
 }
 
 // maps compute capability on PTX code for copymask kernel.
-var copymask_map = map[int]string{0: "",
-	30: copymask_ptx_30,
-	35: copymask_ptx_35,
-	37: copymask_ptx_37,
-	50: copymask_ptx_50,
-	52: copymask_ptx_52,
-	53: copymask_ptx_53,
-	60: copymask_ptx_60,
-	61: copymask_ptx_61,
-	70: copymask_ptx_70,
-	75: copymask_ptx_75}
+var copymask_map = map[int]string{ 0: "" ,
+30: copymask_ptx_30 ,
+35: copymask_ptx_35 ,
+37: copymask_ptx_37 ,
+50: copymask_ptx_50 ,
+52: copymask_ptx_52 ,
+53: copymask_ptx_53 ,
+60: copymask_ptx_60 ,
+61: copymask_ptx_61 ,
+70: copymask_ptx_70 ,
+75: copymask_ptx_75  }
 
 // copymask PTX code for various compute capabilities.
-const (
-	copymask_ptx_30 = `
+const(
+  copymask_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -149,7 +150,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_35 = `
+   copymask_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -216,7 +217,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_37 = `
+   copymask_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -283,7 +284,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_50 = `
+   copymask_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -350,7 +351,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_52 = `
+   copymask_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -417,7 +418,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_53 = `
+   copymask_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -484,7 +485,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_60 = `
+   copymask_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -551,7 +552,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_61 = `
+   copymask_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -618,7 +619,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_70 = `
+   copymask_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -685,7 +686,7 @@ BB0_3:
 
 
 `
-	copymask_ptx_75 = `
+   copymask_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -752,4 +753,4 @@ BB0_3:
 
 
 `
-)
+ )

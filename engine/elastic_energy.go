@@ -11,10 +11,10 @@ var (
 )
 
 func GetElasticEnergy(dst *data.Slice) {
-	ElasticEnergyDens(dst, ValueOf(norm_strain.Quantity), ValueOf(shear_strain.Quantity), C11, C12, C44)
+	ElasticEnergyDens(dst, norm_strain.Quantity, shear_strain.Quantity, C11, C12, C44)
 }
 
-func ElasticEnergyDens(dst, eNorm, eShear *data.Slice, C11, C12, C44 *RegionwiseScalar) {
+func ElasticEnergyDens(dst *data.Slice, eNorm, eShear Quantity, C11, C12, C44 *RegionwiseScalar) {
 	c1 := C11.MSlice()
 	defer c1.Recycle()
 
@@ -23,9 +23,18 @@ func ElasticEnergyDens(dst, eNorm, eShear *data.Slice, C11, C12, C44 *Regionwise
 
 	c3 := C44.MSlice()
 	defer c3.Recycle()
-	cuda.ElasticEnergy(dst, eNorm, eShear, U.Mesh(), c1, c2, c3)
+
+	enorm := ValueOf(eNorm)
+	defer cuda.Recycle(enorm)
+
+	eshear := ValueOf(eShear)
+	defer cuda.Recycle(eshear)
+
+	cuda.ElasticEnergy(dst, enorm, eshear, U.Mesh(), c1, c2, c3)
 }
 
 func GetTotElasticEnergy() float64 {
-	return cellVolume() * float64(cuda.Sum(ValueOf(Edens_el.Quantity)))
+	el_energy := ValueOf(Edens_el.Quantity)
+	defer cuda.Recycle(el_energy)
+	return cellVolume() * float64(cuda.Sum(el_energy))
 }
