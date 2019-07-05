@@ -25,6 +25,8 @@ func (_ *elasRK4) Step() {
 	u := U.Buffer()
 	size := u.Size()
 
+	//Set fixed displacement
+	SetFreezeDisp()
 	u0 := cuda.Buffer(3, size)
 	defer cuda.Recycle(u0)
 	data.Copy(u0, u)
@@ -62,7 +64,6 @@ func (_ *elasRK4) Step() {
 	t0 := Time
 	dt := float32(Dt_si)
 	util.Assert(dt > 0)
-	Time += Dt_si
 
 	//#####################
 	// du/dt = v(t) ~ ku
@@ -131,6 +132,7 @@ func (_ *elasRK4) Step() {
 	if (err < MaxErr && err2 < MaxErr) || Dt_si <= MinDt || FixDt != 0 { // mindt check to avoid infinite loop
 		// step OK
 		// 4th order solution
+
 		madd5(u, u0, ku1, ku2, ku3, ku4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
 		madd5(v, v0, kv1, kv2, kv3, kv4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
 
