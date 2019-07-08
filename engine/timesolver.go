@@ -40,10 +40,10 @@ func init() {
 
 	// make a variable field to play with
 	UU = new(varVectorField)
-	UU.name = "u"
+	UU.name = "uu"
 	UU.unit = ""
 	UU.normalized = false
-	DeclLValue("u", UU, `field to play with`)
+	DeclLValue("uu", UU, `field to play with`)
 }
 
 func AddCustomEquationForU(rhs Quantity) {
