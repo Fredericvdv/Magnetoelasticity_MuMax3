@@ -4,15 +4,16 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/mumax/3/cuda"
-	"github.com/mumax/3/engine"
-	"github.com/mumax/3/script"
-	"github.com/mumax/3/util"
 	"log"
 	"os"
 	"os/exec"
 	"path"
 	"time"
+
+	"github.com/mumax/3/cuda"
+	"github.com/mumax/3/engine"
+	"github.com/mumax/3/script"
+	"github.com/mumax/3/util"
 )
 
 var (
@@ -51,7 +52,9 @@ func main() {
 
 	switch flag.NArg() {
 	case 0:
-		runInteractive()
+		if *engine.Flag_interactive {
+			runInteractive()
+		}
 	case 1:
 		runFileAndServe(flag.Arg(0))
 	default:
