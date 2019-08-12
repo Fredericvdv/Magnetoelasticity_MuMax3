@@ -25,8 +25,9 @@ func LLGrhs(dst *data.Slice) {
 func InitTimeSolver() {
 	Time = 0
 	Slvr = odeint.NewSolver(&Time, FixDt)
-	Slvr.AddODE(M.Buffer(), LLGrhs) // dm/dt = torqueFn
-	Slvr.AddPostChangeFunction(M.normalize)
+	//Slvr.AddODE(M.Buffer(), LLGrhs) // dm/dt = torqueFn
+	//Slvr.AddPostChangeFunction(M.normalize)
+	//Slvr.AddODE(U.Buffer(), calcRhs) // du/dt = torqueFn
 	Slvr.SetInjectChannel(Inject)
 }
 

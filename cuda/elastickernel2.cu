@@ -40,39 +40,41 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
 
 
     //Shear components: part I   
+
     
     //dxy
     d_ = make_float3(0.0,0.0,0.0);
     cc = make_float3(amul(C3_, C3_mul, I),amul(C2_, C2_mul, I),0);    
-    //If there is a neighbor to the right
+    //Check if there is a neighbor to the right
     if (ix < Nx-1) {
         I_ = idx(ix+1, iy, iz);
+        //Check if this cell corresponds to a "free" region
         if (amul(C1_, C1_mul, I_)!=0) {
             cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_), 0.0);
-            //If there is neighbour above
+            //Check if there is neighbour above
             if (iy < Ny-1) {
-                //Calculate change in y-direction at postion ix+1 = d1
-                //0.5*wy*(FWD + BWD) with BWD=0
+                //rectangular mesh: if (ix+1,iy) and (ix,iy+1) are present, then (ix+1,iy+1) is also present
                 I_ = idx(ix+1, iy+1, iz);
+                //Check if this cell corresponds to a "free" region
                 if (amul(C1_, C1_mul, I_)!=0) {
+                    //Calculate change in y-direction at postion ix+1 = d1
+                    //0.5*wy*(FWD + BWD) with BWD=0
                     d2 = make_float3(ux[I_], uy[I_], uz[I_]);
                     I_ = idx(ix+1, iy, iz);
                     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
                     d_ += 0.5*wx*0.5*wy*had(cc_,d2-u_);
                 } 
                 
-                //Calculate change in y-direction at postion ix = d2 
-                //rectangular mesh: if (ix+1,iy) and (ix,iy+1) are present, then (ix+1,iy+1) is also present
                 I_ = idx(ix, iy+1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
+                    //Calculate change in y-direction at postion ix
                     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
                     d_ -= 0.5*wx*0.5*wy*had(cc,u_-u0);
                 }
             }
-            //If there is neighbour below
+            //Check if there is neighbour below
             if (iy > 0) {
-                //Calculate change in y-direction at postion ix+1 = d1
-                //0.5*wy*(FWD + BWD) with BWD=0
+                //Calculate change in y-direction at postion ix+1 = d2 
                 I_ = idx(ix+1, iy-1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
                     d2 = make_float3(ux[I_], uy[I_], uz[I_]);
@@ -81,7 +83,7 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
                     d_ += 0.5*wx*0.5*wy*had(cc_,u_-d2); 
                 }
                 
-                //Calculate change in y-direction at postion ix = d2 
+                //Calculate change in y-direction at postion ix 
                 I_ = idx(ix, iy-1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
                     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
@@ -90,35 +92,36 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
             }
         }
     }
-    //If there is left neighbour
+    //Check if there is left neighbour
     if (ix > 0) {
         I_ = idx(ix-1, iy, iz);
+        //Check if this cell corresponds to a "free" region
         if (amul(C1_, C1_mul, I_)!=0) {
             cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C2_, C2_mul, I_), 0.0);    
-            //If there is neighbour above
+            //Check if there is neighbour above
             if (iy < Ny-1) {
-                //Calculate change in y-direction at postion ix-1 = d1
-                //0.5*wy*(FWD + BWD) with BWD=0
+                //rectangular mesh: if (ix-1,iy) and (ix,iy+1) are present, then (ix-1,iy+1) is also present                
                 I_ = idx(ix-1, iy+1, iz);
+                //Check if this cell corresponds to a "free" region
                 if (amul(C1_, C1_mul, I_)!=0) {
+                    //Calculate change in y-direction at postion ix-1 = d1
+                    //0.5*wy*(FWD + BWD) with BWD=0
                     d2 = make_float3(ux[I_], uy[I_], uz[I_]);
                     I_ = idx(ix-1, iy, iz);
                     u_ = make_float3(ux[I_], uy[I_], uz[I_]);
                     d_ -= 0.5*wx*0.5*wy*had(cc_,d2-u_); 
                 }
                 
-                //Calculate change in y-direction at postion ix = d2 
-                //rectangular mesh: if (ix+1,iy) and (ix,iy+1) are present, then (ix+1,iy+1) is also present
                 I_ = idx(ix, iy+1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
+                    //Calculate change in y-direction at postion ix
                     u_ = make_float3(ux[I_], uy[I_], uz[I_]);   
                     d_ += 0.5*wx*0.5*wy*had(cc,u_-u0);
                 }
             }
-            //If there is neighbour below
+            //Check if there is neighbour below
             if (iy > 0) {
-                //Calculate change in y-direction at postion ix+1 = d1
-                //0.5*wy*(FWD + BWD) with BWD=0
+                //Calculate change in y-direction at postion ix+1 = d2 
                 I_ = idx(ix-1, iy-1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
                     d2 = make_float3(ux[I_], uy[I_], uz[I_]);
@@ -145,12 +148,10 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     //dyx
     d_ = make_float3(0.0,0.0,0.0);
     cc = make_float3(amul(C2_, C2_mul, I),amul(C3_, C3_mul, I),0);    
-    //If there is a neighbor to the right
     if (iy < Ny-1) {
         I_ = idx(ix, iy+1, iz);
         if (amul(C1_, C1_mul, I_)!=0) {
             cc_ = make_float3(amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_), 0.0);
-            //If there is neighbour above
             if (ix < Nx-1) {
                 I_ = idx(ix+1, iy+1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
@@ -166,7 +167,6 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
                     d_ -= 0.5*wx*0.5*wy*had(cc,u_-u0);
                 }
             }
-            //If there is neighbour below
             if (ix > 0) {
                 I_ = idx(ix-1, iy+1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
@@ -184,12 +184,10 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
             }
         }
     }
-    //If there is left neighbour
     if (iy > 0) {
         I_ = idx(ix, iy-1, iz);
         if (amul(C1_, C1_mul, I_)!=0) {
             cc_ = make_float3(amul(C2_, C2_mul, I_),amul(C3_, C3_mul, I_), 0.0);
-            //If there is neighbour above
             if (ix < Nx-1) {
                 I_ = idx(ix+1, iy-1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
@@ -205,7 +203,6 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
                     d_ += 0.5*wx*0.5*wy*had(cc,u_-u0);
                 }
             }
-            //If there is neighbour below
             if (ix > 0) {
                 I_ = idx(ix-1, iy-1, iz);
                 if (amul(C1_, C1_mul, I_)!=0) {
@@ -234,7 +231,6 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     //dxz
     d_ = make_float3(0.0,0.0,0.0);
     cc = make_float3(amul(C3_, C3_mul, I),0.0, amul(C2_, C2_mul, I));    
-    //If there is a neighbor to the right
     if (ix < Nx-1) {
         I_ = idx(ix+1, iy, iz);
         if (amul(C1_, C1_mul, I_)!=0) {

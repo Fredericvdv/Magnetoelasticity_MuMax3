@@ -66,6 +66,7 @@ const (
 	FEHLBERG        = 6
 	SECONDDERIV     = 7
 	ELAS_RUNGEKUTTA = 8
+	MAGELAS_RUNGEKUTTA = 9
 )
 
 func SetSolver(typ int) {
@@ -94,6 +95,8 @@ func SetSolver(typ int) {
 		stepper = new(secondHeun)
 	case ELAS_RUNGEKUTTA:
 		stepper = new(elasRK4)
+	case MAGELAS_RUNGEKUTTA:
+		stepper = new(magelasRK4)
 	}
 	solvertype = typ
 }

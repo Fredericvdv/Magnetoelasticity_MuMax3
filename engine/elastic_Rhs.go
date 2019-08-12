@@ -30,7 +30,12 @@ func RightSide(dst, f, g *data.Slice, Eta, Rho *RegionwiseScalar, Bf *Excitation
 		//Elastic part of wave equation
 		calcSecondDerivDisp(f)
 
-		cuda.RightSide(dst, f, g, eta, rho, bf)
+		size := f.Size()
+		melForce := cuda.Buffer(3, size)
+		defer cuda.Recycle(melForce)
+		GetMagnetoelasticForceDensity(melForce)
+
+		cuda.RightSide(dst, f, g, eta, rho, bf, melForce)
 		//Sufficient to only set right to zero because udot2 = udot+right
 		//If initial udot!=0, then do also FreezeDisp(udot2)
 		FreezeDisp(dst)

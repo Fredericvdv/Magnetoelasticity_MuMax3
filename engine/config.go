@@ -21,7 +21,8 @@ func init() {
 	DeclFunc("RandomMagSeed", RandomMagSeed, "Random magnetization with given seed")
 	DeclFunc("Conical", Conical, "Conical state for given wave vector, cone direction, and cone angle")
 	DeclFunc("Helical", Helical, "Helical state for given wave vector")
-	DeclFunc("GaussianSherical", GaussianSherical, "Gaussian pulse with sherical symmetry")
+	DeclFunc("GaussianSpherical", GaussianSpherical, "Gaussian pulse with sherical symmetry")
+	DeclFunc("GaussianSpherical_outplane", GaussianSpherical_outplane, "Gaussian pulse with sherical distribution out of plane")
 	DeclFunc("GaussianUniform", GaussianUniform, "Gaussian pulse in one direction")
 }
 
@@ -74,22 +75,23 @@ func Vortex(circ, pol int) Config {
 	}
 }
 
-func GaussianSherical(A, pos_x, pos_y, sig_x, sig_y float64) Config {
+func GaussianSpherical_outplane(A, pos_x, pos_y, sig_x, sig_y float64) Config {
 	return func(x, y, z float64) data.Vector {
 		norm := A * math.Exp(-((x-pos_x)*(x-pos_x)/(2*sig_x*sig_x) + (y-pos_y)*(y-pos_y)/(2*sig_y*sig_y)))
-		angle := math.Atan(y / x)
 		ux := 0.0
 		uy := 0.0
+		uz := norm
+		return data.Vector{ux, uy, uz}
+	}
+}
+
+func GaussianSpherical(A, pos_x, pos_y, sig_x, sig_y, angle float64) Config {
+	return func(x, y, z float64) data.Vector {
+		norm := A * math.Exp(-((x-pos_x)*(x-pos_x)/(2*sig_x*sig_x) + (y-pos_y)*(y-pos_y)/(2*sig_y*sig_y)))
+		angle := angle * 3.1415 / 180
+		ux := norm * math.Cos(angle)
+		uy := norm * math.Sin(angle)
 		uz := 0.0
-		if x >= 0 {
-			ux = norm * math.Cos(angle)
-			uy = norm * math.Sin(angle)
-			uz = 0.0
-		} else {
-			ux = -norm * math.Cos(angle)
-			uy = -norm * math.Sin(angle)
-			uz = 0.0
-		}
 		return data.Vector{ux, uy, uz}
 	}
 }
