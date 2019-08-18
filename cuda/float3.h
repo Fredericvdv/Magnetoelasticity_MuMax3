@@ -59,6 +59,11 @@ inline __device__ float3 had(float3 a, float3 b) {
 	return make_float3( a.x*b.x,  a.y*b.y, a.z*b.z); 
 }
 
+// Hadammar division
+inline __device__ float3 haddiv(float3 a, float3 b) { 
+	return make_float3( a.x/b.x,  a.y/b.y, a.z/b.z); 
+}
+
 // lenght of the 3-components vector
 inline __device__ float len(float3 a) {
 	return sqrtf(dot(a,a));

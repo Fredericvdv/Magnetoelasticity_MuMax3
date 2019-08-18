@@ -37,7 +37,7 @@ Elastodynamic1(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     duy[I] = 0.0 ;
     duz[I] = 0.0 ;
 
-    //Check if you are in a free disp region
+    //Check if you are in vacuum region
     if (amul(C1_, C1_mul, I)==0) {
         return;
     }
@@ -45,82 +45,65 @@ Elastodynamic1(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     //dxx
     d_ = make_float3(0.0,0.0,0.0);
     cc = make_float3(amul(C1_, C1_mul, I),amul(C3_, C3_mul, I),amul(C3_, C3_mul, I));
-    //If there is a right neighbor
-    if (ix < Nx-1) {
-        I_ = idx(ix+1, iy, iz);
-        if (amul(C1_, C1_mul, I_)!=0) {
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-            d_ = 0.5*wx*wx*had((cc+cc_),(u_-u0));
-        }
-    } 
-    //If there is left neighbour
-    if (ix > 0) {
-        I_ = idx(ix-1, iy, iz);
-        if (amul(C1_, C1_mul, I_)!=0) {
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
-            d_ += 0.5*wx*wx*had((cc+cc_),(u_-u0));
-        }
-    }
+    //Right neighbor
+    I_ = idx(hclampx(ix+1), iy, iz);
+    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+    cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+    //Harmonic mean, takes also vacuum regions into account because product will be zero
+    cc_ = 2*haddiv(had(cc,cc_),(cc+cc_));
+    d_ = wx*wx*had(cc_,(u_-u0));
+    //Left neighbour
+    I_ = idx(lclampx(ix-1), iy, iz);
+    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+    cc_ = make_float3(amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_), amul(C3_, C3_mul, I_));
+    cc_ = 2*haddiv(had(cc,cc_),(cc+cc_));
+    d_ += wx*wx*had(cc_,(u_-u0));
     
     dux[I] += d_.x ;
     duy[I] += d_.y ;
     duz[I] += d_.z ;
-
 
     //dyy
     d_ = make_float3(0.0,0.0,0.0);
     cc = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
-    //If there is a right neighbor
-    if (iy < Ny-1) {
-        I_ = idx(ix, iy+1, iz);
-        if (amul(C1_, C1_mul, I_)!=0) {
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
-            d_ = 0.5*wy*wy*had((cc+cc_),(u_-u0));
-        }
-    } 
-    //If there is left neighbour
-    if (iy > 0) {
-        I_ = idx(ix, iy-1, iz);
-        if (amul(C1_, C1_mul, I_)!=0) {
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_),amul(C3_, C3_mul, I_));
-            d_ += 0.5*wy*wy*had((cc+cc_),(u_-u0));
-        }
-    }
+    //Right neighbor
+    I_ = idx(ix, hclampy(iy+1), iz);
+    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+    cc_ = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
+    //Harmonic mean, takes also vacuum regions into account because product will be zero
+    cc_ = 2*haddiv(had(cc,cc_),(cc+cc_));
+    d_ = wy*wy*had(cc_,(u_-u0));
+    //Left neighbour
+    I_ = idx(ix, lclampy(iy-1), iz);
+    u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+    cc_ = make_float3(amul(C3_, C3_mul, I),amul(C1_, C1_mul, I),amul(C3_, C3_mul, I));
+    cc_ = 2*haddiv(had(cc,cc_),(cc+cc_));
+    d_ += wy*wy*had(cc_,(u_-u0));
     
     dux[I] += d_.x ;
     duy[I] += d_.y ;
     duz[I] += d_.z ;
 
 
-    //dzz
-    d_ = make_float3(0.0,0.0,0.0);
-    cc = make_float3(amul(C3_, C3_mul, I),amul(C3_, C3_mul, I),amul(C1_, C1_mul, I));
-    //If there is a right neighbor
-    if (iz < Nz-1) {
-        I_ = idx(ix, iy, iz+1);
-        if (amul(C1_, C1_mul, I_)!=0) {
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
-            d_ = 0.5*wz*wz*had((cc+cc_),(u_-u0));
-        }
-    } 
-    //If there is left neighbour
-    if (iz > 0) {
-        I_ = idx(ix, iy, iz-1);
-        if (amul(C1_, C1_mul, I_)!=0) {
-            u_ = make_float3(ux[I_], uy[I_], uz[I_]);
-            cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_),amul(C1_, C1_mul, I_));
-            d_ += 0.5*wz*wz*had((cc+cc_),(u_-u0));
-        }
-    }
+    // //dzz
+    // d_ = make_float3(0.0,0.0,0.0);
+    // cc = make_float3(amul(C3_, C3_mul, I),amul(C3_, C3_mul, I),amul(C1_, C1_mul, I));
+    // //If there is a right neighbor
+    // I_ = idx(ix, iy, hclampz(iz+1));
+    // u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+    // cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_), amul(C1_, C1_mul, I_));
+    // cc_ = 2*haddiv(had(cc,cc_),(cc+cc_));
+    // d_ = wz*wz*had(cc_,(u_-u0));
+    // //If there is left neighbour
+    // I_ = idx(ix, iy, lclampz(iz-1));
+    // u_ = make_float3(ux[I_], uy[I_], uz[I_]);
+    // cc_ = make_float3(amul(C3_, C3_mul, I_),amul(C3_, C3_mul, I_), amul(C1_, C1_mul, I_));
+    // cc_ = 2*haddiv(had(cc,cc_),(cc+cc_));
+    // d_ = wz*wz*had(cc_,(u_-u0));
     
-    dux[I] += d_.x ;
-    duy[I] += d_.y ;
-    duz[I] += d_.z ;
+    // dux[I] += d_.x ;
+    // duy[I] += d_.y ;
+    // duz[I] += d_.z ;
 
 
     // Output should be equal to:

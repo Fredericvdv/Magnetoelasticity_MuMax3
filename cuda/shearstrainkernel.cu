@@ -7,7 +7,7 @@
 extern "C" __global__ void
 ShearStrain(float* __restrict__ exy, float* __restrict__ eyz, float* __restrict__ ezx, 
                  float* __restrict__ ux, float* __restrict__ uy, float* __restrict__ uz,
-                 int Nx, int Ny, int Nz, float wx, float wy, float wz,float* __restrict__  C1_, float  C1_mul) {
+                 int Nx, int Ny, int Nz, float wx, float wy, float wz,float* __restrict__  C1_, float  C1_mul, uint8_t PBC) {
 
     int ix = blockIdx.x * blockDim.x + threadIdx.x;
     int iy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -31,61 +31,47 @@ ShearStrain(float* __restrict__ exy, float* __restrict__ eyz, float* __restrict_
     ezx[I] = 0.0;
  
     //X-direction
-    if (ix < Nx-1) {
-        I_ = idx(ix+1, iy, iz);
-        C_ = amul(C1_, C1_mul, I_);
-        if (!(C_ == 0 || C ==0)) {
-            exy[I] += 0.5*0.5*wx*(uy[I_]-uy[I]);
-            ezx[I] += 0.5*0.5*wx*(uz[I_]-uz[I]);
-        }
+    I_ = idx(hclampx(ix+1), iy, iz);
+    C_ = amul(C1_, C1_mul, I_);
+    if (!(C_ == 0 || C ==0)) {
+        exy[I] += 0.5*0.5*wx*(uy[I_]-uy[I]);
+        ezx[I] += 0.5*0.5*wx*(uz[I_]-uz[I]);
     } 
     //If there is left neighbour
-    if (ix > 0) {
-        I_ = idx(ix-1, iy, iz);
-        C_ = amul(C1_, C1_mul, I_);
-        if (!(C_ == 0 || C ==0)) {
-            exy[I] += 0.5*0.5*wx*(uy[I]-uy[I_]);
-            ezx[I] += 0.5*0.5*wx*(uz[I]-uz[I_]);
-        }
+    I_ = idx(lclampx(ix-1), iy, iz);
+    C_ = amul(C1_, C1_mul, I_);
+    if (!(C_ == 0 || C ==0)) {
+        exy[I] += 0.5*0.5*wx*(uy[I]-uy[I_]);
+        ezx[I] += 0.5*0.5*wx*(uz[I]-uz[I_]);
     }
 
 
     //y-direction
-    if (iy < Ny-1) {
-        I_ = idx(ix, iy+1, iz);
-        C_ = amul(C1_, C1_mul, I_);
-        if (!(C_ == 0 || C ==0)) {
-            exy[I] += 0.5*0.5*wy*(ux[I_]-ux[I]);
-            eyz[I] += 0.5*0.5*wy*(uz[I_]-uz[I]);
-        }
-    } 
-    //If there is left neighbour
-    if (iy > 0) {
-        I_ = idx(ix, iy-1, iz);
-        C_ = amul(C1_, C1_mul, I_);
-        if (!(C_ == 0 || C ==0)) {
-            exy[I] += 0.5*0.5*wy*(ux[I]-ux[I_]);
-            eyz[I] += 0.5*0.5*wy*(uz[I]-uz[I_]);
-        }
+    I_ = idx(ix, hclampy(iy+1), iz);
+    C_ = amul(C1_, C1_mul, I_);
+    if (!(C_ == 0 || C ==0)) {
+        exy[I] += 0.5*0.5*wy*(ux[I_]-ux[I]);
+        eyz[I] += 0.5*0.5*wy*(uz[I_]-uz[I]);
+    }
+    I_ = idx(ix, lclampy(iy-1), iz);
+    C_ = amul(C1_, C1_mul, I_);
+    if (!(C_ == 0 || C ==0)) {
+        exy[I] += 0.5*0.5*wy*(ux[I]-ux[I_]);
+        eyz[I] += 0.5*0.5*wy*(uz[I]-uz[I_]);
     }
 
     
     //z-direction
-    if (iz < Nz-1) {
-        I_ = idx(ix, iy, iz+1);
-        C_ = amul(C1_, C1_mul, I_);
-        if (!(C_ == 0 || C ==0)) {
-            ezx[I] += 0.5*wz*(ux[I_]-ux[I]);
-            eyz[I] += 0.5*wz*(uy[I_]-uy[I]);
-        }
-    } 
-    //If there is left neighbour
-    if (iz > 0) {
-        I_ = idx(ix, iy, iz-1);
-        C_ = amul(C1_, C1_mul, I_);
-        if (!(C_ == 0 || C ==0)) {
-            ezx[I] += 0.5*wz*(ux[I]-ux[I_]);
-            eyz[I] += 0.5*wz*(uy[I]-uy[I_]);
-        }
+    I_ = idx(ix, iy, hclampz(iz+1));
+    C_ = amul(C1_, C1_mul, I_);
+    if (!(C_ == 0 || C ==0)) {
+        ezx[I] += 0.5*wz*(ux[I_]-ux[I]);
+        eyz[I] += 0.5*wz*(uy[I_]-uy[I]);
+    }
+    I_ = idx(ix, iy, lclampz(iz-1));
+    C_ = amul(C1_, C1_mul, I_);
+    if (!(C_ == 0 || C ==0)) {
+        ezx[I] += 0.5*wz*(ux[I]-ux[I_]);
+        eyz[I] += 0.5*wz*(uy[I]-uy[I_]);
     }
 }
