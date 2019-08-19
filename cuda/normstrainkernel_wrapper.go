@@ -5,62 +5,62 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for NormStrain kernel
 var NormStrain_code cu.Function
 
 // Stores the arguments for NormStrain kernel invocation
-type NormStrain_args_t struct{
-	 arg_ex unsafe.Pointer
-	 arg_ey unsafe.Pointer
-	 arg_ez unsafe.Pointer
-	 arg_ux unsafe.Pointer
-	 arg_uy unsafe.Pointer
-	 arg_uz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_wx float32
-	 arg_wy float32
-	 arg_wz float32
-	 arg_C1_ unsafe.Pointer
-	 arg_C1_mul float32
-	 arg_PBC byte
-	 argptr [15]unsafe.Pointer
+type NormStrain_args_t struct {
+	arg_ex     unsafe.Pointer
+	arg_ey     unsafe.Pointer
+	arg_ez     unsafe.Pointer
+	arg_ux     unsafe.Pointer
+	arg_uy     unsafe.Pointer
+	arg_uz     unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_wx     float32
+	arg_wy     float32
+	arg_wz     float32
+	arg_C1_    unsafe.Pointer
+	arg_C1_mul float32
+	arg_PBC    byte
+	argptr     [15]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for NormStrain kernel invocation
 var NormStrain_args NormStrain_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 NormStrain_args.argptr[0] = unsafe.Pointer(&NormStrain_args.arg_ex)
-	 NormStrain_args.argptr[1] = unsafe.Pointer(&NormStrain_args.arg_ey)
-	 NormStrain_args.argptr[2] = unsafe.Pointer(&NormStrain_args.arg_ez)
-	 NormStrain_args.argptr[3] = unsafe.Pointer(&NormStrain_args.arg_ux)
-	 NormStrain_args.argptr[4] = unsafe.Pointer(&NormStrain_args.arg_uy)
-	 NormStrain_args.argptr[5] = unsafe.Pointer(&NormStrain_args.arg_uz)
-	 NormStrain_args.argptr[6] = unsafe.Pointer(&NormStrain_args.arg_Nx)
-	 NormStrain_args.argptr[7] = unsafe.Pointer(&NormStrain_args.arg_Ny)
-	 NormStrain_args.argptr[8] = unsafe.Pointer(&NormStrain_args.arg_Nz)
-	 NormStrain_args.argptr[9] = unsafe.Pointer(&NormStrain_args.arg_wx)
-	 NormStrain_args.argptr[10] = unsafe.Pointer(&NormStrain_args.arg_wy)
-	 NormStrain_args.argptr[11] = unsafe.Pointer(&NormStrain_args.arg_wz)
-	 NormStrain_args.argptr[12] = unsafe.Pointer(&NormStrain_args.arg_C1_)
-	 NormStrain_args.argptr[13] = unsafe.Pointer(&NormStrain_args.arg_C1_mul)
-	 NormStrain_args.argptr[14] = unsafe.Pointer(&NormStrain_args.arg_PBC)
-	 }
+	NormStrain_args.argptr[0] = unsafe.Pointer(&NormStrain_args.arg_ex)
+	NormStrain_args.argptr[1] = unsafe.Pointer(&NormStrain_args.arg_ey)
+	NormStrain_args.argptr[2] = unsafe.Pointer(&NormStrain_args.arg_ez)
+	NormStrain_args.argptr[3] = unsafe.Pointer(&NormStrain_args.arg_ux)
+	NormStrain_args.argptr[4] = unsafe.Pointer(&NormStrain_args.arg_uy)
+	NormStrain_args.argptr[5] = unsafe.Pointer(&NormStrain_args.arg_uz)
+	NormStrain_args.argptr[6] = unsafe.Pointer(&NormStrain_args.arg_Nx)
+	NormStrain_args.argptr[7] = unsafe.Pointer(&NormStrain_args.arg_Ny)
+	NormStrain_args.argptr[8] = unsafe.Pointer(&NormStrain_args.arg_Nz)
+	NormStrain_args.argptr[9] = unsafe.Pointer(&NormStrain_args.arg_wx)
+	NormStrain_args.argptr[10] = unsafe.Pointer(&NormStrain_args.arg_wy)
+	NormStrain_args.argptr[11] = unsafe.Pointer(&NormStrain_args.arg_wz)
+	NormStrain_args.argptr[12] = unsafe.Pointer(&NormStrain_args.arg_C1_)
+	NormStrain_args.argptr[13] = unsafe.Pointer(&NormStrain_args.arg_C1_mul)
+	NormStrain_args.argptr[14] = unsafe.Pointer(&NormStrain_args.arg_PBC)
+}
 
 // Wrapper for NormStrain CUDA kernel, asynchronous.
-func k_NormStrain_async ( ex unsafe.Pointer, ey unsafe.Pointer, ez unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, PBC byte,  cfg *config) {
-	if Synchronous{ // debug
+func k_NormStrain_async(ex unsafe.Pointer, ey unsafe.Pointer, ez unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, PBC byte, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("NormStrain")
 	}
@@ -68,52 +68,51 @@ func k_NormStrain_async ( ex unsafe.Pointer, ey unsafe.Pointer, ez unsafe.Pointe
 	NormStrain_args.Lock()
 	defer NormStrain_args.Unlock()
 
-	if NormStrain_code == 0{
+	if NormStrain_code == 0 {
 		NormStrain_code = fatbinLoad(NormStrain_map, "NormStrain")
 	}
 
-	 NormStrain_args.arg_ex = ex
-	 NormStrain_args.arg_ey = ey
-	 NormStrain_args.arg_ez = ez
-	 NormStrain_args.arg_ux = ux
-	 NormStrain_args.arg_uy = uy
-	 NormStrain_args.arg_uz = uz
-	 NormStrain_args.arg_Nx = Nx
-	 NormStrain_args.arg_Ny = Ny
-	 NormStrain_args.arg_Nz = Nz
-	 NormStrain_args.arg_wx = wx
-	 NormStrain_args.arg_wy = wy
-	 NormStrain_args.arg_wz = wz
-	 NormStrain_args.arg_C1_ = C1_
-	 NormStrain_args.arg_C1_mul = C1_mul
-	 NormStrain_args.arg_PBC = PBC
-	
+	NormStrain_args.arg_ex = ex
+	NormStrain_args.arg_ey = ey
+	NormStrain_args.arg_ez = ez
+	NormStrain_args.arg_ux = ux
+	NormStrain_args.arg_uy = uy
+	NormStrain_args.arg_uz = uz
+	NormStrain_args.arg_Nx = Nx
+	NormStrain_args.arg_Ny = Ny
+	NormStrain_args.arg_Nz = Nz
+	NormStrain_args.arg_wx = wx
+	NormStrain_args.arg_wy = wy
+	NormStrain_args.arg_wz = wz
+	NormStrain_args.arg_C1_ = C1_
+	NormStrain_args.arg_C1_mul = C1_mul
+	NormStrain_args.arg_PBC = PBC
 
 	args := NormStrain_args.argptr[:]
 	cu.LaunchKernel(NormStrain_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("NormStrain")
 	}
 }
 
 // maps compute capability on PTX code for NormStrain kernel.
-var NormStrain_map = map[int]string{ 0: "" ,
-30: NormStrain_ptx_30 ,
-35: NormStrain_ptx_35 ,
-37: NormStrain_ptx_37 ,
-50: NormStrain_ptx_50 ,
-52: NormStrain_ptx_52 ,
-53: NormStrain_ptx_53 ,
-60: NormStrain_ptx_60 ,
-61: NormStrain_ptx_61 ,
-70: NormStrain_ptx_70 ,
-75: NormStrain_ptx_75  }
+var NormStrain_map = map[int]string{0: "",
+	30: NormStrain_ptx_30,
+	35: NormStrain_ptx_35,
+	37: NormStrain_ptx_37,
+	50: NormStrain_ptx_50,
+	52: NormStrain_ptx_52,
+	53: NormStrain_ptx_53,
+	60: NormStrain_ptx_60,
+	61: NormStrain_ptx_61,
+	70: NormStrain_ptx_70,
+	75: NormStrain_ptx_75}
 
 // NormStrain PTX code for various compute capabilities.
-const(
-  NormStrain_ptx_30 = `
+const (
+	NormStrain_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -505,7 +504,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_35 = `
+	NormStrain_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -904,7 +903,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_37 = `
+	NormStrain_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -1303,7 +1302,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_50 = `
+	NormStrain_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -1702,7 +1701,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_52 = `
+	NormStrain_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -2101,7 +2100,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_53 = `
+	NormStrain_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -2500,7 +2499,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_60 = `
+	NormStrain_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -2899,7 +2898,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_61 = `
+	NormStrain_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -3298,7 +3297,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_70 = `
+	NormStrain_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -3697,7 +3696,7 @@ BB0_45:
 
 
 `
-   NormStrain_ptx_75 = `
+	NormStrain_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -4096,4 +4095,4 @@ BB0_45:
 
 
 `
- )
+)
