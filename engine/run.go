@@ -67,8 +67,8 @@ const (
 	SECONDDERIV        = 7
 	ELAS_RUNGEKUTTA    = 8
 	MAGELAS_RUNGEKUTTA = 9
-	ELAS_LEAPFROG	   = 10
-	ELAS_YOSH		   = 11
+	ELAS_LEAPFROG      = 10
+	ELAS_YOSH          = 11
 )
 
 func SetSolver(typ int) {

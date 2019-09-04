@@ -20,7 +20,7 @@ func (_ *elasRK4) Step() {
 	// dv(t)/dt = right
 	// with f(t) = nabla sigma
 	//#################################
-	
+
 	//Initialisation:
 	u := U.Buffer()
 	size := u.Size()

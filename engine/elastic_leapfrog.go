@@ -58,9 +58,9 @@ func (_ *elasLF) Step() {
 	// dv/dt = right(t) ~ kv
 	//Stage 1:
 	calcRhs(ai, f, v)
-	cuda.Madd3(u,u0,v0,ai,1,dt,0.5*dt*dt)
+	cuda.Madd3(u, u0, v0, ai, 1, dt, 0.5*dt*dt)
 	calcRhs(aii, f, v)
-	cuda.Madd3(v,v0,ai,aii,1,0.5*dt,0.5*dt)
+	cuda.Madd3(v, v0, ai, aii, 1, 0.5*dt, 0.5*dt)
 }
 
 func (_ *elasLF) Free() {}

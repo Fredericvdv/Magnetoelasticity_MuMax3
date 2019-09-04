@@ -1,10 +1,10 @@
 package engine
 
 import (
-	"math"
 	"github.com/mumax/3/cuda"
 	"github.com/mumax/3/data"
 	"github.com/mumax/3/util"
+	"math"
 )
 
 // Classical 4th order RK solver.
@@ -19,7 +19,7 @@ func (_ *elasYOSH) Step() {
 	// dv(t)/dt = right
 	// with f(t) = nabla sigma
 	//#################################
-	
+
 	//Initialisation:
 	u := U.Buffer()
 	size := u.Size()
@@ -54,13 +54,12 @@ func (_ *elasYOSH) Step() {
 	util.Assert(dt > 0)
 	Time += Dt_si
 
-
 	//#####################
 	//Coefficients
-	w0:= float32(-math.Pow(2,1.0/3)/(2-math.Pow(2,1.0/3)))
-	w1:= float32(1/(2-math.Pow(2,1.0/3)))
-	c1 := float32(w1/2)
-	c2 := float32((w0+w1)/2)
+	w0 := float32(-math.Pow(2, 1.0/3) / (2 - math.Pow(2, 1.0/3)))
+	w1 := float32(1 / (2 - math.Pow(2, 1.0/3)))
+	c1 := float32(w1 / 2)
+	c2 := float32((w0 + w1) / 2)
 
 	//#####################
 	//Integration
