@@ -89,6 +89,76 @@ Elastodynamic2(float* __restrict__ dux, float* __restrict__ duy, float* __restri
     duz[I] += d_.z ;
 
 
+    // //Shear components: part I   
+    // //dxy without boundaries
+    // d_ = make_float3(0.0,0.0,0.0);
+    // cc = make_float3(amul(C2_, C2_mul, I)+amul(C3_, C3_mul, I),amul(C2_, C2_mul, I)+amul(C3_, C3_mul, I),0);  
+    // //(i+1,j+1)
+    // I_ = idx(hclampx(ix+1),hclampy(iy+1), iz);
+    // d_ += make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-1,j-1)
+    // I_ = idx(lclampx(ix-1),lclampy(iy-1), iz);
+    // d_ += make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i+1,j-1)
+    // I_ = idx(hclampx(ix+1),lclampy(iy-1), iz);
+    // d_ -= make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-1,j+1)
+    // I_ = idx(lclampx(ix-1),hclampy(iy+1), iz);
+    // d_ -= make_float3(ux[I_], uy[I_], uz[I_]);
+
+    // d_ = had(cc,d_)*0.25*wx*wy;
+
+    /////////////////////////
+    // //dxy without boundaries in 6th order
+    // d_ = make_float3(0.0,0.0,0.0);
+    // cc = make_float3(amul(C2_, C2_mul, I)+amul(C3_, C3_mul, I),amul(C2_, C2_mul, I)+amul(C3_, C3_mul, I),0);  
+    // //(i+1,j+1)
+    // I_ = idx(hclampx(ix+1),hclampy(iy+1), iz);
+    // d_ += 270*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-1,j-1)
+    // I_ = idx(lclampx(ix-1),lclampy(iy-1), iz);
+    // d_ += 270*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i+1,j-1)
+    // I_ = idx(hclampx(ix+1),lclampy(iy-1), iz);
+    // d_ -= 270*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-1,j+1)
+    // I_ = idx(lclampx(ix-1),hclampy(iy+1), iz);
+    // d_ -= 270*make_float3(ux[I_], uy[I_], uz[I_]);
+
+    // //(i+2,j+2)
+    // I_ = idx(hclampx(ix+2),hclampy(iy+2), iz);
+    // d_ -= 27*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-2,j-2)
+    // I_ = idx(lclampx(ix-2),lclampy(iy-2), iz);
+    // d_ -= 27*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i+2,j-2)
+    // I_ = idx(hclampx(ix+2),lclampy(iy-2), iz);
+    // d_ += 27*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-1,j+2)
+    // I_ = idx(lclampx(ix-2),hclampy(iy+2), iz);
+    // d_ += 27*make_float3(ux[I_], uy[I_], uz[I_]);
+
+    // //(i+3,j+3)
+    // I_ = idx(hclampx(ix+3),hclampy(iy+3), iz);
+    // d_ += 2*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-3,j-3)
+    // I_ = idx(lclampx(ix-3),lclampy(iy-3), iz);
+    // d_ += 2*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i+3,j-3)
+    // I_ = idx(hclampx(ix+3),lclampy(iy-3), iz);
+    // d_ -= 2*make_float3(ux[I_], uy[I_], uz[I_]);
+    // //(i-3,j+3)
+    // I_ = idx(lclampx(ix-3),hclampy(iy+3), iz);
+    // d_ -= 2*make_float3(ux[I_], uy[I_], uz[I_]);
+
+    // d_ = had(cc,d_)*0.0013888*wx*wy;
+
+    // dux[I] += d_.x ;
+    // duy[I] += d_.y ;
+    // duz[I] += 0.0 ;
+
+    //////////////
+
     //Shear components: part I   
 
     //dxy

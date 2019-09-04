@@ -5,62 +5,62 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for poynting kernel
 var poynting_code cu.Function
 
 // Stores the arguments for poynting kernel invocation
-type poynting_args_t struct{
-	 arg_px unsafe.Pointer
-	 arg_py unsafe.Pointer
-	 arg_pz unsafe.Pointer
-	 arg_vx unsafe.Pointer
-	 arg_vy unsafe.Pointer
-	 arg_vz unsafe.Pointer
-	 arg_sxx unsafe.Pointer
-	 arg_syy unsafe.Pointer
-	 arg_szz unsafe.Pointer
-	 arg_sxy unsafe.Pointer
-	 arg_syz unsafe.Pointer
-	 arg_szx unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 argptr [15]unsafe.Pointer
+type poynting_args_t struct {
+	arg_px  unsafe.Pointer
+	arg_py  unsafe.Pointer
+	arg_pz  unsafe.Pointer
+	arg_vx  unsafe.Pointer
+	arg_vy  unsafe.Pointer
+	arg_vz  unsafe.Pointer
+	arg_sxx unsafe.Pointer
+	arg_syy unsafe.Pointer
+	arg_szz unsafe.Pointer
+	arg_sxy unsafe.Pointer
+	arg_syz unsafe.Pointer
+	arg_szx unsafe.Pointer
+	arg_Nx  int
+	arg_Ny  int
+	arg_Nz  int
+	argptr  [15]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for poynting kernel invocation
 var poynting_args poynting_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 poynting_args.argptr[0] = unsafe.Pointer(&poynting_args.arg_px)
-	 poynting_args.argptr[1] = unsafe.Pointer(&poynting_args.arg_py)
-	 poynting_args.argptr[2] = unsafe.Pointer(&poynting_args.arg_pz)
-	 poynting_args.argptr[3] = unsafe.Pointer(&poynting_args.arg_vx)
-	 poynting_args.argptr[4] = unsafe.Pointer(&poynting_args.arg_vy)
-	 poynting_args.argptr[5] = unsafe.Pointer(&poynting_args.arg_vz)
-	 poynting_args.argptr[6] = unsafe.Pointer(&poynting_args.arg_sxx)
-	 poynting_args.argptr[7] = unsafe.Pointer(&poynting_args.arg_syy)
-	 poynting_args.argptr[8] = unsafe.Pointer(&poynting_args.arg_szz)
-	 poynting_args.argptr[9] = unsafe.Pointer(&poynting_args.arg_sxy)
-	 poynting_args.argptr[10] = unsafe.Pointer(&poynting_args.arg_syz)
-	 poynting_args.argptr[11] = unsafe.Pointer(&poynting_args.arg_szx)
-	 poynting_args.argptr[12] = unsafe.Pointer(&poynting_args.arg_Nx)
-	 poynting_args.argptr[13] = unsafe.Pointer(&poynting_args.arg_Ny)
-	 poynting_args.argptr[14] = unsafe.Pointer(&poynting_args.arg_Nz)
-	 }
+	poynting_args.argptr[0] = unsafe.Pointer(&poynting_args.arg_px)
+	poynting_args.argptr[1] = unsafe.Pointer(&poynting_args.arg_py)
+	poynting_args.argptr[2] = unsafe.Pointer(&poynting_args.arg_pz)
+	poynting_args.argptr[3] = unsafe.Pointer(&poynting_args.arg_vx)
+	poynting_args.argptr[4] = unsafe.Pointer(&poynting_args.arg_vy)
+	poynting_args.argptr[5] = unsafe.Pointer(&poynting_args.arg_vz)
+	poynting_args.argptr[6] = unsafe.Pointer(&poynting_args.arg_sxx)
+	poynting_args.argptr[7] = unsafe.Pointer(&poynting_args.arg_syy)
+	poynting_args.argptr[8] = unsafe.Pointer(&poynting_args.arg_szz)
+	poynting_args.argptr[9] = unsafe.Pointer(&poynting_args.arg_sxy)
+	poynting_args.argptr[10] = unsafe.Pointer(&poynting_args.arg_syz)
+	poynting_args.argptr[11] = unsafe.Pointer(&poynting_args.arg_szx)
+	poynting_args.argptr[12] = unsafe.Pointer(&poynting_args.arg_Nx)
+	poynting_args.argptr[13] = unsafe.Pointer(&poynting_args.arg_Ny)
+	poynting_args.argptr[14] = unsafe.Pointer(&poynting_args.arg_Nz)
+}
 
 // Wrapper for poynting CUDA kernel, asynchronous.
-func k_poynting_async ( px unsafe.Pointer, py unsafe.Pointer, pz unsafe.Pointer, vx unsafe.Pointer, vy unsafe.Pointer, vz unsafe.Pointer, sxx unsafe.Pointer, syy unsafe.Pointer, szz unsafe.Pointer, sxy unsafe.Pointer, syz unsafe.Pointer, szx unsafe.Pointer, Nx int, Ny int, Nz int,  cfg *config) {
-	if Synchronous{ // debug
+func k_poynting_async(px unsafe.Pointer, py unsafe.Pointer, pz unsafe.Pointer, vx unsafe.Pointer, vy unsafe.Pointer, vz unsafe.Pointer, sxx unsafe.Pointer, syy unsafe.Pointer, szz unsafe.Pointer, sxy unsafe.Pointer, syz unsafe.Pointer, szx unsafe.Pointer, Nx int, Ny int, Nz int, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("poynting")
 	}
@@ -68,52 +68,51 @@ func k_poynting_async ( px unsafe.Pointer, py unsafe.Pointer, pz unsafe.Pointer,
 	poynting_args.Lock()
 	defer poynting_args.Unlock()
 
-	if poynting_code == 0{
+	if poynting_code == 0 {
 		poynting_code = fatbinLoad(poynting_map, "poynting")
 	}
 
-	 poynting_args.arg_px = px
-	 poynting_args.arg_py = py
-	 poynting_args.arg_pz = pz
-	 poynting_args.arg_vx = vx
-	 poynting_args.arg_vy = vy
-	 poynting_args.arg_vz = vz
-	 poynting_args.arg_sxx = sxx
-	 poynting_args.arg_syy = syy
-	 poynting_args.arg_szz = szz
-	 poynting_args.arg_sxy = sxy
-	 poynting_args.arg_syz = syz
-	 poynting_args.arg_szx = szx
-	 poynting_args.arg_Nx = Nx
-	 poynting_args.arg_Ny = Ny
-	 poynting_args.arg_Nz = Nz
-	
+	poynting_args.arg_px = px
+	poynting_args.arg_py = py
+	poynting_args.arg_pz = pz
+	poynting_args.arg_vx = vx
+	poynting_args.arg_vy = vy
+	poynting_args.arg_vz = vz
+	poynting_args.arg_sxx = sxx
+	poynting_args.arg_syy = syy
+	poynting_args.arg_szz = szz
+	poynting_args.arg_sxy = sxy
+	poynting_args.arg_syz = syz
+	poynting_args.arg_szx = szx
+	poynting_args.arg_Nx = Nx
+	poynting_args.arg_Ny = Ny
+	poynting_args.arg_Nz = Nz
 
 	args := poynting_args.argptr[:]
 	cu.LaunchKernel(poynting_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("poynting")
 	}
 }
 
 // maps compute capability on PTX code for poynting kernel.
-var poynting_map = map[int]string{ 0: "" ,
-30: poynting_ptx_30 ,
-35: poynting_ptx_35 ,
-37: poynting_ptx_37 ,
-50: poynting_ptx_50 ,
-52: poynting_ptx_52 ,
-53: poynting_ptx_53 ,
-60: poynting_ptx_60 ,
-61: poynting_ptx_61 ,
-70: poynting_ptx_70 ,
-75: poynting_ptx_75  }
+var poynting_map = map[int]string{0: "",
+	30: poynting_ptx_30,
+	35: poynting_ptx_35,
+	37: poynting_ptx_37,
+	50: poynting_ptx_50,
+	52: poynting_ptx_52,
+	53: poynting_ptx_53,
+	60: poynting_ptx_60,
+	61: poynting_ptx_61,
+	70: poynting_ptx_70,
+	75: poynting_ptx_75}
 
 // poynting PTX code for various compute capabilities.
-const(
-  poynting_ptx_30 = `
+const (
+	poynting_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -236,7 +235,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_35 = `
+	poynting_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -359,7 +358,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_37 = `
+	poynting_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -482,7 +481,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_50 = `
+	poynting_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -605,7 +604,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_52 = `
+	poynting_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -728,7 +727,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_53 = `
+	poynting_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -851,7 +850,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_60 = `
+	poynting_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -974,7 +973,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_61 = `
+	poynting_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -1097,7 +1096,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_70 = `
+	poynting_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -1220,7 +1219,7 @@ BB0_2:
 
 
 `
-   poynting_ptx_75 = `
+	poynting_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -1343,4 +1342,4 @@ BB0_2:
 
 
 `
- )
+)

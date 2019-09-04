@@ -5,58 +5,58 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for Normstress kernel
 var Normstress_code cu.Function
 
 // Stores the arguments for Normstress kernel invocation
-type Normstress_args_t struct{
-	 arg_sx unsafe.Pointer
-	 arg_sy unsafe.Pointer
-	 arg_sz unsafe.Pointer
-	 arg_ex unsafe.Pointer
-	 arg_ey unsafe.Pointer
-	 arg_ez unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_C1_ unsafe.Pointer
-	 arg_C1_mul float32
-	 arg_C2_ unsafe.Pointer
-	 arg_C2_mul float32
-	 argptr [13]unsafe.Pointer
+type Normstress_args_t struct {
+	arg_sx     unsafe.Pointer
+	arg_sy     unsafe.Pointer
+	arg_sz     unsafe.Pointer
+	arg_ex     unsafe.Pointer
+	arg_ey     unsafe.Pointer
+	arg_ez     unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_C1_    unsafe.Pointer
+	arg_C1_mul float32
+	arg_C2_    unsafe.Pointer
+	arg_C2_mul float32
+	argptr     [13]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for Normstress kernel invocation
 var Normstress_args Normstress_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 Normstress_args.argptr[0] = unsafe.Pointer(&Normstress_args.arg_sx)
-	 Normstress_args.argptr[1] = unsafe.Pointer(&Normstress_args.arg_sy)
-	 Normstress_args.argptr[2] = unsafe.Pointer(&Normstress_args.arg_sz)
-	 Normstress_args.argptr[3] = unsafe.Pointer(&Normstress_args.arg_ex)
-	 Normstress_args.argptr[4] = unsafe.Pointer(&Normstress_args.arg_ey)
-	 Normstress_args.argptr[5] = unsafe.Pointer(&Normstress_args.arg_ez)
-	 Normstress_args.argptr[6] = unsafe.Pointer(&Normstress_args.arg_Nx)
-	 Normstress_args.argptr[7] = unsafe.Pointer(&Normstress_args.arg_Ny)
-	 Normstress_args.argptr[8] = unsafe.Pointer(&Normstress_args.arg_Nz)
-	 Normstress_args.argptr[9] = unsafe.Pointer(&Normstress_args.arg_C1_)
-	 Normstress_args.argptr[10] = unsafe.Pointer(&Normstress_args.arg_C1_mul)
-	 Normstress_args.argptr[11] = unsafe.Pointer(&Normstress_args.arg_C2_)
-	 Normstress_args.argptr[12] = unsafe.Pointer(&Normstress_args.arg_C2_mul)
-	 }
+	Normstress_args.argptr[0] = unsafe.Pointer(&Normstress_args.arg_sx)
+	Normstress_args.argptr[1] = unsafe.Pointer(&Normstress_args.arg_sy)
+	Normstress_args.argptr[2] = unsafe.Pointer(&Normstress_args.arg_sz)
+	Normstress_args.argptr[3] = unsafe.Pointer(&Normstress_args.arg_ex)
+	Normstress_args.argptr[4] = unsafe.Pointer(&Normstress_args.arg_ey)
+	Normstress_args.argptr[5] = unsafe.Pointer(&Normstress_args.arg_ez)
+	Normstress_args.argptr[6] = unsafe.Pointer(&Normstress_args.arg_Nx)
+	Normstress_args.argptr[7] = unsafe.Pointer(&Normstress_args.arg_Ny)
+	Normstress_args.argptr[8] = unsafe.Pointer(&Normstress_args.arg_Nz)
+	Normstress_args.argptr[9] = unsafe.Pointer(&Normstress_args.arg_C1_)
+	Normstress_args.argptr[10] = unsafe.Pointer(&Normstress_args.arg_C1_mul)
+	Normstress_args.argptr[11] = unsafe.Pointer(&Normstress_args.arg_C2_)
+	Normstress_args.argptr[12] = unsafe.Pointer(&Normstress_args.arg_C2_mul)
+}
 
 // Wrapper for Normstress CUDA kernel, asynchronous.
-func k_Normstress_async ( sx unsafe.Pointer, sy unsafe.Pointer, sz unsafe.Pointer, ex unsafe.Pointer, ey unsafe.Pointer, ez unsafe.Pointer, Nx int, Ny int, Nz int, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32,  cfg *config) {
-	if Synchronous{ // debug
+func k_Normstress_async(sx unsafe.Pointer, sy unsafe.Pointer, sz unsafe.Pointer, ex unsafe.Pointer, ey unsafe.Pointer, ez unsafe.Pointer, Nx int, Ny int, Nz int, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("Normstress")
 	}
@@ -64,50 +64,49 @@ func k_Normstress_async ( sx unsafe.Pointer, sy unsafe.Pointer, sz unsafe.Pointe
 	Normstress_args.Lock()
 	defer Normstress_args.Unlock()
 
-	if Normstress_code == 0{
+	if Normstress_code == 0 {
 		Normstress_code = fatbinLoad(Normstress_map, "Normstress")
 	}
 
-	 Normstress_args.arg_sx = sx
-	 Normstress_args.arg_sy = sy
-	 Normstress_args.arg_sz = sz
-	 Normstress_args.arg_ex = ex
-	 Normstress_args.arg_ey = ey
-	 Normstress_args.arg_ez = ez
-	 Normstress_args.arg_Nx = Nx
-	 Normstress_args.arg_Ny = Ny
-	 Normstress_args.arg_Nz = Nz
-	 Normstress_args.arg_C1_ = C1_
-	 Normstress_args.arg_C1_mul = C1_mul
-	 Normstress_args.arg_C2_ = C2_
-	 Normstress_args.arg_C2_mul = C2_mul
-	
+	Normstress_args.arg_sx = sx
+	Normstress_args.arg_sy = sy
+	Normstress_args.arg_sz = sz
+	Normstress_args.arg_ex = ex
+	Normstress_args.arg_ey = ey
+	Normstress_args.arg_ez = ez
+	Normstress_args.arg_Nx = Nx
+	Normstress_args.arg_Ny = Ny
+	Normstress_args.arg_Nz = Nz
+	Normstress_args.arg_C1_ = C1_
+	Normstress_args.arg_C1_mul = C1_mul
+	Normstress_args.arg_C2_ = C2_
+	Normstress_args.arg_C2_mul = C2_mul
 
 	args := Normstress_args.argptr[:]
 	cu.LaunchKernel(Normstress_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("Normstress")
 	}
 }
 
 // maps compute capability on PTX code for Normstress kernel.
-var Normstress_map = map[int]string{ 0: "" ,
-30: Normstress_ptx_30 ,
-35: Normstress_ptx_35 ,
-37: Normstress_ptx_37 ,
-50: Normstress_ptx_50 ,
-52: Normstress_ptx_52 ,
-53: Normstress_ptx_53 ,
-60: Normstress_ptx_60 ,
-61: Normstress_ptx_61 ,
-70: Normstress_ptx_70 ,
-75: Normstress_ptx_75  }
+var Normstress_map = map[int]string{0: "",
+	30: Normstress_ptx_30,
+	35: Normstress_ptx_35,
+	37: Normstress_ptx_37,
+	50: Normstress_ptx_50,
+	52: Normstress_ptx_52,
+	53: Normstress_ptx_53,
+	60: Normstress_ptx_60,
+	61: Normstress_ptx_61,
+	70: Normstress_ptx_70,
+	75: Normstress_ptx_75}
 
 // Normstress PTX code for various compute capabilities.
-const(
-  Normstress_ptx_30 = `
+const (
+	Normstress_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -225,7 +224,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_35 = `
+	Normstress_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -343,7 +342,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_37 = `
+	Normstress_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -461,7 +460,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_50 = `
+	Normstress_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -579,7 +578,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_52 = `
+	Normstress_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -697,7 +696,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_53 = `
+	Normstress_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -815,7 +814,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_60 = `
+	Normstress_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -933,7 +932,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_61 = `
+	Normstress_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -1051,7 +1050,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_70 = `
+	Normstress_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -1169,7 +1168,7 @@ BB0_6:
 
 
 `
-   Normstress_ptx_75 = `
+	Normstress_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -1287,4 +1286,4 @@ BB0_6:
 
 
 `
- )
+)

@@ -19,8 +19,8 @@ func (_ *elasRK4) Step() {
 	// dv(t)/dt = [f(t) + bf(t) - eta*g(t)]/rho
 	// dv(t)/dt = right
 	// with f(t) = nabla sigma
-
 	//#################################
+	
 	//Initialisation:
 	u := U.Buffer()
 	size := u.Size()

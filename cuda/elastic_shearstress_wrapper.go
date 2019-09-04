@@ -5,54 +5,54 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for Shearstress kernel
 var Shearstress_code cu.Function
 
 // Stores the arguments for Shearstress kernel invocation
-type Shearstress_args_t struct{
-	 arg_sxy unsafe.Pointer
-	 arg_syz unsafe.Pointer
-	 arg_szx unsafe.Pointer
-	 arg_exy unsafe.Pointer
-	 arg_eyz unsafe.Pointer
-	 arg_ezx unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_C3_ unsafe.Pointer
-	 arg_C3_mul float32
-	 argptr [11]unsafe.Pointer
+type Shearstress_args_t struct {
+	arg_sxy    unsafe.Pointer
+	arg_syz    unsafe.Pointer
+	arg_szx    unsafe.Pointer
+	arg_exy    unsafe.Pointer
+	arg_eyz    unsafe.Pointer
+	arg_ezx    unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_C3_    unsafe.Pointer
+	arg_C3_mul float32
+	argptr     [11]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for Shearstress kernel invocation
 var Shearstress_args Shearstress_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 Shearstress_args.argptr[0] = unsafe.Pointer(&Shearstress_args.arg_sxy)
-	 Shearstress_args.argptr[1] = unsafe.Pointer(&Shearstress_args.arg_syz)
-	 Shearstress_args.argptr[2] = unsafe.Pointer(&Shearstress_args.arg_szx)
-	 Shearstress_args.argptr[3] = unsafe.Pointer(&Shearstress_args.arg_exy)
-	 Shearstress_args.argptr[4] = unsafe.Pointer(&Shearstress_args.arg_eyz)
-	 Shearstress_args.argptr[5] = unsafe.Pointer(&Shearstress_args.arg_ezx)
-	 Shearstress_args.argptr[6] = unsafe.Pointer(&Shearstress_args.arg_Nx)
-	 Shearstress_args.argptr[7] = unsafe.Pointer(&Shearstress_args.arg_Ny)
-	 Shearstress_args.argptr[8] = unsafe.Pointer(&Shearstress_args.arg_Nz)
-	 Shearstress_args.argptr[9] = unsafe.Pointer(&Shearstress_args.arg_C3_)
-	 Shearstress_args.argptr[10] = unsafe.Pointer(&Shearstress_args.arg_C3_mul)
-	 }
+	Shearstress_args.argptr[0] = unsafe.Pointer(&Shearstress_args.arg_sxy)
+	Shearstress_args.argptr[1] = unsafe.Pointer(&Shearstress_args.arg_syz)
+	Shearstress_args.argptr[2] = unsafe.Pointer(&Shearstress_args.arg_szx)
+	Shearstress_args.argptr[3] = unsafe.Pointer(&Shearstress_args.arg_exy)
+	Shearstress_args.argptr[4] = unsafe.Pointer(&Shearstress_args.arg_eyz)
+	Shearstress_args.argptr[5] = unsafe.Pointer(&Shearstress_args.arg_ezx)
+	Shearstress_args.argptr[6] = unsafe.Pointer(&Shearstress_args.arg_Nx)
+	Shearstress_args.argptr[7] = unsafe.Pointer(&Shearstress_args.arg_Ny)
+	Shearstress_args.argptr[8] = unsafe.Pointer(&Shearstress_args.arg_Nz)
+	Shearstress_args.argptr[9] = unsafe.Pointer(&Shearstress_args.arg_C3_)
+	Shearstress_args.argptr[10] = unsafe.Pointer(&Shearstress_args.arg_C3_mul)
+}
 
 // Wrapper for Shearstress CUDA kernel, asynchronous.
-func k_Shearstress_async ( sxy unsafe.Pointer, syz unsafe.Pointer, szx unsafe.Pointer, exy unsafe.Pointer, eyz unsafe.Pointer, ezx unsafe.Pointer, Nx int, Ny int, Nz int, C3_ unsafe.Pointer, C3_mul float32,  cfg *config) {
-	if Synchronous{ // debug
+func k_Shearstress_async(sxy unsafe.Pointer, syz unsafe.Pointer, szx unsafe.Pointer, exy unsafe.Pointer, eyz unsafe.Pointer, ezx unsafe.Pointer, Nx int, Ny int, Nz int, C3_ unsafe.Pointer, C3_mul float32, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("Shearstress")
 	}
@@ -60,48 +60,47 @@ func k_Shearstress_async ( sxy unsafe.Pointer, syz unsafe.Pointer, szx unsafe.Po
 	Shearstress_args.Lock()
 	defer Shearstress_args.Unlock()
 
-	if Shearstress_code == 0{
+	if Shearstress_code == 0 {
 		Shearstress_code = fatbinLoad(Shearstress_map, "Shearstress")
 	}
 
-	 Shearstress_args.arg_sxy = sxy
-	 Shearstress_args.arg_syz = syz
-	 Shearstress_args.arg_szx = szx
-	 Shearstress_args.arg_exy = exy
-	 Shearstress_args.arg_eyz = eyz
-	 Shearstress_args.arg_ezx = ezx
-	 Shearstress_args.arg_Nx = Nx
-	 Shearstress_args.arg_Ny = Ny
-	 Shearstress_args.arg_Nz = Nz
-	 Shearstress_args.arg_C3_ = C3_
-	 Shearstress_args.arg_C3_mul = C3_mul
-	
+	Shearstress_args.arg_sxy = sxy
+	Shearstress_args.arg_syz = syz
+	Shearstress_args.arg_szx = szx
+	Shearstress_args.arg_exy = exy
+	Shearstress_args.arg_eyz = eyz
+	Shearstress_args.arg_ezx = ezx
+	Shearstress_args.arg_Nx = Nx
+	Shearstress_args.arg_Ny = Ny
+	Shearstress_args.arg_Nz = Nz
+	Shearstress_args.arg_C3_ = C3_
+	Shearstress_args.arg_C3_mul = C3_mul
 
 	args := Shearstress_args.argptr[:]
 	cu.LaunchKernel(Shearstress_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("Shearstress")
 	}
 }
 
 // maps compute capability on PTX code for Shearstress kernel.
-var Shearstress_map = map[int]string{ 0: "" ,
-30: Shearstress_ptx_30 ,
-35: Shearstress_ptx_35 ,
-37: Shearstress_ptx_37 ,
-50: Shearstress_ptx_50 ,
-52: Shearstress_ptx_52 ,
-53: Shearstress_ptx_53 ,
-60: Shearstress_ptx_60 ,
-61: Shearstress_ptx_61 ,
-70: Shearstress_ptx_70 ,
-75: Shearstress_ptx_75  }
+var Shearstress_map = map[int]string{0: "",
+	30: Shearstress_ptx_30,
+	35: Shearstress_ptx_35,
+	37: Shearstress_ptx_37,
+	50: Shearstress_ptx_50,
+	52: Shearstress_ptx_52,
+	53: Shearstress_ptx_53,
+	60: Shearstress_ptx_60,
+	61: Shearstress_ptx_61,
+	70: Shearstress_ptx_70,
+	75: Shearstress_ptx_75}
 
 // Shearstress PTX code for various compute capabilities.
-const(
-  Shearstress_ptx_30 = `
+const (
+	Shearstress_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -202,7 +201,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_35 = `
+	Shearstress_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -303,7 +302,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_37 = `
+	Shearstress_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -404,7 +403,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_50 = `
+	Shearstress_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -505,7 +504,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_52 = `
+	Shearstress_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -606,7 +605,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_53 = `
+	Shearstress_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -707,7 +706,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_60 = `
+	Shearstress_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -808,7 +807,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_61 = `
+	Shearstress_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -909,7 +908,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_70 = `
+	Shearstress_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -1010,7 +1009,7 @@ BB0_4:
 
 
 `
-   Shearstress_ptx_75 = `
+	Shearstress_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -1111,4 +1110,4 @@ BB0_4:
 
 
 `
- )
+)

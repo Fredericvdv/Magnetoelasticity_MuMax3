@@ -67,6 +67,8 @@ const (
 	SECONDDERIV        = 7
 	ELAS_RUNGEKUTTA    = 8
 	MAGELAS_RUNGEKUTTA = 9
+	ELAS_LEAPFROG	   = 10
+	ELAS_YOSH		   = 11
 )
 
 func SetSolver(typ int) {
@@ -97,6 +99,10 @@ func SetSolver(typ int) {
 		stepper = new(elasRK4)
 	case MAGELAS_RUNGEKUTTA:
 		stepper = new(magelasRK4)
+	case ELAS_LEAPFROG:
+		stepper = new(elasLF)
+	case ELAS_YOSH:
+		stepper = new(elasYOSH)
 	}
 	solvertype = typ
 }

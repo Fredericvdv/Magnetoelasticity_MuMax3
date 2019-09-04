@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	poyntingg  = NewVectorField("poynting", "", "Poynting vector", setpoynting)
+	poyntingg = NewVectorField("poynting", "", "Poynting vector", setpoynting)
 )
 
 //###################
