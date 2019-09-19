@@ -59,8 +59,12 @@ func (_ *elasLF) Step() {
 	//Stage 1:
 	calcRhs(ai, f, v)
 	cuda.Madd3(u, u0, v0, ai, 1, dt, 0.5*dt*dt)
+	calcBndry()
 	calcRhs(aii, f, v)
 	cuda.Madd3(v, v0, ai, aii, 1, 0.5*dt, 0.5*dt)
+
+	NSteps++
+
 }
 
 func (_ *elasLF) Free() {}

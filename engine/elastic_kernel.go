@@ -6,7 +6,6 @@ import (
 )
 
 var (
-	//Als je dit veld als output wil?
 	SecondDerivDisp = NewVectorField("force", "", "Force/volume", calcSecondDerivDisp)
 	C11             = NewScalarParam("C11", "N/m2", "Stiffness constant C11")
 	C12             = NewScalarParam("C12", "N/m2", "Stiffness constant C12")
