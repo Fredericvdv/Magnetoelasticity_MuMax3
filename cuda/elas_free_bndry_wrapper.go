@@ -5,52 +5,52 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for Bndryy kernel
 var Bndryy_code cu.Function
 
 // Stores the arguments for Bndryy kernel invocation
-type Bndryy_args_t struct{
-	 arg_ux unsafe.Pointer
-	 arg_uy unsafe.Pointer
-	 arg_uz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_wx float32
-	 arg_wy float32
-	 arg_c1 float32
-	 arg_c2 float32
-	 argptr [10]unsafe.Pointer
+type Bndryy_args_t struct {
+	arg_ux unsafe.Pointer
+	arg_uy unsafe.Pointer
+	arg_uz unsafe.Pointer
+	arg_Nx int
+	arg_Ny int
+	arg_Nz int
+	arg_wx float32
+	arg_wy float32
+	arg_c1 float32
+	arg_c2 float32
+	argptr [10]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for Bndryy kernel invocation
 var Bndryy_args Bndryy_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 Bndryy_args.argptr[0] = unsafe.Pointer(&Bndryy_args.arg_ux)
-	 Bndryy_args.argptr[1] = unsafe.Pointer(&Bndryy_args.arg_uy)
-	 Bndryy_args.argptr[2] = unsafe.Pointer(&Bndryy_args.arg_uz)
-	 Bndryy_args.argptr[3] = unsafe.Pointer(&Bndryy_args.arg_Nx)
-	 Bndryy_args.argptr[4] = unsafe.Pointer(&Bndryy_args.arg_Ny)
-	 Bndryy_args.argptr[5] = unsafe.Pointer(&Bndryy_args.arg_Nz)
-	 Bndryy_args.argptr[6] = unsafe.Pointer(&Bndryy_args.arg_wx)
-	 Bndryy_args.argptr[7] = unsafe.Pointer(&Bndryy_args.arg_wy)
-	 Bndryy_args.argptr[8] = unsafe.Pointer(&Bndryy_args.arg_c1)
-	 Bndryy_args.argptr[9] = unsafe.Pointer(&Bndryy_args.arg_c2)
-	 }
+	Bndryy_args.argptr[0] = unsafe.Pointer(&Bndryy_args.arg_ux)
+	Bndryy_args.argptr[1] = unsafe.Pointer(&Bndryy_args.arg_uy)
+	Bndryy_args.argptr[2] = unsafe.Pointer(&Bndryy_args.arg_uz)
+	Bndryy_args.argptr[3] = unsafe.Pointer(&Bndryy_args.arg_Nx)
+	Bndryy_args.argptr[4] = unsafe.Pointer(&Bndryy_args.arg_Ny)
+	Bndryy_args.argptr[5] = unsafe.Pointer(&Bndryy_args.arg_Nz)
+	Bndryy_args.argptr[6] = unsafe.Pointer(&Bndryy_args.arg_wx)
+	Bndryy_args.argptr[7] = unsafe.Pointer(&Bndryy_args.arg_wy)
+	Bndryy_args.argptr[8] = unsafe.Pointer(&Bndryy_args.arg_c1)
+	Bndryy_args.argptr[9] = unsafe.Pointer(&Bndryy_args.arg_c2)
+}
 
 // Wrapper for Bndryy CUDA kernel, asynchronous.
-func k_Bndryy_async ( ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, c1 float32, c2 float32,  cfg *config) {
-	if Synchronous{ // debug
+func k_Bndryy_async(ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, c1 float32, c2 float32, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("Bndryy")
 	}
@@ -58,47 +58,46 @@ func k_Bndryy_async ( ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, N
 	Bndryy_args.Lock()
 	defer Bndryy_args.Unlock()
 
-	if Bndryy_code == 0{
+	if Bndryy_code == 0 {
 		Bndryy_code = fatbinLoad(Bndryy_map, "Bndryy")
 	}
 
-	 Bndryy_args.arg_ux = ux
-	 Bndryy_args.arg_uy = uy
-	 Bndryy_args.arg_uz = uz
-	 Bndryy_args.arg_Nx = Nx
-	 Bndryy_args.arg_Ny = Ny
-	 Bndryy_args.arg_Nz = Nz
-	 Bndryy_args.arg_wx = wx
-	 Bndryy_args.arg_wy = wy
-	 Bndryy_args.arg_c1 = c1
-	 Bndryy_args.arg_c2 = c2
-	
+	Bndryy_args.arg_ux = ux
+	Bndryy_args.arg_uy = uy
+	Bndryy_args.arg_uz = uz
+	Bndryy_args.arg_Nx = Nx
+	Bndryy_args.arg_Ny = Ny
+	Bndryy_args.arg_Nz = Nz
+	Bndryy_args.arg_wx = wx
+	Bndryy_args.arg_wy = wy
+	Bndryy_args.arg_c1 = c1
+	Bndryy_args.arg_c2 = c2
 
 	args := Bndryy_args.argptr[:]
 	cu.LaunchKernel(Bndryy_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("Bndryy")
 	}
 }
 
 // maps compute capability on PTX code for Bndryy kernel.
-var Bndryy_map = map[int]string{ 0: "" ,
-30: Bndryy_ptx_30 ,
-35: Bndryy_ptx_35 ,
-37: Bndryy_ptx_37 ,
-50: Bndryy_ptx_50 ,
-52: Bndryy_ptx_52 ,
-53: Bndryy_ptx_53 ,
-60: Bndryy_ptx_60 ,
-61: Bndryy_ptx_61 ,
-70: Bndryy_ptx_70 ,
-75: Bndryy_ptx_75  }
+var Bndryy_map = map[int]string{0: "",
+	30: Bndryy_ptx_30,
+	35: Bndryy_ptx_35,
+	37: Bndryy_ptx_37,
+	50: Bndryy_ptx_50,
+	52: Bndryy_ptx_52,
+	53: Bndryy_ptx_53,
+	60: Bndryy_ptx_60,
+	61: Bndryy_ptx_61,
+	70: Bndryy_ptx_70,
+	75: Bndryy_ptx_75}
 
 // Bndryy PTX code for various compute capabilities.
-const(
-  Bndryy_ptx_30 = `
+const (
+	Bndryy_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -354,7 +353,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_35 = `
+	Bndryy_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -610,7 +609,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_37 = `
+	Bndryy_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -868,7 +867,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_50 = `
+	Bndryy_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -1126,7 +1125,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_52 = `
+	Bndryy_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -1384,7 +1383,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_53 = `
+	Bndryy_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -1642,7 +1641,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_60 = `
+	Bndryy_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -1900,7 +1899,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_61 = `
+	Bndryy_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -2158,7 +2157,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_70 = `
+	Bndryy_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -2416,7 +2415,7 @@ BB0_17:
 
 
 `
-   Bndryy_ptx_75 = `
+	Bndryy_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -2674,4 +2673,4 @@ BB0_17:
 
 
 `
- )
+)

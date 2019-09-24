@@ -9,12 +9,8 @@
 extern "C" __global__ void
 addmagnetoelasticfield(float* __restrict__  Bx, float* __restrict__  By, float* __restrict__  Bz,
                       float* __restrict__  mx, float* __restrict__  my, float* __restrict__  mz,
-					  float* __restrict__ exx_, float exx_mul,
-					  float* __restrict__ eyy_, float eyy_mul,
-					  float* __restrict__ ezz_, float ezz_mul,
-					  float* __restrict__ exy_, float exy_mul,
-					  float* __restrict__ exz_, float exz_mul,
-					  float* __restrict__ eyz_, float eyz_mul,
+					  float* __restrict__ exx, float* __restrict__ eyy, float* __restrict__ ezz,
+                 	  float* __restrict__ exy, float* __restrict__ eyz, float* __restrict__ exz,	
 					  float* __restrict__ B1_, float B1_mul, 
 					  float* __restrict__ B2_, float B2_mul,
 					  float* __restrict__ Ms_, float Ms_mul,
@@ -24,17 +20,17 @@ addmagnetoelasticfield(float* __restrict__  Bx, float* __restrict__  By, float* 
 
 	if (I < N) {
 
-	    float Exx = amul(exx_, exx_mul, I);
-	    float Eyy = amul(eyy_, eyy_mul, I);
-	    float Ezz = amul(ezz_, ezz_mul, I);
+	    float Exx = exx[I];
+	    float Eyy = eyy[I];
+	    float Ezz = ezz[I];
 	    
-	    float Exy = amul(exy_, exy_mul, I);
+	    float Exy = exy[I];
 	    float Eyx = Exy;
 
-	    float Exz = amul(exz_, exz_mul, I);
+	    float Exz = exz[I];
 	    float Ezx = Exz;
 
-	    float Eyz = amul(eyz_, eyz_mul, I);
+	    float Eyz = eyz[I];
 	    float Ezy = Eyz;
 
 		float invMs = inv_Msat(Ms_, Ms_mul, I);

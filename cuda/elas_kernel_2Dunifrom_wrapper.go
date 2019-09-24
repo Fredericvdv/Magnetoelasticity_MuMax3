@@ -5,70 +5,70 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for Elastodynamic_2D kernel
 var Elastodynamic_2D_code cu.Function
 
 // Stores the arguments for Elastodynamic_2D kernel invocation
-type Elastodynamic_2D_args_t struct{
-	 arg_dux unsafe.Pointer
-	 arg_duy unsafe.Pointer
-	 arg_duz unsafe.Pointer
-	 arg_ux unsafe.Pointer
-	 arg_uy unsafe.Pointer
-	 arg_uz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_wx float32
-	 arg_wy float32
-	 arg_wz float32
-	 arg_C1_ unsafe.Pointer
-	 arg_C1_mul float32
-	 arg_C2_ unsafe.Pointer
-	 arg_C2_mul float32
-	 arg_C3_ unsafe.Pointer
-	 arg_C3_mul float32
-	 arg_PBC byte
-	 argptr [19]unsafe.Pointer
+type Elastodynamic_2D_args_t struct {
+	arg_dux    unsafe.Pointer
+	arg_duy    unsafe.Pointer
+	arg_duz    unsafe.Pointer
+	arg_ux     unsafe.Pointer
+	arg_uy     unsafe.Pointer
+	arg_uz     unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_wx     float32
+	arg_wy     float32
+	arg_wz     float32
+	arg_C1_    unsafe.Pointer
+	arg_C1_mul float32
+	arg_C2_    unsafe.Pointer
+	arg_C2_mul float32
+	arg_C3_    unsafe.Pointer
+	arg_C3_mul float32
+	arg_PBC    byte
+	argptr     [19]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for Elastodynamic_2D kernel invocation
 var Elastodynamic_2D_args Elastodynamic_2D_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 Elastodynamic_2D_args.argptr[0] = unsafe.Pointer(&Elastodynamic_2D_args.arg_dux)
-	 Elastodynamic_2D_args.argptr[1] = unsafe.Pointer(&Elastodynamic_2D_args.arg_duy)
-	 Elastodynamic_2D_args.argptr[2] = unsafe.Pointer(&Elastodynamic_2D_args.arg_duz)
-	 Elastodynamic_2D_args.argptr[3] = unsafe.Pointer(&Elastodynamic_2D_args.arg_ux)
-	 Elastodynamic_2D_args.argptr[4] = unsafe.Pointer(&Elastodynamic_2D_args.arg_uy)
-	 Elastodynamic_2D_args.argptr[5] = unsafe.Pointer(&Elastodynamic_2D_args.arg_uz)
-	 Elastodynamic_2D_args.argptr[6] = unsafe.Pointer(&Elastodynamic_2D_args.arg_Nx)
-	 Elastodynamic_2D_args.argptr[7] = unsafe.Pointer(&Elastodynamic_2D_args.arg_Ny)
-	 Elastodynamic_2D_args.argptr[8] = unsafe.Pointer(&Elastodynamic_2D_args.arg_Nz)
-	 Elastodynamic_2D_args.argptr[9] = unsafe.Pointer(&Elastodynamic_2D_args.arg_wx)
-	 Elastodynamic_2D_args.argptr[10] = unsafe.Pointer(&Elastodynamic_2D_args.arg_wy)
-	 Elastodynamic_2D_args.argptr[11] = unsafe.Pointer(&Elastodynamic_2D_args.arg_wz)
-	 Elastodynamic_2D_args.argptr[12] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C1_)
-	 Elastodynamic_2D_args.argptr[13] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C1_mul)
-	 Elastodynamic_2D_args.argptr[14] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C2_)
-	 Elastodynamic_2D_args.argptr[15] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C2_mul)
-	 Elastodynamic_2D_args.argptr[16] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C3_)
-	 Elastodynamic_2D_args.argptr[17] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C3_mul)
-	 Elastodynamic_2D_args.argptr[18] = unsafe.Pointer(&Elastodynamic_2D_args.arg_PBC)
-	 }
+	Elastodynamic_2D_args.argptr[0] = unsafe.Pointer(&Elastodynamic_2D_args.arg_dux)
+	Elastodynamic_2D_args.argptr[1] = unsafe.Pointer(&Elastodynamic_2D_args.arg_duy)
+	Elastodynamic_2D_args.argptr[2] = unsafe.Pointer(&Elastodynamic_2D_args.arg_duz)
+	Elastodynamic_2D_args.argptr[3] = unsafe.Pointer(&Elastodynamic_2D_args.arg_ux)
+	Elastodynamic_2D_args.argptr[4] = unsafe.Pointer(&Elastodynamic_2D_args.arg_uy)
+	Elastodynamic_2D_args.argptr[5] = unsafe.Pointer(&Elastodynamic_2D_args.arg_uz)
+	Elastodynamic_2D_args.argptr[6] = unsafe.Pointer(&Elastodynamic_2D_args.arg_Nx)
+	Elastodynamic_2D_args.argptr[7] = unsafe.Pointer(&Elastodynamic_2D_args.arg_Ny)
+	Elastodynamic_2D_args.argptr[8] = unsafe.Pointer(&Elastodynamic_2D_args.arg_Nz)
+	Elastodynamic_2D_args.argptr[9] = unsafe.Pointer(&Elastodynamic_2D_args.arg_wx)
+	Elastodynamic_2D_args.argptr[10] = unsafe.Pointer(&Elastodynamic_2D_args.arg_wy)
+	Elastodynamic_2D_args.argptr[11] = unsafe.Pointer(&Elastodynamic_2D_args.arg_wz)
+	Elastodynamic_2D_args.argptr[12] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C1_)
+	Elastodynamic_2D_args.argptr[13] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C1_mul)
+	Elastodynamic_2D_args.argptr[14] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C2_)
+	Elastodynamic_2D_args.argptr[15] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C2_mul)
+	Elastodynamic_2D_args.argptr[16] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C3_)
+	Elastodynamic_2D_args.argptr[17] = unsafe.Pointer(&Elastodynamic_2D_args.arg_C3_mul)
+	Elastodynamic_2D_args.argptr[18] = unsafe.Pointer(&Elastodynamic_2D_args.arg_PBC)
+}
 
 // Wrapper for Elastodynamic_2D CUDA kernel, asynchronous.
-func k_Elastodynamic_2D_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, PBC byte,  cfg *config) {
-	if Synchronous{ // debug
+func k_Elastodynamic_2D_async(dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, PBC byte, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("Elastodynamic_2D")
 	}
@@ -76,56 +76,55 @@ func k_Elastodynamic_2D_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsa
 	Elastodynamic_2D_args.Lock()
 	defer Elastodynamic_2D_args.Unlock()
 
-	if Elastodynamic_2D_code == 0{
+	if Elastodynamic_2D_code == 0 {
 		Elastodynamic_2D_code = fatbinLoad(Elastodynamic_2D_map, "Elastodynamic_2D")
 	}
 
-	 Elastodynamic_2D_args.arg_dux = dux
-	 Elastodynamic_2D_args.arg_duy = duy
-	 Elastodynamic_2D_args.arg_duz = duz
-	 Elastodynamic_2D_args.arg_ux = ux
-	 Elastodynamic_2D_args.arg_uy = uy
-	 Elastodynamic_2D_args.arg_uz = uz
-	 Elastodynamic_2D_args.arg_Nx = Nx
-	 Elastodynamic_2D_args.arg_Ny = Ny
-	 Elastodynamic_2D_args.arg_Nz = Nz
-	 Elastodynamic_2D_args.arg_wx = wx
-	 Elastodynamic_2D_args.arg_wy = wy
-	 Elastodynamic_2D_args.arg_wz = wz
-	 Elastodynamic_2D_args.arg_C1_ = C1_
-	 Elastodynamic_2D_args.arg_C1_mul = C1_mul
-	 Elastodynamic_2D_args.arg_C2_ = C2_
-	 Elastodynamic_2D_args.arg_C2_mul = C2_mul
-	 Elastodynamic_2D_args.arg_C3_ = C3_
-	 Elastodynamic_2D_args.arg_C3_mul = C3_mul
-	 Elastodynamic_2D_args.arg_PBC = PBC
-	
+	Elastodynamic_2D_args.arg_dux = dux
+	Elastodynamic_2D_args.arg_duy = duy
+	Elastodynamic_2D_args.arg_duz = duz
+	Elastodynamic_2D_args.arg_ux = ux
+	Elastodynamic_2D_args.arg_uy = uy
+	Elastodynamic_2D_args.arg_uz = uz
+	Elastodynamic_2D_args.arg_Nx = Nx
+	Elastodynamic_2D_args.arg_Ny = Ny
+	Elastodynamic_2D_args.arg_Nz = Nz
+	Elastodynamic_2D_args.arg_wx = wx
+	Elastodynamic_2D_args.arg_wy = wy
+	Elastodynamic_2D_args.arg_wz = wz
+	Elastodynamic_2D_args.arg_C1_ = C1_
+	Elastodynamic_2D_args.arg_C1_mul = C1_mul
+	Elastodynamic_2D_args.arg_C2_ = C2_
+	Elastodynamic_2D_args.arg_C2_mul = C2_mul
+	Elastodynamic_2D_args.arg_C3_ = C3_
+	Elastodynamic_2D_args.arg_C3_mul = C3_mul
+	Elastodynamic_2D_args.arg_PBC = PBC
 
 	args := Elastodynamic_2D_args.argptr[:]
 	cu.LaunchKernel(Elastodynamic_2D_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("Elastodynamic_2D")
 	}
 }
 
 // maps compute capability on PTX code for Elastodynamic_2D kernel.
-var Elastodynamic_2D_map = map[int]string{ 0: "" ,
-30: Elastodynamic_2D_ptx_30 ,
-35: Elastodynamic_2D_ptx_35 ,
-37: Elastodynamic_2D_ptx_37 ,
-50: Elastodynamic_2D_ptx_50 ,
-52: Elastodynamic_2D_ptx_52 ,
-53: Elastodynamic_2D_ptx_53 ,
-60: Elastodynamic_2D_ptx_60 ,
-61: Elastodynamic_2D_ptx_61 ,
-70: Elastodynamic_2D_ptx_70 ,
-75: Elastodynamic_2D_ptx_75  }
+var Elastodynamic_2D_map = map[int]string{0: "",
+	30: Elastodynamic_2D_ptx_30,
+	35: Elastodynamic_2D_ptx_35,
+	37: Elastodynamic_2D_ptx_37,
+	50: Elastodynamic_2D_ptx_50,
+	52: Elastodynamic_2D_ptx_52,
+	53: Elastodynamic_2D_ptx_53,
+	60: Elastodynamic_2D_ptx_60,
+	61: Elastodynamic_2D_ptx_61,
+	70: Elastodynamic_2D_ptx_70,
+	75: Elastodynamic_2D_ptx_75}
 
 // Elastodynamic_2D PTX code for various compute capabilities.
-const(
-  Elastodynamic_2D_ptx_30 = `
+const (
+	Elastodynamic_2D_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -761,7 +760,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_35 = `
+	Elastodynamic_2D_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -1369,7 +1368,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_37 = `
+	Elastodynamic_2D_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -1977,7 +1976,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_50 = `
+	Elastodynamic_2D_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -2585,7 +2584,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_52 = `
+	Elastodynamic_2D_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -3193,7 +3192,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_53 = `
+	Elastodynamic_2D_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -3801,7 +3800,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_60 = `
+	Elastodynamic_2D_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -4409,7 +4408,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_61 = `
+	Elastodynamic_2D_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -5017,7 +5016,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_70 = `
+	Elastodynamic_2D_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -5625,7 +5624,7 @@ BB0_91:
 
 
 `
-   Elastodynamic_2D_ptx_75 = `
+	Elastodynamic_2D_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -6233,4 +6232,4 @@ BB0_91:
 
 
 `
- )
+)

@@ -65,15 +65,19 @@ func (_ *elasYOSH) Step() {
 	//Integration
 
 	cuda.Madd2(u, u0, v0, 1, c1*dt)
+	calcBndry()
 	calcRhs(a1, f, v)
 	cuda.Madd2(v, v0, a1, 1, w1*dt)
 	cuda.Madd2(u, u, v, 1, c2*dt)
+	calcBndry()
 	calcRhs(a2, f, v)
 	cuda.Madd2(v, v, a2, 1, w0*dt)
 	cuda.Madd2(u, u, v, 1, c2*dt)
+	calcBndry()
 	calcRhs(a3, f, v)
 	cuda.Madd2(v, v, a3, 1, w1*dt)
 	cuda.Madd2(u, u, v, 1, c1*dt)
+	calcBndry()
 }
 
 func (_ *elasYOSH) Free() {}

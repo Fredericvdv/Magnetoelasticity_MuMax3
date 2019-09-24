@@ -7,22 +7,15 @@ import (
 
 // Add magneto-elasticit coupling field to the effective field.
 // see magnetoelasticfield.cu
-func AddMagnetoelasticField(Beff, m *data.Slice, exx, eyy, ezz, exy, exz, eyz, B1, B2, Msat MSlice) {
+func AddMagnetoelasticField(Beff, m, norm, shear *data.Slice, B1, B2, Msat MSlice) {
 	util.Argument(Beff.Size() == m.Size())
-	util.Argument(Beff.Size() == exx.Size())
-	util.Argument(Beff.Size() == eyy.Size())
-	util.Argument(Beff.Size() == ezz.Size())
-	util.Argument(Beff.Size() == exy.Size())
-	util.Argument(Beff.Size() == exz.Size())
-	util.Argument(Beff.Size() == eyz.Size())
 
 	N := Beff.Len()
 	cfg := make1DConf(N)
 
 	k_addmagnetoelasticfield_async(Beff.DevPtr(X), Beff.DevPtr(Y), Beff.DevPtr(Z),
 		m.DevPtr(X), m.DevPtr(Y), m.DevPtr(Z),
-		exx.DevPtr(0), exx.Mul(0), eyy.DevPtr(0), eyy.Mul(0), ezz.DevPtr(0), ezz.Mul(0),
-		exy.DevPtr(0), exy.Mul(0), exz.DevPtr(0), exz.Mul(0), eyz.DevPtr(0), eyz.Mul(0),
+		norm.DevPtr(X), norm.DevPtr(Y), norm.DevPtr(Z), shear.DevPtr(X), shear.DevPtr(Y), shear.DevPtr(Z),
 		B1.DevPtr(0), B1.Mul(0), B2.DevPtr(0), B2.Mul(0),
 		Msat.DevPtr(0), Msat.Mul(0),
 		N, cfg)

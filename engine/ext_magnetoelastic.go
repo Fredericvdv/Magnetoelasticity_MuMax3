@@ -37,23 +37,11 @@ func AddMagnetoelasticField(dst *data.Slice) {
 		return
 	}
 
-	Exx := exx.MSlice()
-	defer Exx.Recycle()
+	enorm := ValueOf(norm_strain.Quantity)
+	defer cuda.Recycle(enorm)
 
-	Eyy := eyy.MSlice()
-	defer Eyy.Recycle()
-
-	Ezz := ezz.MSlice()
-	defer Ezz.Recycle()
-
-	Exy := exy.MSlice()
-	defer Exy.Recycle()
-
-	Exz := exz.MSlice()
-	defer Exz.Recycle()
-
-	Eyz := eyz.MSlice()
-	defer Eyz.Recycle()
+	eshear := ValueOf(shear_strain.Quantity)
+	defer cuda.Recycle(eshear)
 
 	b1 := B1.MSlice()
 	defer b1.Recycle()
@@ -65,8 +53,7 @@ func AddMagnetoelasticField(dst *data.Slice) {
 	defer ms.Recycle()
 
 	cuda.AddMagnetoelasticField(dst, M.Buffer(),
-		Exx, Eyy, Ezz,
-		Exy, Exz, Eyz,
+		enorm, eshear,
 		b1, b2, ms)
 }
 
@@ -101,23 +88,11 @@ func AddMagnetoelasticEnergyDensity(dst *data.Slice) {
 	Mf := ValueOf(M_full)
 	defer cuda.Recycle(Mf)
 
-	Exx := exx.MSlice()
-	defer Exx.Recycle()
+	enorm := ValueOf(norm_strain.Quantity)
+	defer cuda.Recycle(enorm)
 
-	Eyy := eyy.MSlice()
-	defer Eyy.Recycle()
-
-	Ezz := ezz.MSlice()
-	defer Ezz.Recycle()
-
-	Exy := exy.MSlice()
-	defer Exy.Recycle()
-
-	Exz := exz.MSlice()
-	defer Exz.Recycle()
-
-	Eyz := eyz.MSlice()
-	defer Eyz.Recycle()
+	eshear := ValueOf(shear_strain.Quantity)
+	defer cuda.Recycle(eshear)
 
 	b1 := B1.MSlice()
 	defer b1.Recycle()
@@ -134,16 +109,14 @@ func AddMagnetoelasticEnergyDensity(dst *data.Slice) {
 	// 1st
 	cuda.Zero(buf)
 	cuda.AddMagnetoelasticField(buf, M.Buffer(),
-		Exx, Eyy, Ezz,
-		Exy, Exz, Eyz,
+		enorm, eshear,
 		b1, zeromel, ms)
 	cuda.AddDotProduct(dst, -1./2., buf, Mf)
 
 	// 1nd
 	cuda.Zero(buf)
 	cuda.AddMagnetoelasticField(buf, M.Buffer(),
-		Exx, Eyy, Ezz,
-		Exy, Exz, Eyz,
+		enorm, eshear,
 		zeromel, b2, ms)
 	cuda.AddDotProduct(dst, -1./1., buf, Mf)
 }

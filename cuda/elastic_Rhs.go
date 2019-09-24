@@ -21,8 +21,8 @@ func RightSide(dst, f, g, eta, rho, bf, melForce *data.Slice) {
 	//dst=f(t)+bf-eta*g(t)
 	Madd2(dst, f, dst, 1, 1)
 
-	//dst=f(t)+bf+melForce-eta*g(t)
-	//Madd2(dst, melForce, dst, 1, 1)
+	//dst = f(t) + bf + melForce - eta*g(t)
+	Madd2(dst, melForce, dst, 1, 1)
 
 	//dst = [f(t)+bf-eta*g(t)]/rho
 	k_pointwise_div_async(dst.DevPtr(0), dst.DevPtr(0), rho.DevPtr(0), N, cfg)

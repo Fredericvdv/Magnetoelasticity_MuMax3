@@ -33,6 +33,7 @@ func RightSide(dst, f, g *data.Slice, Eta, Rho *RegionwiseScalar, Bf *Excitation
 		size := f.Size()
 		melForce := cuda.Buffer(3, size)
 		defer cuda.Recycle(melForce)
+		cuda.Zero(melForce)
 		GetMagnetoelasticForceDensity(melForce)
 
 		cuda.RightSide(dst, f, g, eta, rho, bf, melForce)
