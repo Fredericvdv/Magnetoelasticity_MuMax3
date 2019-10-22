@@ -23,7 +23,7 @@ func (_ *elasLF) Step() {
 	size := u.Size()
 
 	//Set fixed displacement
-	SetFreezeDisp()
+	//SetFreezeDisp()
 	u0 := cuda.Buffer(3, size)
 	defer cuda.Recycle(u0)
 	data.Copy(u0, u)
@@ -59,7 +59,7 @@ func (_ *elasLF) Step() {
 	//Stage 1:
 	calcRhs(ai, f, v)
 	cuda.Madd3(u, u0, v0, ai, 1, dt, 0.5*dt*dt)
-	calcBndry()
+	//calcBndry()
 	calcRhs(aii, f, v)
 	cuda.Madd3(v, v0, ai, aii, 1, 0.5*dt, 0.5*dt)
 

@@ -31,45 +31,72 @@ NormStrain(float* __restrict__ ex, float* __restrict__ ey, float* __restrict__ e
     ez[I] = 0.0;
  
     //X-direction
-    //Right neighbor
-    I_ = idx(hclampx(ix+1), iy, iz);
-    C_ = amul(C1_, C1_mul, I_);
-    if (!(C_ == 0 || C ==0)) {
-        ex[I] += 0.5*wx*(ux[I_]-ux[I]);
+    if (ix==0) {
+        I_ = idx(hclampx(ix+1), iy, iz);
+        ex[I] += wx*(ux[I_]-ux[I]);
+    } else if (ix==Nx-1) {
+        I_ = idx(lclampx(ix-1), iy, iz);
+        ex[I] += wx*(ux[I]-ux[I_]);
+    } else {
+        I_ = idx(hclampx(ix+1), iy, iz);
+        ex[I] += 0.5*wx*ux[I_];
+        I_ = idx(lclampx(ix-1), iy, iz);
+        ex[I] -= 0.5*wx*ux[I_];
     }
-    //If there is left neighbour
-    I_ = idx(lclampx(ix-1), iy, iz);
-    C_ = amul(C1_, C1_mul, I_);
-    if (!(C_ == 0 || C ==0)) {
-        ex[I] += 0.5*wx*(ux[I]-ux[I_]);
+
+    //Y-direction
+    if (iy==0) {
+        I_ = idx(ix, hclampy(iy+1), iz);
+        ey[I] += wy*(uy[I_]-uy[I]);
+    } else if (iy==Ny-1) {
+        I_ = idx(ix, lclampy(iy-1), iz);
+        ey[I] += wy*(uy[I]-uy[I_]);
+    } else {
+        I_ = idx(ix, hclampy(iy+1), iz);
+        ey[I] += 0.5*wy*uy[I_];
+        I_ = idx(ix, lclampy(iy-1), iz);
+        ey[I] -= 0.5*wy*uy[I_];
     }
 
 
+    // //X-direction
+    // //Right neighbor
+    // I_ = idx(hclampx(ix+1), iy, iz);
+    // C_ = amul(C1_, C1_mul, I_);
+    // if (!(C_ == 0 || C ==0)) {
+    //     ex[I] += 0.5*wx*(ux[I_]-ux[I]);
+    // }
+    // //If there is left neighbour
+    // I_ = idx(lclampx(ix-1), iy, iz);
+    // C_ = amul(C1_, C1_mul, I_);
+    // if (!(C_ == 0 || C ==0)) {
+    //     ex[I] += 0.5*wx*(ux[I]-ux[I_]);
+    // }
 
-    //y-direction
-    I_ = idx(ix, hclampy(iy+1), iz);
-    C_ = amul(C1_, C1_mul, I_);
-    if (!(C_ == 0 || C ==0)) {
-        ey[I] += 0.5*wy*(uy[I_]-uy[I]);
-    }
-    //If there is left neighbour
-    I_ = idx(ix, lclampy(iy-1), iz);
-    C_ = amul(C1_, C1_mul, I_);
-    if (!(C_ == 0 || C ==0)) {
-        ey[I] += 0.5*wy*(uy[I]-uy[I_]);
-    }
+    // //y-direction
+    // I_ = idx(ix, hclampy(iy+1), iz);
+    // C_ = amul(C1_, C1_mul, I_);
+    // if (!(C_ == 0 || C ==0)) {
+    //     ey[I] += 0.5*wy*(uy[I_]-uy[I]);
+    // }
+    // //If there is left neighbour
+    // I_ = idx(ix, lclampy(iy-1), iz);
+    // C_ = amul(C1_, C1_mul, I_);
+    // if (!(C_ == 0 || C ==0)) {
+    //     ey[I] += 0.5*wy*(uy[I]-uy[I_]);
+    // }
 
     
-    //z-direction
-    I_ = idx(ix, iy, hclampz(iz+1));
-    C_ = amul(C1_, C1_mul, I_);
-    if (!(C_ == 0 || C ==0)) {
-        ez[I] += 0.5*wz*(uz[I_]-uz[I]);
-    }
-    //If there is left neighbour
-    I_ = idx(ix, iy, lclampz(iz-1));
-    C_ = amul(C1_, C1_mul, I_);
-    if (!(C_ == 0 || C ==0)) {
-        ez[I] += 0.5*wz*(uz[I]-uz[I_]);
-    }
+    // //z-direction
+    // I_ = idx(ix, iy, hclampz(iz+1));
+    // C_ = amul(C1_, C1_mul, I_);
+    // if (!(C_ == 0 || C ==0)) {
+    //     ez[I] += 0.5*wz*(uz[I_]-uz[I]);
+    // }
+    // //If there is left neighbour
+    // I_ = idx(ix, iy, lclampz(iz-1));
+    // C_ = amul(C1_, C1_mul, I_);
+    // if (!(C_ == 0 || C ==0)) {
+    //     ez[I] += 0.5*wz*(uz[I]-uz[I_]);
+    // }
 }

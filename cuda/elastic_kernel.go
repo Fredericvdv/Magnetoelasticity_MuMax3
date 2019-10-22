@@ -24,7 +24,15 @@ func SecondDerivative(dst, u *data.Slice, mesh *data.Mesh, c1, c2, c3 MSlice) {
 	// 	u.DevPtr(X), u.DevPtr(Y), u.DevPtr(Z), N[X], N[Y], N[Z], wx, wy, wz,
 	// 	c1.DevPtr(0), c1.Mul(0), c2.DevPtr(0), c2.Mul(0), c3.DevPtr(0), c3.Mul(0),
 	// 	pbc, cfg)
-	k_Elastodynamic_2D_async(dst.DevPtr(X), dst.DevPtr(Y), dst.DevPtr(Z),
+
+	//Vacuum method
+	// k_Elastodynamic_2D_async(dst.DevPtr(X), dst.DevPtr(Y), dst.DevPtr(Z),
+	// 	u.DevPtr(X), u.DevPtr(Y), u.DevPtr(Z), N[X], N[Y], N[Z], wx, wy, wz,
+	// 	c1.DevPtr(0), c1.Mul(0), c2.DevPtr(0), c2.Mul(0), c3.DevPtr(0), c3.Mul(0),
+	// 	pbc, cfg)
+
+	//Adjusted differential equation at edges
+	k_Elastos_async(dst.DevPtr(X), dst.DevPtr(Y), dst.DevPtr(Z),
 		u.DevPtr(X), u.DevPtr(Y), u.DevPtr(Z), N[X], N[Y], N[Z], wx, wy, wz,
 		c1.DevPtr(0), c1.Mul(0), c2.DevPtr(0), c2.Mul(0), c3.DevPtr(0), c3.Mul(0),
 		pbc, cfg)

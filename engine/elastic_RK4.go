@@ -68,9 +68,9 @@ func (_ *elasRK4) Step() {
 	//#####################
 	// du/dt = v(t) ~ ku
 	// dv/dt = right(t) ~ kv
+
 	//Stage 1:
 	calcRhs(kv1, f, v)
-
 	ku1 = v0
 
 	//Stage 2:
@@ -78,18 +78,16 @@ func (_ *elasRK4) Step() {
 	Time = t0 + (1./2.)*Dt_si
 	cuda.Madd2(u, u0, ku1, 1, (1./2.)*dt)
 	cuda.Madd2(v, v0, kv1, 1, (1./2.)*dt)
-	calcBndry()
+	//calcBndry()
 	calcRhs(kv2, f, v)
-
 	cuda.Madd2(ku2, v0, kv1, 1, (1./2.)*dt)
 
 	//Stage 3:
 	//u = u0*1 + k2*dt/2
 	cuda.Madd2(u, u0, ku2, 1, (1./2.)*dt)
 	cuda.Madd2(v, v0, kv2, 1, (1./2.)*dt)
-	calcBndry()
+	//calcBndry()
 	calcRhs(kv3, f, v)
-
 	cuda.Madd2(ku3, v0, kv2, 1, (1./2.)*dt)
 
 	//Stage 4:
@@ -97,9 +95,8 @@ func (_ *elasRK4) Step() {
 	Time = t0 + Dt_si
 	cuda.Madd2(u, u0, ku3, 1, 1.*dt)
 	cuda.Madd2(v, v0, kv3, 1, 1.*dt)
-	calcBndry()
+	//calcBndry()
 	calcRhs(kv4, f, v)
-
 	cuda.Madd2(ku4, v0, kv3, 1, 1.*dt)
 
 	//###############################
@@ -135,7 +132,7 @@ func (_ *elasRK4) Step() {
 
 		madd5(u, u0, ku1, ku2, ku3, ku4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
 		madd5(v, v0, kv1, kv2, kv3, kv4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
-		calcBndry()
+		//calcBndry()
 		//If you run second derivative together with LLG, then remove NSteps++
 		NSteps++
 
