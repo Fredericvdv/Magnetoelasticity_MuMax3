@@ -5,70 +5,70 @@ package cuda
  EDITING IS FUTILE.
 */
 
-import(
-	"unsafe"
+import (
 	"github.com/mumax/3/cuda/cu"
 	"github.com/mumax/3/timer"
 	"sync"
+	"unsafe"
 )
 
 // CUDA handle for Elastos kernel
 var Elastos_code cu.Function
 
 // Stores the arguments for Elastos kernel invocation
-type Elastos_args_t struct{
-	 arg_dux unsafe.Pointer
-	 arg_duy unsafe.Pointer
-	 arg_duz unsafe.Pointer
-	 arg_ux unsafe.Pointer
-	 arg_uy unsafe.Pointer
-	 arg_uz unsafe.Pointer
-	 arg_Nx int
-	 arg_Ny int
-	 arg_Nz int
-	 arg_wx float32
-	 arg_wy float32
-	 arg_wz float32
-	 arg_C1_ unsafe.Pointer
-	 arg_C1_mul float32
-	 arg_C2_ unsafe.Pointer
-	 arg_C2_mul float32
-	 arg_C3_ unsafe.Pointer
-	 arg_C3_mul float32
-	 arg_PBC byte
-	 argptr [19]unsafe.Pointer
+type Elastos_args_t struct {
+	arg_dux    unsafe.Pointer
+	arg_duy    unsafe.Pointer
+	arg_duz    unsafe.Pointer
+	arg_ux     unsafe.Pointer
+	arg_uy     unsafe.Pointer
+	arg_uz     unsafe.Pointer
+	arg_Nx     int
+	arg_Ny     int
+	arg_Nz     int
+	arg_wx     float32
+	arg_wy     float32
+	arg_wz     float32
+	arg_C1_    unsafe.Pointer
+	arg_C1_mul float32
+	arg_C2_    unsafe.Pointer
+	arg_C2_mul float32
+	arg_C3_    unsafe.Pointer
+	arg_C3_mul float32
+	arg_PBC    byte
+	argptr     [19]unsafe.Pointer
 	sync.Mutex
 }
 
 // Stores the arguments for Elastos kernel invocation
 var Elastos_args Elastos_args_t
 
-func init(){
+func init() {
 	// CUDA driver kernel call wants pointers to arguments, set them up once.
-	 Elastos_args.argptr[0] = unsafe.Pointer(&Elastos_args.arg_dux)
-	 Elastos_args.argptr[1] = unsafe.Pointer(&Elastos_args.arg_duy)
-	 Elastos_args.argptr[2] = unsafe.Pointer(&Elastos_args.arg_duz)
-	 Elastos_args.argptr[3] = unsafe.Pointer(&Elastos_args.arg_ux)
-	 Elastos_args.argptr[4] = unsafe.Pointer(&Elastos_args.arg_uy)
-	 Elastos_args.argptr[5] = unsafe.Pointer(&Elastos_args.arg_uz)
-	 Elastos_args.argptr[6] = unsafe.Pointer(&Elastos_args.arg_Nx)
-	 Elastos_args.argptr[7] = unsafe.Pointer(&Elastos_args.arg_Ny)
-	 Elastos_args.argptr[8] = unsafe.Pointer(&Elastos_args.arg_Nz)
-	 Elastos_args.argptr[9] = unsafe.Pointer(&Elastos_args.arg_wx)
-	 Elastos_args.argptr[10] = unsafe.Pointer(&Elastos_args.arg_wy)
-	 Elastos_args.argptr[11] = unsafe.Pointer(&Elastos_args.arg_wz)
-	 Elastos_args.argptr[12] = unsafe.Pointer(&Elastos_args.arg_C1_)
-	 Elastos_args.argptr[13] = unsafe.Pointer(&Elastos_args.arg_C1_mul)
-	 Elastos_args.argptr[14] = unsafe.Pointer(&Elastos_args.arg_C2_)
-	 Elastos_args.argptr[15] = unsafe.Pointer(&Elastos_args.arg_C2_mul)
-	 Elastos_args.argptr[16] = unsafe.Pointer(&Elastos_args.arg_C3_)
-	 Elastos_args.argptr[17] = unsafe.Pointer(&Elastos_args.arg_C3_mul)
-	 Elastos_args.argptr[18] = unsafe.Pointer(&Elastos_args.arg_PBC)
-	 }
+	Elastos_args.argptr[0] = unsafe.Pointer(&Elastos_args.arg_dux)
+	Elastos_args.argptr[1] = unsafe.Pointer(&Elastos_args.arg_duy)
+	Elastos_args.argptr[2] = unsafe.Pointer(&Elastos_args.arg_duz)
+	Elastos_args.argptr[3] = unsafe.Pointer(&Elastos_args.arg_ux)
+	Elastos_args.argptr[4] = unsafe.Pointer(&Elastos_args.arg_uy)
+	Elastos_args.argptr[5] = unsafe.Pointer(&Elastos_args.arg_uz)
+	Elastos_args.argptr[6] = unsafe.Pointer(&Elastos_args.arg_Nx)
+	Elastos_args.argptr[7] = unsafe.Pointer(&Elastos_args.arg_Ny)
+	Elastos_args.argptr[8] = unsafe.Pointer(&Elastos_args.arg_Nz)
+	Elastos_args.argptr[9] = unsafe.Pointer(&Elastos_args.arg_wx)
+	Elastos_args.argptr[10] = unsafe.Pointer(&Elastos_args.arg_wy)
+	Elastos_args.argptr[11] = unsafe.Pointer(&Elastos_args.arg_wz)
+	Elastos_args.argptr[12] = unsafe.Pointer(&Elastos_args.arg_C1_)
+	Elastos_args.argptr[13] = unsafe.Pointer(&Elastos_args.arg_C1_mul)
+	Elastos_args.argptr[14] = unsafe.Pointer(&Elastos_args.arg_C2_)
+	Elastos_args.argptr[15] = unsafe.Pointer(&Elastos_args.arg_C2_mul)
+	Elastos_args.argptr[16] = unsafe.Pointer(&Elastos_args.arg_C3_)
+	Elastos_args.argptr[17] = unsafe.Pointer(&Elastos_args.arg_C3_mul)
+	Elastos_args.argptr[18] = unsafe.Pointer(&Elastos_args.arg_PBC)
+}
 
 // Wrapper for Elastos CUDA kernel, asynchronous.
-func k_Elastos_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, PBC byte,  cfg *config) {
-	if Synchronous{ // debug
+func k_Elastos_async(dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointer, ux unsafe.Pointer, uy unsafe.Pointer, uz unsafe.Pointer, Nx int, Ny int, Nz int, wx float32, wy float32, wz float32, C1_ unsafe.Pointer, C1_mul float32, C2_ unsafe.Pointer, C2_mul float32, C3_ unsafe.Pointer, C3_mul float32, PBC byte, cfg *config) {
+	if Synchronous { // debug
 		Sync()
 		timer.Start("Elastos")
 	}
@@ -76,56 +76,55 @@ func k_Elastos_async ( dux unsafe.Pointer, duy unsafe.Pointer, duz unsafe.Pointe
 	Elastos_args.Lock()
 	defer Elastos_args.Unlock()
 
-	if Elastos_code == 0{
+	if Elastos_code == 0 {
 		Elastos_code = fatbinLoad(Elastos_map, "Elastos")
 	}
 
-	 Elastos_args.arg_dux = dux
-	 Elastos_args.arg_duy = duy
-	 Elastos_args.arg_duz = duz
-	 Elastos_args.arg_ux = ux
-	 Elastos_args.arg_uy = uy
-	 Elastos_args.arg_uz = uz
-	 Elastos_args.arg_Nx = Nx
-	 Elastos_args.arg_Ny = Ny
-	 Elastos_args.arg_Nz = Nz
-	 Elastos_args.arg_wx = wx
-	 Elastos_args.arg_wy = wy
-	 Elastos_args.arg_wz = wz
-	 Elastos_args.arg_C1_ = C1_
-	 Elastos_args.arg_C1_mul = C1_mul
-	 Elastos_args.arg_C2_ = C2_
-	 Elastos_args.arg_C2_mul = C2_mul
-	 Elastos_args.arg_C3_ = C3_
-	 Elastos_args.arg_C3_mul = C3_mul
-	 Elastos_args.arg_PBC = PBC
-	
+	Elastos_args.arg_dux = dux
+	Elastos_args.arg_duy = duy
+	Elastos_args.arg_duz = duz
+	Elastos_args.arg_ux = ux
+	Elastos_args.arg_uy = uy
+	Elastos_args.arg_uz = uz
+	Elastos_args.arg_Nx = Nx
+	Elastos_args.arg_Ny = Ny
+	Elastos_args.arg_Nz = Nz
+	Elastos_args.arg_wx = wx
+	Elastos_args.arg_wy = wy
+	Elastos_args.arg_wz = wz
+	Elastos_args.arg_C1_ = C1_
+	Elastos_args.arg_C1_mul = C1_mul
+	Elastos_args.arg_C2_ = C2_
+	Elastos_args.arg_C2_mul = C2_mul
+	Elastos_args.arg_C3_ = C3_
+	Elastos_args.arg_C3_mul = C3_mul
+	Elastos_args.arg_PBC = PBC
 
 	args := Elastos_args.argptr[:]
 	cu.LaunchKernel(Elastos_code, cfg.Grid.X, cfg.Grid.Y, cfg.Grid.Z, cfg.Block.X, cfg.Block.Y, cfg.Block.Z, 0, stream0, args)
 
-	if Synchronous{ // debug
+	if Synchronous { // debug
 		Sync()
 		timer.Stop("Elastos")
 	}
 }
 
 // maps compute capability on PTX code for Elastos kernel.
-var Elastos_map = map[int]string{ 0: "" ,
-30: Elastos_ptx_30 ,
-35: Elastos_ptx_35 ,
-37: Elastos_ptx_37 ,
-50: Elastos_ptx_50 ,
-52: Elastos_ptx_52 ,
-53: Elastos_ptx_53 ,
-60: Elastos_ptx_60 ,
-61: Elastos_ptx_61 ,
-70: Elastos_ptx_70 ,
-75: Elastos_ptx_75  }
+var Elastos_map = map[int]string{0: "",
+	30: Elastos_ptx_30,
+	35: Elastos_ptx_35,
+	37: Elastos_ptx_37,
+	50: Elastos_ptx_50,
+	52: Elastos_ptx_52,
+	53: Elastos_ptx_53,
+	60: Elastos_ptx_60,
+	61: Elastos_ptx_61,
+	70: Elastos_ptx_70,
+	75: Elastos_ptx_75}
 
 // Elastos PTX code for various compute capabilities.
-const(
-  Elastos_ptx_30 = `
+const (
+	Elastos_ptx_30 = `
 .version 6.3
 .target sm_30
 .address_size 64
@@ -3148,7 +3147,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_35 = `
+	Elastos_ptx_35 = `
 .version 6.3
 .target sm_35
 .address_size 64
@@ -5971,7 +5970,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_37 = `
+	Elastos_ptx_37 = `
 .version 6.3
 .target sm_37
 .address_size 64
@@ -8794,7 +8793,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_50 = `
+	Elastos_ptx_50 = `
 .version 6.3
 .target sm_50
 .address_size 64
@@ -11617,7 +11616,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_52 = `
+	Elastos_ptx_52 = `
 .version 6.3
 .target sm_52
 .address_size 64
@@ -14440,7 +14439,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_53 = `
+	Elastos_ptx_53 = `
 .version 6.3
 .target sm_53
 .address_size 64
@@ -17263,7 +17262,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_60 = `
+	Elastos_ptx_60 = `
 .version 6.3
 .target sm_60
 .address_size 64
@@ -20086,7 +20085,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_61 = `
+	Elastos_ptx_61 = `
 .version 6.3
 .target sm_61
 .address_size 64
@@ -22909,7 +22908,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_70 = `
+	Elastos_ptx_70 = `
 .version 6.3
 .target sm_70
 .address_size 64
@@ -25732,7 +25731,7 @@ BB0_462:
 
 
 `
-   Elastos_ptx_75 = `
+	Elastos_ptx_75 = `
 .version 6.3
 .target sm_75
 .address_size 64
@@ -28555,4 +28554,4 @@ BB0_462:
 
 
 `
- )
+)

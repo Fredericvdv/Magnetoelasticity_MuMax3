@@ -59,3 +59,14 @@ func Madd3(dst, src1, src2, src3 *data.Slice, factor1, factor2, factor3 float32)
 			src2.DevPtr(c), factor2, src3.DevPtr(c), factor3, N, cfg)
 	}
 }
+
+// scale:  x[i] = scale*x[i] + offset
+func Scale(x *data.Slice, scale float32, offset []float64) {
+	nComp := x.NComp()
+	util.Assert(nComp == len(offset))
+	N := x.Len()
+	cfg := make1DConf(N)
+	for c := 0; c < nComp; c++ {
+		k_scale_async(x.DevPtr(c), scale, -float32(offset[c]), N, cfg)
+	}
+}

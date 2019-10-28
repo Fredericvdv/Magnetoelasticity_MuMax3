@@ -159,7 +159,13 @@ func (_ *magelasRK4) Step() {
 		// calcBndry()
 		madd5(v, v0, kv1, kv2, kv3, kv4, 1, (1./6.)*dt, (1./3.)*dt, (1./3.)*dt, (1./6.)*dt)
 		madd5(m, m0, km1, km2, km3, km4, 1, (1./6.)*dt*float32(GammaLL), (1./3.)*dt*float32(GammaLL), (1./3.)*dt*float32(GammaLL), (1./6.)*dt*float32(GammaLL))
+		
+		//Post handlings
 		M.normalize()
+		for i := 0; i < 3; i++ {
+			cuda.Scale(u, 1, U.average())
+		}
+
 		//If you run second derivative together with LLG, then remove NSteps++
 		NSteps++
 
