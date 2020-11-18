@@ -100,6 +100,7 @@ func k_poynting_async(px unsafe.Pointer, py unsafe.Pointer, pz unsafe.Pointer, v
 // maps compute capability on PTX code for poynting kernel.
 var poynting_map = map[int]string{0: "",
 	30: poynting_ptx_30,
+	32: poynting_ptx_32,
 	35: poynting_ptx_35,
 	37: poynting_ptx_37,
 	50: poynting_ptx_50,
@@ -107,13 +108,15 @@ var poynting_map = map[int]string{0: "",
 	53: poynting_ptx_53,
 	60: poynting_ptx_60,
 	61: poynting_ptx_61,
+	62: poynting_ptx_62,
 	70: poynting_ptx_70,
+	72: poynting_ptx_72,
 	75: poynting_ptx_75}
 
 // poynting PTX code for various compute capabilities.
 const (
 	poynting_ptx_30 = `
-.version 6.3
+.version 6.4
 .target sm_30
 .address_size 64
 
@@ -235,8 +238,131 @@ BB0_2:
 
 
 `
+	poynting_ptx_32 = `
+.version 6.4
+.target sm_32
+.address_size 64
+
+	// .globl	poynting
+
+.visible .entry poynting(
+	.param .u64 poynting_param_0,
+	.param .u64 poynting_param_1,
+	.param .u64 poynting_param_2,
+	.param .u64 poynting_param_3,
+	.param .u64 poynting_param_4,
+	.param .u64 poynting_param_5,
+	.param .u64 poynting_param_6,
+	.param .u64 poynting_param_7,
+	.param .u64 poynting_param_8,
+	.param .u64 poynting_param_9,
+	.param .u64 poynting_param_10,
+	.param .u64 poynting_param_11,
+	.param .u32 poynting_param_12,
+	.param .u32 poynting_param_13,
+	.param .u32 poynting_param_14
+)
+{
+	.reg .pred 	%p<6>;
+	.reg .f32 	%f<22>;
+	.reg .b32 	%r<18>;
+	.reg .b64 	%rd<38>;
+
+
+	ld.param.u64 	%rd1, [poynting_param_0];
+	ld.param.u64 	%rd2, [poynting_param_1];
+	ld.param.u64 	%rd3, [poynting_param_2];
+	ld.param.u64 	%rd4, [poynting_param_3];
+	ld.param.u64 	%rd5, [poynting_param_4];
+	ld.param.u64 	%rd6, [poynting_param_5];
+	ld.param.u64 	%rd7, [poynting_param_6];
+	ld.param.u64 	%rd8, [poynting_param_7];
+	ld.param.u64 	%rd9, [poynting_param_8];
+	ld.param.u64 	%rd10, [poynting_param_9];
+	ld.param.u64 	%rd11, [poynting_param_10];
+	ld.param.u64 	%rd12, [poynting_param_11];
+	ld.param.u32 	%r4, [poynting_param_12];
+	ld.param.u32 	%r5, [poynting_param_13];
+	ld.param.u32 	%r6, [poynting_param_14];
+	mov.u32 	%r7, %ctaid.x;
+	mov.u32 	%r8, %ntid.x;
+	mov.u32 	%r9, %tid.x;
+	mad.lo.s32 	%r1, %r8, %r7, %r9;
+	mov.u32 	%r10, %ntid.y;
+	mov.u32 	%r11, %ctaid.y;
+	mov.u32 	%r12, %tid.y;
+	mad.lo.s32 	%r2, %r10, %r11, %r12;
+	mov.u32 	%r13, %ntid.z;
+	mov.u32 	%r14, %ctaid.z;
+	mov.u32 	%r15, %tid.z;
+	mad.lo.s32 	%r3, %r13, %r14, %r15;
+	setp.ge.s32	%p1, %r2, %r5;
+	setp.ge.s32	%p2, %r1, %r4;
+	or.pred  	%p3, %p1, %p2;
+	setp.ge.s32	%p4, %r3, %r6;
+	or.pred  	%p5, %p3, %p4;
+	@%p5 bra 	BB0_2;
+
+	cvta.to.global.u64 	%rd13, %rd4;
+	mad.lo.s32 	%r16, %r3, %r5, %r2;
+	mad.lo.s32 	%r17, %r16, %r4, %r1;
+	mul.wide.s32 	%rd14, %r17, 4;
+	add.s64 	%rd15, %rd13, %rd14;
+	cvta.to.global.u64 	%rd16, %rd7;
+	add.s64 	%rd17, %rd16, %rd14;
+	ld.global.nc.f32 	%f1, [%rd17];
+	ld.global.nc.f32 	%f2, [%rd15];
+	cvta.to.global.u64 	%rd18, %rd5;
+	add.s64 	%rd19, %rd18, %rd14;
+	cvta.to.global.u64 	%rd20, %rd10;
+	add.s64 	%rd21, %rd20, %rd14;
+	ld.global.nc.f32 	%f3, [%rd21];
+	ld.global.nc.f32 	%f4, [%rd19];
+	mul.f32 	%f5, %f4, %f3;
+	fma.rn.f32 	%f6, %f2, %f1, %f5;
+	cvta.to.global.u64 	%rd22, %rd6;
+	add.s64 	%rd23, %rd22, %rd14;
+	cvta.to.global.u64 	%rd24, %rd12;
+	add.s64 	%rd25, %rd24, %rd14;
+	ld.global.nc.f32 	%f7, [%rd25];
+	ld.global.nc.f32 	%f8, [%rd23];
+	fma.rn.f32 	%f9, %f8, %f7, %f6;
+	neg.f32 	%f10, %f9;
+	cvta.to.global.u64 	%rd26, %rd1;
+	add.s64 	%rd27, %rd26, %rd14;
+	st.global.f32 	[%rd27], %f10;
+	cvta.to.global.u64 	%rd28, %rd8;
+	add.s64 	%rd29, %rd28, %rd14;
+	ld.global.nc.f32 	%f11, [%rd29];
+	mul.f32 	%f12, %f4, %f11;
+	fma.rn.f32 	%f13, %f2, %f3, %f12;
+	cvta.to.global.u64 	%rd30, %rd11;
+	add.s64 	%rd31, %rd30, %rd14;
+	ld.global.nc.f32 	%f14, [%rd31];
+	fma.rn.f32 	%f15, %f8, %f14, %f13;
+	neg.f32 	%f16, %f15;
+	cvta.to.global.u64 	%rd32, %rd2;
+	add.s64 	%rd33, %rd32, %rd14;
+	st.global.f32 	[%rd33], %f16;
+	mul.f32 	%f17, %f4, %f14;
+	fma.rn.f32 	%f18, %f2, %f7, %f17;
+	cvta.to.global.u64 	%rd34, %rd9;
+	add.s64 	%rd35, %rd34, %rd14;
+	ld.global.nc.f32 	%f19, [%rd35];
+	fma.rn.f32 	%f20, %f8, %f19, %f18;
+	neg.f32 	%f21, %f20;
+	cvta.to.global.u64 	%rd36, %rd3;
+	add.s64 	%rd37, %rd36, %rd14;
+	st.global.f32 	[%rd37], %f21;
+
+BB0_2:
+	ret;
+}
+
+
+`
 	poynting_ptx_35 = `
-.version 6.3
+.version 6.4
 .target sm_35
 .address_size 64
 
@@ -359,7 +485,7 @@ BB0_2:
 
 `
 	poynting_ptx_37 = `
-.version 6.3
+.version 6.4
 .target sm_37
 .address_size 64
 
@@ -482,7 +608,7 @@ BB0_2:
 
 `
 	poynting_ptx_50 = `
-.version 6.3
+.version 6.4
 .target sm_50
 .address_size 64
 
@@ -605,7 +731,7 @@ BB0_2:
 
 `
 	poynting_ptx_52 = `
-.version 6.3
+.version 6.4
 .target sm_52
 .address_size 64
 
@@ -728,7 +854,7 @@ BB0_2:
 
 `
 	poynting_ptx_53 = `
-.version 6.3
+.version 6.4
 .target sm_53
 .address_size 64
 
@@ -851,7 +977,7 @@ BB0_2:
 
 `
 	poynting_ptx_60 = `
-.version 6.3
+.version 6.4
 .target sm_60
 .address_size 64
 
@@ -974,7 +1100,7 @@ BB0_2:
 
 `
 	poynting_ptx_61 = `
-.version 6.3
+.version 6.4
 .target sm_61
 .address_size 64
 
@@ -1096,8 +1222,131 @@ BB0_2:
 
 
 `
+	poynting_ptx_62 = `
+.version 6.4
+.target sm_62
+.address_size 64
+
+	// .globl	poynting
+
+.visible .entry poynting(
+	.param .u64 poynting_param_0,
+	.param .u64 poynting_param_1,
+	.param .u64 poynting_param_2,
+	.param .u64 poynting_param_3,
+	.param .u64 poynting_param_4,
+	.param .u64 poynting_param_5,
+	.param .u64 poynting_param_6,
+	.param .u64 poynting_param_7,
+	.param .u64 poynting_param_8,
+	.param .u64 poynting_param_9,
+	.param .u64 poynting_param_10,
+	.param .u64 poynting_param_11,
+	.param .u32 poynting_param_12,
+	.param .u32 poynting_param_13,
+	.param .u32 poynting_param_14
+)
+{
+	.reg .pred 	%p<6>;
+	.reg .f32 	%f<22>;
+	.reg .b32 	%r<18>;
+	.reg .b64 	%rd<38>;
+
+
+	ld.param.u64 	%rd1, [poynting_param_0];
+	ld.param.u64 	%rd2, [poynting_param_1];
+	ld.param.u64 	%rd3, [poynting_param_2];
+	ld.param.u64 	%rd4, [poynting_param_3];
+	ld.param.u64 	%rd5, [poynting_param_4];
+	ld.param.u64 	%rd6, [poynting_param_5];
+	ld.param.u64 	%rd7, [poynting_param_6];
+	ld.param.u64 	%rd8, [poynting_param_7];
+	ld.param.u64 	%rd9, [poynting_param_8];
+	ld.param.u64 	%rd10, [poynting_param_9];
+	ld.param.u64 	%rd11, [poynting_param_10];
+	ld.param.u64 	%rd12, [poynting_param_11];
+	ld.param.u32 	%r4, [poynting_param_12];
+	ld.param.u32 	%r5, [poynting_param_13];
+	ld.param.u32 	%r6, [poynting_param_14];
+	mov.u32 	%r7, %ctaid.x;
+	mov.u32 	%r8, %ntid.x;
+	mov.u32 	%r9, %tid.x;
+	mad.lo.s32 	%r1, %r8, %r7, %r9;
+	mov.u32 	%r10, %ntid.y;
+	mov.u32 	%r11, %ctaid.y;
+	mov.u32 	%r12, %tid.y;
+	mad.lo.s32 	%r2, %r10, %r11, %r12;
+	mov.u32 	%r13, %ntid.z;
+	mov.u32 	%r14, %ctaid.z;
+	mov.u32 	%r15, %tid.z;
+	mad.lo.s32 	%r3, %r13, %r14, %r15;
+	setp.ge.s32	%p1, %r2, %r5;
+	setp.ge.s32	%p2, %r1, %r4;
+	or.pred  	%p3, %p1, %p2;
+	setp.ge.s32	%p4, %r3, %r6;
+	or.pred  	%p5, %p3, %p4;
+	@%p5 bra 	BB0_2;
+
+	cvta.to.global.u64 	%rd13, %rd4;
+	mad.lo.s32 	%r16, %r3, %r5, %r2;
+	mad.lo.s32 	%r17, %r16, %r4, %r1;
+	mul.wide.s32 	%rd14, %r17, 4;
+	add.s64 	%rd15, %rd13, %rd14;
+	cvta.to.global.u64 	%rd16, %rd7;
+	add.s64 	%rd17, %rd16, %rd14;
+	ld.global.nc.f32 	%f1, [%rd17];
+	ld.global.nc.f32 	%f2, [%rd15];
+	cvta.to.global.u64 	%rd18, %rd5;
+	add.s64 	%rd19, %rd18, %rd14;
+	cvta.to.global.u64 	%rd20, %rd10;
+	add.s64 	%rd21, %rd20, %rd14;
+	ld.global.nc.f32 	%f3, [%rd21];
+	ld.global.nc.f32 	%f4, [%rd19];
+	mul.f32 	%f5, %f4, %f3;
+	fma.rn.f32 	%f6, %f2, %f1, %f5;
+	cvta.to.global.u64 	%rd22, %rd6;
+	add.s64 	%rd23, %rd22, %rd14;
+	cvta.to.global.u64 	%rd24, %rd12;
+	add.s64 	%rd25, %rd24, %rd14;
+	ld.global.nc.f32 	%f7, [%rd25];
+	ld.global.nc.f32 	%f8, [%rd23];
+	fma.rn.f32 	%f9, %f8, %f7, %f6;
+	neg.f32 	%f10, %f9;
+	cvta.to.global.u64 	%rd26, %rd1;
+	add.s64 	%rd27, %rd26, %rd14;
+	st.global.f32 	[%rd27], %f10;
+	cvta.to.global.u64 	%rd28, %rd8;
+	add.s64 	%rd29, %rd28, %rd14;
+	ld.global.nc.f32 	%f11, [%rd29];
+	mul.f32 	%f12, %f4, %f11;
+	fma.rn.f32 	%f13, %f2, %f3, %f12;
+	cvta.to.global.u64 	%rd30, %rd11;
+	add.s64 	%rd31, %rd30, %rd14;
+	ld.global.nc.f32 	%f14, [%rd31];
+	fma.rn.f32 	%f15, %f8, %f14, %f13;
+	neg.f32 	%f16, %f15;
+	cvta.to.global.u64 	%rd32, %rd2;
+	add.s64 	%rd33, %rd32, %rd14;
+	st.global.f32 	[%rd33], %f16;
+	mul.f32 	%f17, %f4, %f14;
+	fma.rn.f32 	%f18, %f2, %f7, %f17;
+	cvta.to.global.u64 	%rd34, %rd9;
+	add.s64 	%rd35, %rd34, %rd14;
+	ld.global.nc.f32 	%f19, [%rd35];
+	fma.rn.f32 	%f20, %f8, %f19, %f18;
+	neg.f32 	%f21, %f20;
+	cvta.to.global.u64 	%rd36, %rd3;
+	add.s64 	%rd37, %rd36, %rd14;
+	st.global.f32 	[%rd37], %f21;
+
+BB0_2:
+	ret;
+}
+
+
+`
 	poynting_ptx_70 = `
-.version 6.3
+.version 6.4
 .target sm_70
 .address_size 64
 
@@ -1219,8 +1468,131 @@ BB0_2:
 
 
 `
+	poynting_ptx_72 = `
+.version 6.4
+.target sm_72
+.address_size 64
+
+	// .globl	poynting
+
+.visible .entry poynting(
+	.param .u64 poynting_param_0,
+	.param .u64 poynting_param_1,
+	.param .u64 poynting_param_2,
+	.param .u64 poynting_param_3,
+	.param .u64 poynting_param_4,
+	.param .u64 poynting_param_5,
+	.param .u64 poynting_param_6,
+	.param .u64 poynting_param_7,
+	.param .u64 poynting_param_8,
+	.param .u64 poynting_param_9,
+	.param .u64 poynting_param_10,
+	.param .u64 poynting_param_11,
+	.param .u32 poynting_param_12,
+	.param .u32 poynting_param_13,
+	.param .u32 poynting_param_14
+)
+{
+	.reg .pred 	%p<6>;
+	.reg .f32 	%f<22>;
+	.reg .b32 	%r<18>;
+	.reg .b64 	%rd<38>;
+
+
+	ld.param.u64 	%rd1, [poynting_param_0];
+	ld.param.u64 	%rd2, [poynting_param_1];
+	ld.param.u64 	%rd3, [poynting_param_2];
+	ld.param.u64 	%rd4, [poynting_param_3];
+	ld.param.u64 	%rd5, [poynting_param_4];
+	ld.param.u64 	%rd6, [poynting_param_5];
+	ld.param.u64 	%rd7, [poynting_param_6];
+	ld.param.u64 	%rd8, [poynting_param_7];
+	ld.param.u64 	%rd9, [poynting_param_8];
+	ld.param.u64 	%rd10, [poynting_param_9];
+	ld.param.u64 	%rd11, [poynting_param_10];
+	ld.param.u64 	%rd12, [poynting_param_11];
+	ld.param.u32 	%r4, [poynting_param_12];
+	ld.param.u32 	%r5, [poynting_param_13];
+	ld.param.u32 	%r6, [poynting_param_14];
+	mov.u32 	%r7, %ctaid.x;
+	mov.u32 	%r8, %ntid.x;
+	mov.u32 	%r9, %tid.x;
+	mad.lo.s32 	%r1, %r8, %r7, %r9;
+	mov.u32 	%r10, %ntid.y;
+	mov.u32 	%r11, %ctaid.y;
+	mov.u32 	%r12, %tid.y;
+	mad.lo.s32 	%r2, %r10, %r11, %r12;
+	mov.u32 	%r13, %ntid.z;
+	mov.u32 	%r14, %ctaid.z;
+	mov.u32 	%r15, %tid.z;
+	mad.lo.s32 	%r3, %r13, %r14, %r15;
+	setp.ge.s32	%p1, %r2, %r5;
+	setp.ge.s32	%p2, %r1, %r4;
+	or.pred  	%p3, %p1, %p2;
+	setp.ge.s32	%p4, %r3, %r6;
+	or.pred  	%p5, %p3, %p4;
+	@%p5 bra 	BB0_2;
+
+	cvta.to.global.u64 	%rd13, %rd4;
+	mad.lo.s32 	%r16, %r3, %r5, %r2;
+	mad.lo.s32 	%r17, %r16, %r4, %r1;
+	mul.wide.s32 	%rd14, %r17, 4;
+	add.s64 	%rd15, %rd13, %rd14;
+	cvta.to.global.u64 	%rd16, %rd7;
+	add.s64 	%rd17, %rd16, %rd14;
+	ld.global.nc.f32 	%f1, [%rd17];
+	ld.global.nc.f32 	%f2, [%rd15];
+	cvta.to.global.u64 	%rd18, %rd5;
+	add.s64 	%rd19, %rd18, %rd14;
+	cvta.to.global.u64 	%rd20, %rd10;
+	add.s64 	%rd21, %rd20, %rd14;
+	ld.global.nc.f32 	%f3, [%rd21];
+	ld.global.nc.f32 	%f4, [%rd19];
+	mul.f32 	%f5, %f4, %f3;
+	fma.rn.f32 	%f6, %f2, %f1, %f5;
+	cvta.to.global.u64 	%rd22, %rd6;
+	add.s64 	%rd23, %rd22, %rd14;
+	cvta.to.global.u64 	%rd24, %rd12;
+	add.s64 	%rd25, %rd24, %rd14;
+	ld.global.nc.f32 	%f7, [%rd25];
+	ld.global.nc.f32 	%f8, [%rd23];
+	fma.rn.f32 	%f9, %f8, %f7, %f6;
+	neg.f32 	%f10, %f9;
+	cvta.to.global.u64 	%rd26, %rd1;
+	add.s64 	%rd27, %rd26, %rd14;
+	st.global.f32 	[%rd27], %f10;
+	cvta.to.global.u64 	%rd28, %rd8;
+	add.s64 	%rd29, %rd28, %rd14;
+	ld.global.nc.f32 	%f11, [%rd29];
+	mul.f32 	%f12, %f4, %f11;
+	fma.rn.f32 	%f13, %f2, %f3, %f12;
+	cvta.to.global.u64 	%rd30, %rd11;
+	add.s64 	%rd31, %rd30, %rd14;
+	ld.global.nc.f32 	%f14, [%rd31];
+	fma.rn.f32 	%f15, %f8, %f14, %f13;
+	neg.f32 	%f16, %f15;
+	cvta.to.global.u64 	%rd32, %rd2;
+	add.s64 	%rd33, %rd32, %rd14;
+	st.global.f32 	[%rd33], %f16;
+	mul.f32 	%f17, %f4, %f14;
+	fma.rn.f32 	%f18, %f2, %f7, %f17;
+	cvta.to.global.u64 	%rd34, %rd9;
+	add.s64 	%rd35, %rd34, %rd14;
+	ld.global.nc.f32 	%f19, [%rd35];
+	fma.rn.f32 	%f20, %f8, %f19, %f18;
+	neg.f32 	%f21, %f20;
+	cvta.to.global.u64 	%rd36, %rd3;
+	add.s64 	%rd37, %rd36, %rd14;
+	st.global.f32 	[%rd37], %f21;
+
+BB0_2:
+	ret;
+}
+
+
+`
 	poynting_ptx_75 = `
-.version 6.3
+.version 6.4
 .target sm_75
 .address_size 64
 

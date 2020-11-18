@@ -70,6 +70,7 @@ func k_copymask_async(dst unsafe.Pointer, maskLUT unsafe.Pointer, valuesLUT unsa
 // maps compute capability on PTX code for copymask kernel.
 var copymask_map = map[int]string{0: "",
 	30: copymask_ptx_30,
+	32: copymask_ptx_32,
 	35: copymask_ptx_35,
 	37: copymask_ptx_37,
 	50: copymask_ptx_50,
@@ -77,13 +78,15 @@ var copymask_map = map[int]string{0: "",
 	53: copymask_ptx_53,
 	60: copymask_ptx_60,
 	61: copymask_ptx_61,
+	62: copymask_ptx_62,
 	70: copymask_ptx_70,
+	72: copymask_ptx_72,
 	75: copymask_ptx_75}
 
 // copymask PTX code for various compute capabilities.
 const (
 	copymask_ptx_30 = `
-.version 6.3
+.version 6.4
 .target sm_30
 .address_size 64
 
@@ -149,8 +152,75 @@ BB0_3:
 
 
 `
+	copymask_ptx_32 = `
+.version 6.4
+.target sm_32
+.address_size 64
+
+	// .globl	copymask
+
+.visible .entry copymask(
+	.param .u64 copymask_param_0,
+	.param .u64 copymask_param_1,
+	.param .u64 copymask_param_2,
+	.param .u64 copymask_param_3,
+	.param .u32 copymask_param_4
+)
+{
+	.reg .pred 	%p<3>;
+	.reg .b16 	%rs<2>;
+	.reg .f32 	%f<3>;
+	.reg .b32 	%r<11>;
+	.reg .b64 	%rd<19>;
+
+
+	ld.param.u64 	%rd3, [copymask_param_0];
+	ld.param.u64 	%rd4, [copymask_param_1];
+	ld.param.u64 	%rd5, [copymask_param_2];
+	ld.param.u64 	%rd6, [copymask_param_3];
+	ld.param.u32 	%r2, [copymask_param_4];
+	mov.u32 	%r3, %nctaid.x;
+	mov.u32 	%r4, %ctaid.y;
+	mov.u32 	%r5, %ctaid.x;
+	mad.lo.s32 	%r6, %r3, %r4, %r5;
+	mov.u32 	%r7, %ntid.x;
+	mov.u32 	%r8, %tid.x;
+	mad.lo.s32 	%r1, %r6, %r7, %r8;
+	setp.ge.s32	%p1, %r1, %r2;
+	@%p1 bra 	BB0_3;
+
+	cvta.to.global.u64 	%rd7, %rd6;
+	cvt.s64.s32	%rd1, %r1;
+	add.s64 	%rd8, %rd7, %rd1;
+	ld.global.nc.u8 	%rs1, [%rd8];
+	cvt.u64.u16	%rd9, %rs1;
+	and.b64  	%rd2, %rd9, 255;
+	cvta.to.global.u64 	%rd10, %rd4;
+	cvt.u32.u16	%r9, %rs1;
+	and.b32  	%r10, %r9, 255;
+	mul.wide.u32 	%rd11, %r10, 4;
+	add.s64 	%rd12, %rd10, %rd11;
+	ld.global.nc.f32 	%f1, [%rd12];
+	setp.eq.f32	%p2, %f1, 0f00000000;
+	@%p2 bra 	BB0_3;
+
+	cvta.to.global.u64 	%rd13, %rd5;
+	shl.b64 	%rd14, %rd2, 2;
+	add.s64 	%rd15, %rd13, %rd14;
+	ld.global.nc.f32 	%f2, [%rd15];
+	cvta.to.global.u64 	%rd16, %rd3;
+	shl.b64 	%rd17, %rd1, 2;
+	add.s64 	%rd18, %rd16, %rd17;
+	st.global.f32 	[%rd18], %f2;
+
+BB0_3:
+	ret;
+}
+
+
+`
 	copymask_ptx_35 = `
-.version 6.3
+.version 6.4
 .target sm_35
 .address_size 64
 
@@ -217,7 +287,7 @@ BB0_3:
 
 `
 	copymask_ptx_37 = `
-.version 6.3
+.version 6.4
 .target sm_37
 .address_size 64
 
@@ -284,7 +354,7 @@ BB0_3:
 
 `
 	copymask_ptx_50 = `
-.version 6.3
+.version 6.4
 .target sm_50
 .address_size 64
 
@@ -351,7 +421,7 @@ BB0_3:
 
 `
 	copymask_ptx_52 = `
-.version 6.3
+.version 6.4
 .target sm_52
 .address_size 64
 
@@ -418,7 +488,7 @@ BB0_3:
 
 `
 	copymask_ptx_53 = `
-.version 6.3
+.version 6.4
 .target sm_53
 .address_size 64
 
@@ -485,7 +555,7 @@ BB0_3:
 
 `
 	copymask_ptx_60 = `
-.version 6.3
+.version 6.4
 .target sm_60
 .address_size 64
 
@@ -552,7 +622,7 @@ BB0_3:
 
 `
 	copymask_ptx_61 = `
-.version 6.3
+.version 6.4
 .target sm_61
 .address_size 64
 
@@ -618,8 +688,75 @@ BB0_3:
 
 
 `
+	copymask_ptx_62 = `
+.version 6.4
+.target sm_62
+.address_size 64
+
+	// .globl	copymask
+
+.visible .entry copymask(
+	.param .u64 copymask_param_0,
+	.param .u64 copymask_param_1,
+	.param .u64 copymask_param_2,
+	.param .u64 copymask_param_3,
+	.param .u32 copymask_param_4
+)
+{
+	.reg .pred 	%p<3>;
+	.reg .b16 	%rs<2>;
+	.reg .f32 	%f<3>;
+	.reg .b32 	%r<11>;
+	.reg .b64 	%rd<19>;
+
+
+	ld.param.u64 	%rd3, [copymask_param_0];
+	ld.param.u64 	%rd4, [copymask_param_1];
+	ld.param.u64 	%rd5, [copymask_param_2];
+	ld.param.u64 	%rd6, [copymask_param_3];
+	ld.param.u32 	%r2, [copymask_param_4];
+	mov.u32 	%r3, %nctaid.x;
+	mov.u32 	%r4, %ctaid.y;
+	mov.u32 	%r5, %ctaid.x;
+	mad.lo.s32 	%r6, %r3, %r4, %r5;
+	mov.u32 	%r7, %ntid.x;
+	mov.u32 	%r8, %tid.x;
+	mad.lo.s32 	%r1, %r6, %r7, %r8;
+	setp.ge.s32	%p1, %r1, %r2;
+	@%p1 bra 	BB0_3;
+
+	cvta.to.global.u64 	%rd7, %rd6;
+	cvt.s64.s32	%rd1, %r1;
+	add.s64 	%rd8, %rd7, %rd1;
+	ld.global.nc.u8 	%rs1, [%rd8];
+	cvt.u64.u16	%rd9, %rs1;
+	and.b64  	%rd2, %rd9, 255;
+	cvta.to.global.u64 	%rd10, %rd4;
+	cvt.u32.u16	%r9, %rs1;
+	and.b32  	%r10, %r9, 255;
+	mul.wide.u32 	%rd11, %r10, 4;
+	add.s64 	%rd12, %rd10, %rd11;
+	ld.global.nc.f32 	%f1, [%rd12];
+	setp.eq.f32	%p2, %f1, 0f00000000;
+	@%p2 bra 	BB0_3;
+
+	cvta.to.global.u64 	%rd13, %rd5;
+	shl.b64 	%rd14, %rd2, 2;
+	add.s64 	%rd15, %rd13, %rd14;
+	ld.global.nc.f32 	%f2, [%rd15];
+	cvta.to.global.u64 	%rd16, %rd3;
+	shl.b64 	%rd17, %rd1, 2;
+	add.s64 	%rd18, %rd16, %rd17;
+	st.global.f32 	[%rd18], %f2;
+
+BB0_3:
+	ret;
+}
+
+
+`
 	copymask_ptx_70 = `
-.version 6.3
+.version 6.4
 .target sm_70
 .address_size 64
 
@@ -685,8 +822,75 @@ BB0_3:
 
 
 `
+	copymask_ptx_72 = `
+.version 6.4
+.target sm_72
+.address_size 64
+
+	// .globl	copymask
+
+.visible .entry copymask(
+	.param .u64 copymask_param_0,
+	.param .u64 copymask_param_1,
+	.param .u64 copymask_param_2,
+	.param .u64 copymask_param_3,
+	.param .u32 copymask_param_4
+)
+{
+	.reg .pred 	%p<3>;
+	.reg .b16 	%rs<2>;
+	.reg .f32 	%f<3>;
+	.reg .b32 	%r<11>;
+	.reg .b64 	%rd<19>;
+
+
+	ld.param.u64 	%rd3, [copymask_param_0];
+	ld.param.u64 	%rd4, [copymask_param_1];
+	ld.param.u64 	%rd5, [copymask_param_2];
+	ld.param.u64 	%rd6, [copymask_param_3];
+	ld.param.u32 	%r2, [copymask_param_4];
+	mov.u32 	%r3, %nctaid.x;
+	mov.u32 	%r4, %ctaid.y;
+	mov.u32 	%r5, %ctaid.x;
+	mad.lo.s32 	%r6, %r3, %r4, %r5;
+	mov.u32 	%r7, %ntid.x;
+	mov.u32 	%r8, %tid.x;
+	mad.lo.s32 	%r1, %r6, %r7, %r8;
+	setp.ge.s32	%p1, %r1, %r2;
+	@%p1 bra 	BB0_3;
+
+	cvta.to.global.u64 	%rd7, %rd6;
+	cvt.s64.s32	%rd1, %r1;
+	add.s64 	%rd8, %rd7, %rd1;
+	ld.global.nc.u8 	%rs1, [%rd8];
+	cvt.u64.u16	%rd9, %rs1;
+	and.b64  	%rd2, %rd9, 255;
+	cvta.to.global.u64 	%rd10, %rd4;
+	cvt.u32.u16	%r9, %rs1;
+	and.b32  	%r10, %r9, 255;
+	mul.wide.u32 	%rd11, %r10, 4;
+	add.s64 	%rd12, %rd10, %rd11;
+	ld.global.nc.f32 	%f1, [%rd12];
+	setp.eq.f32	%p2, %f1, 0f00000000;
+	@%p2 bra 	BB0_3;
+
+	cvta.to.global.u64 	%rd13, %rd5;
+	shl.b64 	%rd14, %rd2, 2;
+	add.s64 	%rd15, %rd13, %rd14;
+	ld.global.nc.f32 	%f2, [%rd15];
+	cvta.to.global.u64 	%rd16, %rd3;
+	shl.b64 	%rd17, %rd1, 2;
+	add.s64 	%rd18, %rd16, %rd17;
+	st.global.f32 	[%rd18], %f2;
+
+BB0_3:
+	ret;
+}
+
+
+`
 	copymask_ptx_75 = `
-.version 6.3
+.version 6.4
 .target sm_75
 .address_size 64
 

@@ -67,6 +67,7 @@ func k_mul_async(dst unsafe.Pointer, a unsafe.Pointer, b unsafe.Pointer, N int, 
 // maps compute capability on PTX code for mul kernel.
 var mul_map = map[int]string{0: "",
 	30: mul_ptx_30,
+	32: mul_ptx_32,
 	35: mul_ptx_35,
 	37: mul_ptx_37,
 	50: mul_ptx_50,
@@ -74,13 +75,15 @@ var mul_map = map[int]string{0: "",
 	53: mul_ptx_53,
 	60: mul_ptx_60,
 	61: mul_ptx_61,
+	62: mul_ptx_62,
 	70: mul_ptx_70,
+	72: mul_ptx_72,
 	75: mul_ptx_75}
 
 // mul PTX code for various compute capabilities.
 const (
 	mul_ptx_30 = `
-.version 6.3
+.version 6.4
 .target sm_30
 .address_size 64
 
@@ -131,8 +134,60 @@ BB0_2:
 
 
 `
+	mul_ptx_32 = `
+.version 6.4
+.target sm_32
+.address_size 64
+
+	// .globl	mul
+
+.visible .entry mul(
+	.param .u64 mul_param_0,
+	.param .u64 mul_param_1,
+	.param .u64 mul_param_2,
+	.param .u32 mul_param_3
+)
+{
+	.reg .pred 	%p<2>;
+	.reg .f32 	%f<4>;
+	.reg .b32 	%r<9>;
+	.reg .b64 	%rd<11>;
+
+
+	ld.param.u64 	%rd1, [mul_param_0];
+	ld.param.u64 	%rd2, [mul_param_1];
+	ld.param.u64 	%rd3, [mul_param_2];
+	ld.param.u32 	%r2, [mul_param_3];
+	mov.u32 	%r3, %ctaid.y;
+	mov.u32 	%r4, %nctaid.x;
+	mov.u32 	%r5, %ctaid.x;
+	mad.lo.s32 	%r6, %r4, %r3, %r5;
+	mov.u32 	%r7, %ntid.x;
+	mov.u32 	%r8, %tid.x;
+	mad.lo.s32 	%r1, %r6, %r7, %r8;
+	setp.ge.s32	%p1, %r1, %r2;
+	@%p1 bra 	BB0_2;
+
+	cvta.to.global.u64 	%rd4, %rd2;
+	mul.wide.s32 	%rd5, %r1, 4;
+	add.s64 	%rd6, %rd4, %rd5;
+	cvta.to.global.u64 	%rd7, %rd3;
+	add.s64 	%rd8, %rd7, %rd5;
+	ld.global.nc.f32 	%f1, [%rd8];
+	ld.global.nc.f32 	%f2, [%rd6];
+	mul.f32 	%f3, %f2, %f1;
+	cvta.to.global.u64 	%rd9, %rd1;
+	add.s64 	%rd10, %rd9, %rd5;
+	st.global.f32 	[%rd10], %f3;
+
+BB0_2:
+	ret;
+}
+
+
+`
 	mul_ptx_35 = `
-.version 6.3
+.version 6.4
 .target sm_35
 .address_size 64
 
@@ -184,7 +239,7 @@ BB0_2:
 
 `
 	mul_ptx_37 = `
-.version 6.3
+.version 6.4
 .target sm_37
 .address_size 64
 
@@ -236,7 +291,7 @@ BB0_2:
 
 `
 	mul_ptx_50 = `
-.version 6.3
+.version 6.4
 .target sm_50
 .address_size 64
 
@@ -288,7 +343,7 @@ BB0_2:
 
 `
 	mul_ptx_52 = `
-.version 6.3
+.version 6.4
 .target sm_52
 .address_size 64
 
@@ -340,7 +395,7 @@ BB0_2:
 
 `
 	mul_ptx_53 = `
-.version 6.3
+.version 6.4
 .target sm_53
 .address_size 64
 
@@ -392,7 +447,7 @@ BB0_2:
 
 `
 	mul_ptx_60 = `
-.version 6.3
+.version 6.4
 .target sm_60
 .address_size 64
 
@@ -444,7 +499,7 @@ BB0_2:
 
 `
 	mul_ptx_61 = `
-.version 6.3
+.version 6.4
 .target sm_61
 .address_size 64
 
@@ -495,8 +550,60 @@ BB0_2:
 
 
 `
+	mul_ptx_62 = `
+.version 6.4
+.target sm_62
+.address_size 64
+
+	// .globl	mul
+
+.visible .entry mul(
+	.param .u64 mul_param_0,
+	.param .u64 mul_param_1,
+	.param .u64 mul_param_2,
+	.param .u32 mul_param_3
+)
+{
+	.reg .pred 	%p<2>;
+	.reg .f32 	%f<4>;
+	.reg .b32 	%r<9>;
+	.reg .b64 	%rd<11>;
+
+
+	ld.param.u64 	%rd1, [mul_param_0];
+	ld.param.u64 	%rd2, [mul_param_1];
+	ld.param.u64 	%rd3, [mul_param_2];
+	ld.param.u32 	%r2, [mul_param_3];
+	mov.u32 	%r3, %ctaid.y;
+	mov.u32 	%r4, %nctaid.x;
+	mov.u32 	%r5, %ctaid.x;
+	mad.lo.s32 	%r6, %r4, %r3, %r5;
+	mov.u32 	%r7, %ntid.x;
+	mov.u32 	%r8, %tid.x;
+	mad.lo.s32 	%r1, %r6, %r7, %r8;
+	setp.ge.s32	%p1, %r1, %r2;
+	@%p1 bra 	BB0_2;
+
+	cvta.to.global.u64 	%rd4, %rd2;
+	mul.wide.s32 	%rd5, %r1, 4;
+	add.s64 	%rd6, %rd4, %rd5;
+	cvta.to.global.u64 	%rd7, %rd3;
+	add.s64 	%rd8, %rd7, %rd5;
+	ld.global.nc.f32 	%f1, [%rd8];
+	ld.global.nc.f32 	%f2, [%rd6];
+	mul.f32 	%f3, %f2, %f1;
+	cvta.to.global.u64 	%rd9, %rd1;
+	add.s64 	%rd10, %rd9, %rd5;
+	st.global.f32 	[%rd10], %f3;
+
+BB0_2:
+	ret;
+}
+
+
+`
 	mul_ptx_70 = `
-.version 6.3
+.version 6.4
 .target sm_70
 .address_size 64
 
@@ -547,8 +654,60 @@ BB0_2:
 
 
 `
+	mul_ptx_72 = `
+.version 6.4
+.target sm_72
+.address_size 64
+
+	// .globl	mul
+
+.visible .entry mul(
+	.param .u64 mul_param_0,
+	.param .u64 mul_param_1,
+	.param .u64 mul_param_2,
+	.param .u32 mul_param_3
+)
+{
+	.reg .pred 	%p<2>;
+	.reg .f32 	%f<4>;
+	.reg .b32 	%r<9>;
+	.reg .b64 	%rd<11>;
+
+
+	ld.param.u64 	%rd1, [mul_param_0];
+	ld.param.u64 	%rd2, [mul_param_1];
+	ld.param.u64 	%rd3, [mul_param_2];
+	ld.param.u32 	%r2, [mul_param_3];
+	mov.u32 	%r3, %ctaid.y;
+	mov.u32 	%r4, %nctaid.x;
+	mov.u32 	%r5, %ctaid.x;
+	mad.lo.s32 	%r6, %r4, %r3, %r5;
+	mov.u32 	%r7, %ntid.x;
+	mov.u32 	%r8, %tid.x;
+	mad.lo.s32 	%r1, %r6, %r7, %r8;
+	setp.ge.s32	%p1, %r1, %r2;
+	@%p1 bra 	BB0_2;
+
+	cvta.to.global.u64 	%rd4, %rd2;
+	mul.wide.s32 	%rd5, %r1, 4;
+	add.s64 	%rd6, %rd4, %rd5;
+	cvta.to.global.u64 	%rd7, %rd3;
+	add.s64 	%rd8, %rd7, %rd5;
+	ld.global.nc.f32 	%f1, [%rd8];
+	ld.global.nc.f32 	%f2, [%rd6];
+	mul.f32 	%f3, %f2, %f1;
+	cvta.to.global.u64 	%rd9, %rd1;
+	add.s64 	%rd10, %rd9, %rd5;
+	st.global.f32 	[%rd10], %f3;
+
+BB0_2:
+	ret;
+}
+
+
+`
 	mul_ptx_75 = `
-.version 6.3
+.version 6.4
 .target sm_75
 .address_size 64
 
