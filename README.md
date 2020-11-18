@@ -2,7 +2,12 @@
 
 # A magnetoelastic module for mumax3
 
-- Deze is aanpassing om elastodynamics erin te krijgen 
-- Verwijs naar paper voor meer info
+- The module simultanuously solves the elastodynamic and LLG differential equations to simulate magnetoelastic problems. 
+- The elastic and kinetic energy densities are added and are available to extract from simulations as well as the magnetoelastic body force and field.
+- Both free and periodic elastic boundary conditions are available to utilise.
+
+And example concerning linear magnetoelastic waves in a nanoscale waveguide can be found here: Characteristics of confined magnetoelastic waves in thin waveguides
+
+
 
 
