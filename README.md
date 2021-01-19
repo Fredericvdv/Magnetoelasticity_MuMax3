@@ -1,7 +1,5 @@
 *IMPORTANT NOTE: this repository is not the official mumax3 repository. The official mumax3 repository can be found [here](https://github.com/mumax/3).*
 
-https://zenodo.org/badge/169079300.svg
-
 # A magnetoelastic module for mumax3
 
 - The module simultanuously solves the elastodynamic and LLG differential equations to simulate magnetoelastic problems. 
