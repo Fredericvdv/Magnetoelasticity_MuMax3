@@ -11,3 +11,8 @@
 
 
 
+# Paper
+Finite difference magnetoelastic simulator: https://open-research-europe.ec.europa.eu/articles/1-35/v1.
+
+Citation:
+Vanderveken F, Mulkers J, Leliaert J et al. Finite difference magnetoelastic simulator. Open Research Europe 2021, 1:35 (https://doi.org/10.12688/openreseurope.13302.1).
